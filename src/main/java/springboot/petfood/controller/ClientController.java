@@ -41,7 +41,6 @@ public class ClientController {
 		return "index";
 	}
 
-	//Index.html
 	@GetMapping("/homepage")
 	public String showHomepage(Model model) {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -66,7 +65,6 @@ public class ClientController {
 		return "index";
 	}
 	
-	//Shop.html
 	@GetMapping("/shop")
 	public String showShopPage(Model model) {
 		String type = "ALL";
@@ -88,8 +86,7 @@ public class ClientController {
 		System.out.println(productId);
 		return "redirect:/client/shop";
 	}
-	
-	//Showuserinfo.html
+
 	@GetMapping("/showUserInfo")
 	public String showUserInfo(Model model, Principal principal) {
 		String username = principal.getName();
