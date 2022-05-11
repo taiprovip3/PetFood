@@ -44,14 +44,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
-        http.authorizeRequests().antMatchers("/client/homepage", "/login","/logout").permitAll(); //cho phép tất cả truy cập, ko cần login
-        http.authorizeRequests().antMatchers("/admin/homepage").access("hasAnyRole('MEMBER', 'ADMIN')");//truy cập index cần có role
+        http.authorizeRequests().antMatchers("/client/homepage", "/common/login", "/login","/common/register", "/logout").permitAll(); //cho phép tất cả truy cập, ko cần login
+        http.authorizeRequests().antMatchers("/admin/homepage").access("hasAnyRole('ADMIN')");//truy cập index cần có role
         http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
         http.authorizeRequests()
                     .anyRequest().authenticated()
                     .and()
 	                    .formLogin() //Cho phép người dùng xác thực bằng form login
+	                    .loginProcessingUrl("/SPRING_BOOT_CHECK_LOGIN")//Đường dẫn gọ springboot sử lý
+	                    .loginPage("/common/login")
 	                    .defaultSuccessUrl("/client/homepage")//Sau khi login success chuyển đến
+	                    .failureUrl("/common/login?error=true")
 	                    .permitAll()
                     .and()
 	                    .logout()

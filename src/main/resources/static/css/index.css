@@ -18,13 +18,11 @@
         display: flex;
         padding: 30px;
     }
-    #currentLocation{
-        padding: 5px;
-        border-radius: 10px;
-        background: darkgrey;
-    }
     #iconShop{
         width: 60%;
+    }
+    #iconShop > img{
+        background: lightyellow;
     }
     #nav{
         width: 40%;
@@ -40,7 +38,8 @@
     }
     #navsub a{
         text-decoration: none;
-        color: blue;
+        color: black;
+        font-weight: 900;
     }
     #item{
         display: none;
@@ -51,27 +50,7 @@
     #subitem{
         width: 100%;
     }
-    #navsub:hover{
-        cursor: pointer;
-        font-weight: 900;
-    }
-    #navsub:hover > #item{
-        display: flex;
-    }
-    #subitem:hover{
-        background: grey;
-    }
-/* searchBox css */
-    #searchBox input{
-        width: 100%;
-        padding: 15px;
-        font-size: xx-large;
-        border-radius: 40px;
-    }
-    #searchBox input:focus{
-        box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
-    }
-    /* contentBox css */
+/* contentBox css */
     #contentBox{
         display: flex;
         position: relative;
@@ -86,7 +65,7 @@
         padding-left: 1%;
     }
     #contentPage li {
-        color: blue;
+        color: black;
         text-decoration: underline;
         list-style-type: none;
     }

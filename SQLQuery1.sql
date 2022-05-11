@@ -83,8 +83,8 @@ insert into users (user_name,crypted_password,email,first_name,last_name) values
 insert into roles (role_name) values ('MEMBER');
 insert into roles (role_name) values ('ADMIN');
 
-insert into carts (product_id, user_id) values (1,1);
-insert into carts (product_id, user_id) values (2,1);
+insert into cart (product_id, user_id) values (1,1);
+insert into cart (product_id, user_id) values (2,1);
 
 insert into user_roles (user_id,role_id) values (1,1);
 insert into user_roles (user_id,role_id) values (2,1);
@@ -96,16 +96,14 @@ insert into user_roles (user_id,role_id) values (2,2);
 
 
 
-
-
-
 select * from products where product_type = 'DOG' or product_type = 'CAT'
 select * from categories
-select * from products p join categories c on p.category_id = c.category_id 
-where p.product_type = 'DOG' and c.category_name = 'KIBBLE'
-select * from products a1 join categories a2 on a1.category_id = a2.category_id
 select * from user_roles
 select * from roles
 select * from users
-select * from carts
+select * from cart
+select * from products p join categories c on p.category_id = c.category_id 
+where p.product_type = 'DOG' and c.category_name = 'KIBBLE'
+select * from products a1 join categories a2 on a1.category_id = a2.category_id
 select b.role_name from user_roles a join roles b on a.role_id = b.role_id where a.user_id = 2
+delete from users where user_id = 4

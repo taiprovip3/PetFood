@@ -28,7 +28,7 @@ import springboot.petfood.util.UserInfoUtil;
 @Controller
 @RequestMapping("/client")
 public class ClientController {
-//	qqqqq
+	
 	private ProductDao productDao;
 	
 	@Autowired
@@ -36,12 +36,7 @@ public class ClientController {
 		this.productDao = productDao;
 	}
 
-	//ShowUserInfo.html
-	@GetMapping(name="/showUserInfo")
-	public String showUserInfo() {
-		return "index";
-	}
-
+	//Index.html
 	@GetMapping("/homepage")
 	public String showHomepage(Model model) {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -66,6 +61,7 @@ public class ClientController {
 		return "index";
 	}
 	
+	//Shop.html
 	@GetMapping("/shop")
 	public String showShopPage(Model model) {
 		String type = "ALL";
@@ -88,6 +84,7 @@ public class ClientController {
 		return "redirect:/client/shop";
 	}
 
+	//ShowUserInfo.html
 	@GetMapping("/showUserInfo")
 	public String showUserInfo(Model model, Principal principal) {
 		String username = principal.getName();
@@ -97,5 +94,4 @@ public class ClientController {
 		return "showUserInfo";
 	}
 
-	
 }
