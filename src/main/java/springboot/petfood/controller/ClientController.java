@@ -35,7 +35,9 @@ public class ClientController {
 	public ClientController(ProductDao productDao) {
 		this.productDao = productDao;
 	}
-	
+
+
+
 	@GetMapping(name="/showUserInfo")
 	public String showUserInfo() {
 		return "index";
