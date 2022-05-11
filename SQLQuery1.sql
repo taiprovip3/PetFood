@@ -39,13 +39,13 @@ create table users(
 	last_name nvarchar(255)
 );
 create table roles(
-	role_id IDENTITY(1,1) int PRIMARY KEY,
+	role_id int IDENTITY(1,1) PRIMARY KEY,
 	role_name varchar(255)
 );
 create table user_roles(
 	id int IDENTITY(1,1) PRIMARY KEY,
 	user_id int FOREIGN KEY REFERENCES users(user_id),
-	role_name varchar(255) REFERENCES roles(role_id)
+	role_id int FOREIGN KEY REFERENCES roles(role_id)
 );
 create table carts(
 	cart_id int IDENTITY(1,1) PRIMARY KEY,
@@ -73,17 +73,22 @@ insert into products (product_name,product_type,product_description,product_pric
 insert into products (product_name,product_type,product_description,product_price,product_weight,product_quantity,product_image,category_id)
 	values ('Classic Pets','ALL','Very light and smuff delicious food for both dogs and cats. This was produced in 1988 factory until now!', 159.0, 6.3, 1360,'C://images/classis_pets.png',3);
 
-insert into users (username, password, email, first_name, last_name) values
-(N'nano',N'{bcrypt}$2a$12$tH9PxCsTwroxoG5Urd2jKOk7VSRsT0G2uHm.9cYoVYi8L1XnRnW2a','nano@gmail.com',N'Nguyễn Văn',N'A');
-insert into users (username, password, email, first_name, last_name) values
-(N'susan',N'{bcrypt}$2a$12$tH9PxCsTwroxoG5Urd2jKOk7VSRsT0G2uHm.9cYoVYi8L1XnRnW2a','susan@gmail.com',N'Nguyễn Văn',N'B');
+insert into users (user_name,crypted_password,email,first_name,last_name) values
+(N'nano',N'$2a$10$TCnFcIb0ulVx0wRnjuM8E.glduflWD7fmRxXR1gieW/T4xrfoAIWe','nano@gmail.com',N'Client',N'A');
+insert into users (user_name,crypted_password,email,first_name,last_name) values
+(N'susan',N'$2a$10$TCnFcIb0ulVx0wRnjuM8E.glduflWD7fmRxXR1gieW/T4xrfoAIWe','susan@gmail.com',N'Admin',N'B');
+insert into users (user_name,crypted_password,email,first_name,last_name) values
+(N'papa',N'$2a$10$TCnFcIb0ulVx0wRnjuM8E.glduflWD7fmRxXR1gieW/T4xrfoAIWe','papa@gmail.com',N'Client',N'C');
+
+insert into roles (role_name) values ('MEMBER');
+insert into roles (role_name) values ('ADMIN');
 
 insert into carts (product_id, user_id) values (1,1);
 insert into carts (product_id, user_id) values (2,1);
 
-insert into user_roles values (1, 'MEMBER');
-insert into user_roles values (2, 'MEMBER');
-insert into user_roles values (2, 'ADMIN');
+insert into user_roles (user_id,role_id) values (1,1);
+insert into user_roles (user_id,role_id) values (2,1);
+insert into user_roles (user_id,role_id) values (2,2);
 
 
 
@@ -100,5 +105,7 @@ select * from products p join categories c on p.category_id = c.category_id
 where p.product_type = 'DOG' and c.category_name = 'KIBBLE'
 select * from products a1 join categories a2 on a1.category_id = a2.category_id
 select * from user_roles
+select * from roles
+select * from users
 select * from carts
-select * from user_roles.
+select b.role_name from user_roles a join roles b on a.role_id = b.role_id where a.user_id = 2

@@ -1,10 +1,16 @@
 package springboot.petfood.controller;
 
+import java.security.Principal;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import springboot.petfood.dao.ProductDao;
 import springboot.petfood.entity.Product;
 import springboot.petfood.entity.User;
+import springboot.petfood.util.UserInfoUtil;
 
 @Controller
 @RequestMapping("/client")
@@ -29,9 +36,23 @@ public class ClientController {
 		this.productDao = productDao;
 	}
 	
+	@GetMapping(name="/showUserInfo")
+	public String showUserInfo() {
+		return "index";
+	}
+	
 	//Index.html
 	@GetMapping("/homepage")
 	public String showHomepage(Model model) {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String username = null;
+		User user = new User();
+		if (principal instanceof UserDetails) {
+		    username = ((UserDetails) principal).getUsername();
+		} else {
+			username = principal.toString();
+		}
+		model.addAttribute("SESSION_USERNAME", username);
 		String type = "ALL";
 		List<Product> products = productDao.findAllProducts(type);
 		model.addAttribute("LIST_PRODUCTS", products);
@@ -70,4 +91,6 @@ public class ClientController {
 		
 		return "redirect:/client/shop";
 	}
+
+	
 }

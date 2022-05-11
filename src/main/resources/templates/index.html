@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- xmlns:sec="http://www.thymeleaf.org/extras/spring-security" -->
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,9 +14,6 @@
     <link rel="stylesheet" th:href="@{/css/index.css}">
 </head>
 <body>
-	<form th:action="@{/logout}" method="post">
-	  <input type="submit" value="Sign Out"/>
-	</form>
     <div id="header">
         <div id="iconShop">
             <img th:src="@{/img/logo.png}" alt="" width="10%" class="rounded-circle">
@@ -35,7 +33,17 @@
                 <a th:href="@{/client/cart}">Cart</a>
             </div>
             <div id="navsub">
-                <a href="javascript:void(0)">Login</a>
+                <a href="javascript:void(0)">Admin</a>
+            </div>
+            <div id="navsub">
+                <a th:if="${SESSION_USERNAME == 'anonymousUser'}" href="javascript:void(0)">Login</a>
+            </div>
+            <div id="navsub">
+                <i class="fas fa-user-check"></i>
+                <div class="text-center">
+                    <p><u><a th:href="@{/client/showUserInfo}" th:utext="${SESSION_USERNAME}"></a></u></p>
+                    <a th:if="${SESSION_USERNAME != 'anonymousUser'}" th:href="@{/logout}"><u>Sign out</u></a>
+                </div>
             </div>
         </div>
     </div>

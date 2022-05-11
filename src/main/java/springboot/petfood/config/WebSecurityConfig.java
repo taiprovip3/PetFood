@@ -38,14 +38,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 	
 	@Override
 	public void configure(WebSecurity web) throws Exception {
-		web.ignoring().antMatchers("/resources/**", "/static/**", "/images/**", "/productimages/**", "/css/**", "/js/**", "/jQuery/**");
+		web.ignoring().antMatchers("/resources/**", "/static/**", "/img/**", "/css/**", "/js/**", "/jQuery/**");
 	}
 	
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
-        http.authorizeRequests().antMatchers("/login","/logout").permitAll(); //cho phép tất cả truy cập, ko cần login
-        http.authorizeRequests().antMatchers("/client").access("hasAnyRole('MEMNER', 'ADMIN')");//truy cập index cần có các role
+        http.authorizeRequests().antMatchers("/client/homepage", "/login","/logout").permitAll(); //cho phép tất cả truy cập, ko cần login
+        http.authorizeRequests().antMatchers("/admin/homepage").access("hasAnyRole('MEMBER', 'ADMIN')");//truy cập index cần có role
         http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
         http.authorizeRequests()
                     .anyRequest().authenticated()
