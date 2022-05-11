@@ -33,16 +33,16 @@
                 <a th:href="@{/client/cart}">Cart</a>
             </div>
             <div id="navsub">
-                <a href="javascript:void(0)">Admin</a>
+                <a th:href="@{/admin/homepage}">Admin</a>
             </div>
-            <div id="navsub">
-                <a th:if="${SESSION_USERNAME == 'anonymousUser'}" href="javascript:void(0)">Login</a>
+            <div id="navsub" th:if="${SESSION_USERNAME == 'anonymousUser'}">
+                <a th:href="@{/login}">Login</a>
             </div>
-            <div id="navsub">
+            <div id="navsub" th:unless="${SESSION_USERNAME == 'anonymousUser'}">
                 <i class="fas fa-user-check"></i>
                 <div class="text-center">
                     <p><u><a th:href="@{/client/showUserInfo}" th:utext="${SESSION_USERNAME}"></a></u></p>
-                    <a th:if="${SESSION_USERNAME != 'anonymousUser'}" th:href="@{/logout}"><u>Sign out</u></a>
+                    <a th:href="@{/logout}"><u>Sign out</u></a>
                 </div>
             </div>
         </div>

@@ -11,7 +11,7 @@ public class UserInfoUtil {
 	public static String toString(User user) {
 		StringBuilder sb = new StringBuilder();
 		
-		sb.append("Username :: ").append(user.getUsername());
+		sb.append(user.getUsername());
 		
 		Collection<GrantedAuthority> authorities = user.getAuthorities();
 		if(authorities != null && !authorities.isEmpty()) {

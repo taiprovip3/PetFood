@@ -1,23 +1,16 @@
 package springboot.petfood.entity;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
 
 @Entity
-@Table(name="carts")
+@IdClass(CartPK.class)
 public class Cart {
 	
 	@Id
@@ -25,11 +18,15 @@ public class Cart {
 	@Column(name="cart_id")
 	private int cartId;
 
-	@Column(name="product_id")
-	private int productId;
+	@Id
+	@ManyToOne
+	@JoinColumn(name="product_id")
+	private Product product;
 	
-	@Column(name="user_id")
-	private int user_id;
+	@Id
+	@ManyToOne
+	@JoinColumn(name="user_id")
+	private User user;
 
 	public int getCartId() {
 		return cartId;
@@ -39,37 +36,33 @@ public class Cart {
 		this.cartId = cartId;
 	}
 
-	public int getProductId() {
-		return productId;
+	public Product getProduct() {
+		return product;
 	}
 
-	public void setProductId(int productId) {
-		this.productId = productId;
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 
-	public int getUser_id() {
-		return user_id;
+	public User getUser() {
+		return user;
 	}
 
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public Cart() {
-		super();
 	}
 
-	public Cart(int cartId, int productId, int user_id) {
-		super();
+	public Cart(int cartId, Product product, User user) {
 		this.cartId = cartId;
-		this.productId = productId;
-		this.user_id = user_id;
+		this.product = product;
+		this.user = user;
 	}
 
 	@Override
 	public String toString() {
-		return "Cart [cartId=" + cartId + ", productId=" + productId + ", user_id=" + user_id + "]";
+		return "Cart [cartId=" + cartId + ", product=" + product + ", user=" + user + "]";
 	}
-
-	
 }

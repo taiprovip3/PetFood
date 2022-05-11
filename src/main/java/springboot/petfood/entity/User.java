@@ -3,18 +3,12 @@ package springboot.petfood.entity;
 import java.util.List;
 
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.ManyToAny;
 
 @Entity
 @Table(name = "users")
@@ -31,7 +25,6 @@ public class User {
 	@Column(name="crypted_password")
 	private String password;
 	
-	@Column(name="email")
 	private String email;
 	
 	@Column(name="first_name")
@@ -39,6 +32,12 @@ public class User {
 	
 	@Column(name="last_name")
 	private String lastName;
+
+	@OneToMany(mappedBy = "user")
+	private List<Cart> carts;
+	
+	@OneToMany(mappedBy = "user")
+	private List<UserRole> userRoles;
 
 	public int getUserId() {
 		return userId;
@@ -88,23 +87,41 @@ public class User {
 		this.lastName = lastName;
 	}
 
-	public User() {
-		super();
+	public List<Cart> getCarts() {
+		return carts;
 	}
 
-	public User(int userId, String username, String password, String email, String firstName, String lastName) {
-		super();
+	public void setCarts(List<Cart> carts) {
+		this.carts = carts;
+	}
+
+	public List<UserRole> getUserRoles() {
+		return userRoles;
+	}
+
+	public void setUserRoles(List<UserRole> userRoles) {
+		this.userRoles = userRoles;
+	}
+
+	public User() {
+	}
+
+	public User(int userId, String username, String password, String email, String firstName, String lastName,
+			List<Cart> carts, List<UserRole> userRoles) {
 		this.userId = userId;
 		this.username = username;
 		this.password = password;
 		this.email = email;
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.carts = carts;
+		this.userRoles = userRoles;
 	}
 
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", email=" + email
-				+ ", firstName=" + firstName + ", lastName=" + lastName + "]";
+				+ ", firstName=" + firstName + ", lastName=" + lastName + ", carts=" + carts + ", userRoles="
+				+ userRoles + "]";
 	}
 }

@@ -36,13 +36,11 @@ public class ClientController {
 		this.productDao = productDao;
 	}
 
-
-
 	@GetMapping(name="/showUserInfo")
 	public String showUserInfo() {
 		return "index";
 	}
-	
+
 	//Index.html
 	@GetMapping("/homepage")
 	public String showHomepage(Model model) {
@@ -90,8 +88,17 @@ public class ClientController {
 		System.out.println(productId);
 //		User u = new User(1, "nano", "123123az", "nano@gmail.com", Arrays.asList("MEMBER"), "na", "no");
 //		productDao.addProductToCart(productId, u.getUserId());
-		
 		return "redirect:/client/shop";
+	}
+	
+	//Showuserinfo.html
+	@GetMapping("/showUserInfo")
+	public String showUserInfo(Model model, Principal principal) {
+		String username = principal.getName();
+		org.springframework.security.core.userdetails.User logUser = (org.springframework.security.core.userdetails.User) ((Authentication) principal).getPrincipal();
+		String userInfo = UserInfoUtil.toString(logUser);//Truyền vào đối tượng UserDetail trả về thuộc tính đã build
+		model.addAttribute("USER_INFO", userInfo);
+		return "showUserInfo";
 	}
 
 	
