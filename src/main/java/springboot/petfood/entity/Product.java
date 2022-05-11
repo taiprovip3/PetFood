@@ -1,15 +1,15 @@
 package springboot.petfood.entity;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -42,9 +42,12 @@ public class Product {
 	@Column(name="product_image")
 	private String image;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name="category_id")
 	private Category category;
+	
+	@OneToMany(mappedBy = "product")
+	private List<Cart> carts;
 
 	public int getProductId() {
 		return productId;
@@ -118,13 +121,19 @@ public class Product {
 		this.category = category;
 	}
 
+	public List<Cart> getCarts() {
+		return carts;
+	}
+
+	public void setCarts(List<Cart> carts) {
+		this.carts = carts;
+	}
+
 	public Product() {
-		super();
 	}
 
 	public Product(int productId, String name, String type, String description, double price, double weight,
-			int quantity, String image, Category category) {
-		super();
+			int quantity, String image, Category category, List<Cart> carts) {
 		this.productId = productId;
 		this.name = name;
 		this.type = type;
@@ -134,13 +143,13 @@ public class Product {
 		this.quantity = quantity;
 		this.image = image;
 		this.category = category;
+		this.carts = carts;
 	}
 
 	@Override
 	public String toString() {
 		return "Product [productId=" + productId + ", name=" + name + ", type=" + type + ", description=" + description
 				+ ", price=" + price + ", weight=" + weight + ", quantity=" + quantity + ", image=" + image
-				+ ", category=" + category + "]";
+				+ ", category=" + category + ", carts=" + carts + "]";
 	}
-
 }

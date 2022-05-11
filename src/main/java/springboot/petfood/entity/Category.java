@@ -1,5 +1,7 @@
 package springboot.petfood.entity;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,6 +22,9 @@ public class Category {
 	@Column(name = "category_name")
 	private String nameCategory;
 	
+	@OneToMany(mappedBy = "category")
+	private List<Product> products;
+
 	public int getCategoryId() {
 		return categoryId;
 	}
@@ -36,18 +41,25 @@ public class Category {
 		this.nameCategory = nameCategory;
 	}
 
-	public Category() {
-		super();
+	public List<Product> getProducts() {
+		return products;
 	}
 
-	public Category(int categoryId, String nameCategory) {
-		super();
+	public void setProducts(List<Product> products) {
+		this.products = products;
+	}
+
+	public Category() {
+	}
+
+	public Category(int categoryId, String nameCategory, List<Product> products) {
 		this.categoryId = categoryId;
 		this.nameCategory = nameCategory;
+		this.products = products;
 	}
 
 	@Override
 	public String toString() {
-		return "Category [categoryId=" + categoryId + ", nameCategory=" + nameCategory + "]";
+		return "Category [categoryId=" + categoryId + ", nameCategory=" + nameCategory + ", products=" + products + "]";
 	}
 }

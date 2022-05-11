@@ -1,30 +1,29 @@
 package springboot.petfood.entity;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 @Entity
-@Table(name="user_roles")
+@IdClass(UserRolePK.class)
 public class UserRole {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
 	private int id;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+	@Id
+	@ManyToOne
+    @JoinColumn(name = "user_id")
 	private User user;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "role_id", nullable = false)
+	@Id
+	@ManyToOne
+    @JoinColumn(name = "role_id")
 	private Role role;
 
 	public int getId() {
@@ -52,11 +51,9 @@ public class UserRole {
 	}
 
 	public UserRole() {
-		super();
 	}
 
 	public UserRole(int id, User user, Role role) {
-		super();
 		this.id = id;
 		this.user = user;
 		this.role = role;

@@ -47,12 +47,12 @@ public class ProductDaoJpaImpl implements ProductDao{
 		return products;
 	}
 
-	@Override
-	@Transactional
-	public void addProductToCart(int productId, int userId) {
-		Cart cart = new Cart(0, productId, userId);
-		entityManager.persist(cart);
-	}
+//	@Override
+//	@Transactional
+//	public void addProductToCart(int productId, int userId) {
+//		Cart cart = new Cart(0, productId, userId);
+//		entityManager.persist(cart);
+//	}
 
 	@Override
 	@Transactional
@@ -87,6 +87,12 @@ public class ProductDaoJpaImpl implements ProductDao{
 			}
 		}
 		return products;
+	}
+
+	@Override
+	public void addProductToCart(int productId, int userId) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
