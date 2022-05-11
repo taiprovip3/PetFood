@@ -28,17 +28,12 @@ import springboot.petfood.util.UserInfoUtil;
 @Controller
 @RequestMapping("/client")
 public class ClientController {
-	
+//	qqqqq
 	private ProductDao productDao;
 	
 	@Autowired
 	public ClientController(ProductDao productDao) {
 		this.productDao = productDao;
-	}
-
-	@GetMapping(name="/showUserInfo")
-	public String showUserInfo() {
-		return "index";
 	}
 
 	//Index.html
@@ -86,12 +81,10 @@ public class ClientController {
 	@PostMapping("/addProductToCart")
 	public String addProductToCart(@RequestParam("productId") int productId, Model model) {
 		System.out.println(productId);
-//		User u = new User(1, "nano", "123123az", "nano@gmail.com", Arrays.asList("MEMBER"), "na", "no");
-//		productDao.addProductToCart(productId, u.getUserId());
 		return "redirect:/client/shop";
 	}
-	
-	//Showuserinfo.html
+
+	//ShowUserInfo.html
 	@GetMapping("/showUserInfo")
 	public String showUserInfo(Model model, Principal principal) {
 		String username = principal.getName();
