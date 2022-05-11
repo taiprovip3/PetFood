@@ -1,0 +1,130 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+input, button, textarea{
+    outline: none;
+}
+input{
+    text-align:center;
+}
+input::placeholder{
+    font-style: italic;
+}
+/* header css */
+#header{
+    background: lightgrey;
+    display: flex;
+    padding: 30px;
+}
+#currentLocation{
+    padding: 5px;
+    border-radius: 10px;
+    background: darkgrey;
+}
+#iconShop{
+    width: 70%;
+}
+#nav{
+    width: 30%;
+}
+#nav{
+    padding: 0;
+    display: flex;
+}
+#navsub{
+    width: 100%;
+    position: relative;
+    text-align: center;
+}
+#navsub a{
+    text-decoration: none;
+    color: blue;
+}
+#item{
+    display: none;
+    flex-wrap: wrap;
+    position: absolute;
+    width: 100%;
+}
+#subitem{
+    width: 100%;
+}
+#navsub:hover{
+    cursor: pointer;
+}
+#navsub:hover > #item{
+    display: flex;
+}
+#subitem:hover{
+    background: grey;
+}
+/* searchBox css */
+#searchBox input{
+    width: 100%;
+    padding: 15px;
+    font-size: xx-large;
+    border-radius: 40px;
+}
+#searchBox input:focus{
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
+}
+/* contentBox css */
+#contentBox{
+    display: flex;
+    position: relative;
+}
+#contentPage{
+    width: 25%;
+    background: lightgrey;
+    border: 1px solid black;
+    height: 100%;
+    position: fixed;
+    right: 0;
+    padding-left: 1%;
+}
+#contentPage li {
+    color: blue;
+    text-decoration: underline;
+    list-style-type: none;
+}
+#contentPage li:hover{
+    cursor: pointer;
+    background: lightgrey;
+}
+#content h1{
+    font-weight: 900;
+}
+#content{
+    width: 75%;
+    padding-left: 30px;
+}
+#petType{
+    display: flex;
+}
+#petType div, #categoryType{
+    width: 20%;
+    font-size: xx-large;
+    text-align: center;
+    background: lightgray;
+    margin: 3px;
+    border-radius: 8px;
+}
+#foodDetail div{
+    display: flex;
+}
+#foodDetail div input{
+    margin: 1%;
+}
+/* resultType (getStarted) css */
+#resultType{
+    display: flex;
+    flex-wrap: wrap;
+}
+#food{
+    background: lightgrey;
+    margin: 3px;
+    display: flex;
+    width: 49%;
+    padding: 20px;
+}
