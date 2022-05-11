@@ -81,8 +81,6 @@ public class ClientController {
 	@PostMapping("/addProductToCart")
 	public String addProductToCart(@RequestParam("productId") int productId, Model model) {
 		System.out.println(productId);
-//		User u = new User(1, "nano", "123123az", "nano@gmail.com", Arrays.asList("MEMBER"), "na", "no");
-//		productDao.addProductToCart(productId, u.getUserId());
 		return "redirect:/client/shop";
 	}
 	
