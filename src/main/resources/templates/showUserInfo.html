@@ -1,19 +1,51 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>4Pet | User infomation</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link rel="stylesheet" th:href="@{/css/showUserInfo.css}">
 </head>
 <body>
-    <h1>User Infomation Page</h1>
+    <div id="header">
+        <div id="iconShop">
+            <img th:src="@{/img/logo.png}" alt="" width="10%" class="rounded-circle">
+        </div>
+        <div id="nav">
+            <div id="navsub">
+                <a th:href="@{/client/homepage}">Homepage</a>
+            </div>
+            <div id="navsub">
+                <a th:href="@{/client/shop}">Shop</a>
+                <div id="item">
+                    <a href="javascript:void(0)" id="subitem">Dog food</a>
+                    <a href="javascript:void(0)" id="subitem">Cat food</a>
+                </div>
+            </div>
+            <div id="navsub">
+                <a th:href="@{/client/cart}">Cart</a>
+            </div>
+            <div id="navsub">
+                <a href="javascript:void(0)">Admin</a>
+            </div>
+            <div id="navsub" class="currentLocation">
+                <i class="fas fa-user-check"></i>
+                <div class="text-center">
+                    <p><u><a th:utext="${#request.userPrincipal.name}"></a></u></p>
+                    <a th:href="@{/logout}"><u>Sign out</u></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h1 style="display: inline;">User Infomation Page</h1> <h5 style="display: inline-block;"> | This page required login to be seen!</h5>
     <hr>
-<!-- 
-    <p>Welcome: <span th:utext="${#request.userPrincipal.name}"></span></p>
-    <p>This page required login to be see</p>
-    <br>
-    <div th:if="${USER_INFO != null}" th:utext="${USER_INFO}"></div>
- -->
+    <p>Welcome back, <b><span th:utext="${#request.userPrincipal.name}"></span></b>!</p>
+    <p>Your current roles: <b th:if="${USER_INFO != null}" th:utext="${USER_INFO}"></b></p>
 </body>
 </html>
