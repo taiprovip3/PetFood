@@ -28,7 +28,7 @@ import springboot.petfood.util.UserInfoUtil;
 @Controller
 @RequestMapping("/client")
 public class ClientController {
-//	qqqqq
+	
 	private ProductDao productDao;
 	
 	@Autowired
@@ -94,5 +94,4 @@ public class ClientController {
 		return "showUserInfo";
 	}
 
-	
 }

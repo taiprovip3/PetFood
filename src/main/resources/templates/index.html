@@ -16,18 +16,14 @@
 <body>
     <div id="header">
         <div id="iconShop">
-            <img th:src="@{/img/logo.png}" alt="" width="10%" class="rounded-circle">
+            <img th:src="@{/img/logo.png}" width="10%" class="rounded-circle">
         </div>
         <div id="nav">
             <div id="navsub">
-                <a th:href="@{/client/homepage}" id="currentLocation">Homepage</a>
+                <a th:href="@{/client/homepage}"><u>Homepage</u></a>
             </div>
             <div id="navsub">
                 <a th:href="@{/client/shop}">Shop</a>
-                <div id="item">
-                    <a href="javascript:void(0)" id="subitem">Dog food</a>
-                    <a href="javascript:void(0)" id="subitem">Cat food</a>
-                </div>
             </div>
             <div id="navsub">
                 <a th:href="@{/client/cart}">Cart</a>
@@ -36,7 +32,7 @@
                 <a th:href="@{/admin/homepage}">Admin</a>
             </div>
             <div id="navsub" th:if="${SESSION_USERNAME == 'anonymousUser'}">
-                <a th:href="@{/login}">Login</a>
+                <a th:href="@{/common/login}">Login</a>
             </div>
             <div id="navsub" th:unless="${SESSION_USERNAME == 'anonymousUser'}">
                 <i class="fas fa-user-check"></i>
@@ -48,9 +44,6 @@
         </div>
     </div>
    <br>
-    <div id="searchBox">
-        <input type="text" id="lookup" placeholder="What are you looking for ? Searching here...">
-    </div>
     <br>
     <div id="contentBox">
         <div id="contentPage">
@@ -67,7 +60,6 @@
             <img th:src="@{/img/pet-shop.png}" alt="" width="40%">
             <img th:src="@{/img/dog-food.png}" alt="" width="50%">
             <p>You are visiting our official website: <u><i><b>4pet.com</b></i></u></p>
-            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
             <h1 id="getStarted">GET STARTED</h1>
             <h3>
                 Choose your pet type:
@@ -110,7 +102,7 @@
 			</th:block>
 			
             </div>
-            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+            <br>
             <div id="contact">
                 <h1>Contact us</h1>
                 <p><i>Contact to get support detail, our media:</i></p>
@@ -129,9 +121,7 @@
                     </div>
                 </div>
                 <hr>
-                <h4><b>Address system Stores <i>(All branches)</i>:</b></h4>
-                <hr>
-                <ul><b>4Pet Store at HaNoi city</b>
+                <ul style="list-style-type: none;"><b>4Pet Store at HaNoi city</b>
                     <li>3 Đại Cồ Việt, Phường Cầu Dền, Quận Hai Bà Trưng</li>
                     <li>476 Minh Khai, Phường Vĩnh Tuy, Quận Hai Bà Trưng</li>
                     <li>83 Nghi Tàm, Phường Yên Phụ, Quận Tây Hồ</li>

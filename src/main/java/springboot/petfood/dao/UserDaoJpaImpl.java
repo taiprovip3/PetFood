@@ -1,5 +1,8 @@
 package springboot.petfood.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.Query;
@@ -34,19 +37,36 @@ public class UserDaoJpaImpl {
     }
 	
 	@Transactional
-	public void saveUser(User u) {
+	public void saveUser(User user) {
+//		Role role = new Role();
+//		role.setRoleId(1);
+//		role.setNameRole("MEMBER");
+//		
+//		u.setUserId(0);
+//		
+//		UserRole userRole = new UserRole();
+//		userRole.setId(0);
+//		userRole.setUser(u);
+//		userRole.setRole(role);
+//		
+//		entityManager.persist(u);
+//		entityManager.persist(userRole);
 		Role role = new Role();
 		role.setRoleId(1);
 		role.setNameRole("MEMBER");
 		
-		u.setUserId(0);
-		
 		UserRole userRole = new UserRole();
 		userRole.setId(0);
-		userRole.setUser(u);
 		userRole.setRole(role);
+		userRole.setUser(user);
 		
-		entityManager.persist(u);
-		entityManager.persist(userRole);
+		List<UserRole> userRoles = new ArrayList<UserRole>();
+		userRoles.add(userRole);
+		
+		user.setUserId(0);
+		user.setUserRoles(userRoles);
+		
+		entityManager.persist(user);
+//		entityManager.persist(userRole);
 	}
 }
