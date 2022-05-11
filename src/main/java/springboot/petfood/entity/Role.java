@@ -21,9 +21,6 @@ public class Role {
 	
 	@Column(name="role_name")
 	private String nameRole;
-	
-	@OneToMany(mappedBy = "role")
-	private List<UserRole> userRoles;
 
 	public int getRoleId() {
 		return roleId;
@@ -41,25 +38,20 @@ public class Role {
 		this.nameRole = nameRole;
 	}
 
-	public List<UserRole> getUserRoles() {
-		return userRoles;
-	}
-
-	public void setUserRoles(List<UserRole> userRoles) {
-		this.userRoles = userRoles;
-	}
-
 	public Role() {
+		super();
 	}
 
-	public Role(int roleId, String nameRole, List<UserRole> userRoles) {
+	public Role(int roleId, String nameRole) {
+		super();
 		this.roleId = roleId;
 		this.nameRole = nameRole;
-		this.userRoles = userRoles;
 	}
 
 	@Override
 	public String toString() {
-		return "Role [roleId=" + roleId + ", nameRole=" + nameRole + ", userRoles=" + userRoles + "]";
+		return "Role [roleId=" + roleId + ", nameRole=" + nameRole + "]";
 	}
+
+
 }

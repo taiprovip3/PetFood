@@ -33,12 +33,6 @@ public class User {
 	@Column(name="last_name")
 	private String lastName;
 
-	@OneToMany(mappedBy = "user")
-	private List<Cart> carts;
-	
-	@OneToMany(mappedBy = "user")
-	private List<UserRole> userRoles;
-
 	public int getUserId() {
 		return userId;
 	}
@@ -87,41 +81,25 @@ public class User {
 		this.lastName = lastName;
 	}
 
-	public List<Cart> getCarts() {
-		return carts;
-	}
-
-	public void setCarts(List<Cart> carts) {
-		this.carts = carts;
-	}
-
-	public List<UserRole> getUserRoles() {
-		return userRoles;
-	}
-
-	public void setUserRoles(List<UserRole> userRoles) {
-		this.userRoles = userRoles;
-	}
-
 	public User() {
+		super();
 	}
 
-	public User(int userId, String username, String password, String email, String firstName, String lastName,
-			List<Cart> carts, List<UserRole> userRoles) {
+	public User(int userId, String username, String password, String email, String firstName, String lastName) {
+		super();
 		this.userId = userId;
 		this.username = username;
 		this.password = password;
 		this.email = email;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.carts = carts;
-		this.userRoles = userRoles;
 	}
 
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", email=" + email
-				+ ", firstName=" + firstName + ", lastName=" + lastName + ", carts=" + carts + ", userRoles="
-				+ userRoles + "]";
+				+ ", firstName=" + firstName + ", lastName=" + lastName + "]";
 	}
+	
+	
 }

@@ -9,11 +9,13 @@ import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import springboot.petfood.entity.Role;
 import springboot.petfood.entity.User;
 import springboot.petfood.entity.UserRole;
+import springboot.petfood.service.BcryptPasswordEncoderUtil;
 
 @Repository
 public class UserDaoJpaImpl {
@@ -37,36 +39,20 @@ public class UserDaoJpaImpl {
     }
 	
 	@Transactional
-	public void saveUser(User user) {
-//		Role role = new Role();
-//		role.setRoleId(1);
-//		role.setNameRole("MEMBER");
-//		
-//		u.setUserId(0);
-//		
-//		UserRole userRole = new UserRole();
-//		userRole.setId(0);
-//		userRole.setUser(u);
-//		userRole.setRole(role);
-//		
-//		entityManager.persist(u);
-//		entityManager.persist(userRole);
+	public void saveUser(User u) {
+	
+		String encryptedPassword = BcryptPasswordEncoderUtil.encryptPassword(u.getPassword());
+		u.setPassword(encryptedPassword);
+		
 		Role role = new Role();
 		role.setRoleId(1);
 		role.setNameRole("MEMBER");
 		
 		UserRole userRole = new UserRole();
-		userRole.setId(0);
+		userRole.setUser(u);
 		userRole.setRole(role);
-		userRole.setUser(user);
 		
-		List<UserRole> userRoles = new ArrayList<UserRole>();
-		userRoles.add(userRole);
-		
-		user.setUserId(0);
-		user.setUserRoles(userRoles);
-		
-		entityManager.persist(user);
-//		entityManager.persist(userRole);
+		entityManager.persist(u);
+		entityManager.persist(userRole);
 	}
 }

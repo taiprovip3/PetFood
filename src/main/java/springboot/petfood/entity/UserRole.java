@@ -1,29 +1,35 @@
 package springboot.petfood.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
-@IdClass(UserRolePK.class)
+@Table(name="user_roles")
 public class UserRole {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="id", nullable = false)
 	private int id;
 	
-	@Id
-	@ManyToOne
-    @JoinColumn(name = "user_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false, referencedColumnName = "user_id")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private User user;
 	
-	@Id
-	@ManyToOne
-    @JoinColumn(name = "role_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id", nullable = false, referencedColumnName = "role_id")
 	private Role role;
 
 	public int getId() {
