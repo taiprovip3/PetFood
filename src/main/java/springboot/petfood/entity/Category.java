@@ -50,9 +50,11 @@ public class Category {
 	}
 
 	public Category() {
+		super();
 	}
 
 	public Category(int categoryId, String nameCategory, List<Product> products) {
+		super();
 		this.categoryId = categoryId;
 		this.nameCategory = nameCategory;
 		this.products = products;
@@ -60,6 +62,8 @@ public class Category {
 
 	@Override
 	public String toString() {
-		return "Category [categoryId=" + categoryId + ", nameCategory=" + nameCategory + ", products=" + products + "]";
+		return "Category [categoryId=" + categoryId + ", nameCategory=" + nameCategory + "]";
 	}
+
+
 }

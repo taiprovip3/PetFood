@@ -15,44 +15,40 @@
 <body>
     <div id="header">
         <div id="iconShop">
-            <img th:src="@{/img/logo.png}" alt="" width="10%" class="rounded-circle">
+            <img th:src="@{/img/logo.png}" width="10%" class="rounded-circle">
         </div>
         <div id="nav">
             <div id="navsub">
                 <a th:href="@{/client/homepage}">Homepage</a>
             </div>
             <div id="navsub">
-                <a th:href="@{/client/shop}" id="currentLocation">Shop</a>
-                <div id="item">
-                    <a href="javascript:void(0)" id="subitem">Dog food</a>
-                    <a href="javascript:void(0)" id="subitem">Cat food</a>
-                </div>
+                <a th:href="@{/client/shop}"><u>Shop</u></a>
             </div>
             <div id="navsub">
                 <a th:href="@{/client/cart}">Cart</a>
             </div>
             <div id="navsub">
-                <a href="javascript:void(0)">Login</a>
+                <a th:href="@{/admin/homepage}">Admin</a>
+            </div>
+            <div id="navsub" th:if="${#request.userPrincipal == null}">
+                <a th:href="@{/common/login}">Login</a>
+            </div>
+            <div id="navsub" th:unless="${#request.userPrincipal == null}">
+                <i class="fas fa-user-check"></i>
+                <div class="text-center">
+                    <p><u><a th:href="@{/client/showUserInfo}" th:utext="${#request.userPrincipal.name}"></a></u></p>
+                    <a th:href="@{/logout}"><u>Sign out</u></a>
+                </div>
             </div>
         </div>
     </div>
-   <br>
-    <div id="searchBox">
-        <input type="text" name="" id="" placeholder="What are you looking for ? Searching here...">
-    </div>
-    <br>
     <div id="contentBox">
-        <div id="contentPage">
-            <h1>Page content</h1>
-            <ul>
-                <li id="scr-intro">Introduction <i class="fas fa-check-square"></i></li>
-                <li id="scr-getstarted">Choose your pet food <i class="fas fa-check-square"></i></li>
-                <li id="scr-contact">Contact / support <i class="fas fa-check-square"></i></li>
-            </ul>
-        </div>
-        <div id="content">
+
+        <div id="navLocation" class="text-center">
             <p id="getStarted"><a th:href="@{/client/homepage}">Homepage</a> > Shop <i class="fas fa-street-view" style="color: forestgreen;"></i></p>
-            <hr>
+        </div>
+<hr>
+        <div id="filter" class="text-center">
             <form th:action="@{/client/filterProduct}" th:method="get">
             <h3>
                 Choose your pet type:
@@ -63,15 +59,20 @@
                 </select>
             </h3>
             <div id="petType">
+                <div></div>
+                <div></div>
                 <div id="dogType">
                     <img th:src="@{/img/dogIcon.png}" width="50%">
                 </div>
                 <div id="catType">
                     <img th:src="@{/img/catIcon.png}" width="50%">
                 </div>
+                <div></div>
+                <div></div>
             </div>
+            <br>
             <h3>
-                Select avaiable categories:
+                Select category:
                 <select name="selectCategory" id="selectCategory">
                     <option value="ALL" selected>All</option>
                     <option value="KIBBLE">Kibble</option>
@@ -85,11 +86,13 @@
             <div id="categoryType">
                 <img th:src="@{/img/category_all.png}" width="50%">
             </div>
-            <div class="text-center">
-                <input type="submit" value="Filter" class="btn btn-secondary btn-lg text-center" style="padding: 8px; width: 18%;">
+            <div class="text-right">
+                <input type="submit" value="Filter" class="btn btn-primary btn-lg text-center" style="margin: 1%;">
             </div>
             </form>
-            <hr>
+        </div>
+<hr>
+        <div id="category">
             <p><u><i>List products:</i></u></p>
             <div id="resultType">
             <th:block th:each="i : ${LIST_PRODUCTS}">
@@ -121,6 +124,7 @@
 			</th:block>
             </div>
         </div>
+
     </div>
 <script th:src="@{/jQuery/shop.js}"></script>
 </body>

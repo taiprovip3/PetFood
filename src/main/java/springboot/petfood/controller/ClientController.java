@@ -20,9 +20,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import springboot.petfood.dao.ProductDao;
+import springboot.petfood.dao.UserDaoJpaImpl;
 import springboot.petfood.entity.Product;
 import springboot.petfood.entity.User;
+import springboot.petfood.service.ProductDao;
+import springboot.petfood.service.UserDao;
+import springboot.petfood.util.GetUserDetailService;
 import springboot.petfood.util.UserInfoUtil;
 
 @Controller
@@ -30,10 +33,12 @@ import springboot.petfood.util.UserInfoUtil;
 public class ClientController {
 	
 	private ProductDao productDao;
+	private UserDao userDao;
 	
 	@Autowired
-	public ClientController(ProductDao productDao) {
+	public ClientController(ProductDao productDao, UserDao userDao) {
 		this.productDao = productDao;
+		this.userDao = userDao;
 	}
 
 	//Index.html
@@ -79,17 +84,21 @@ public class ClientController {
 	}
 	
 	@PostMapping("/addProductToCart")
-	public String addProductToCart(@RequestParam("productId") int productId, Model model) {
-		System.out.println(productId);
+	public String addProductToCart(@RequestParam("productId") int productId, Principal principal, Model model) {
+		String username = principal.getName();
+		if(username == null)
+			return "/common/login";
+		Product p = productDao.getProductById(productId);
+		User u = userDao.findUserAccount(username);
+		productDao.addProductToCart(p, u);
 		return "redirect:/client/shop";
 	}
 
 	//ShowUserInfo.html
 	@GetMapping("/showUserInfo")
 	public String showUserInfo(Model model, Principal principal) {
-		String username = principal.getName();
-		org.springframework.security.core.userdetails.User logUser = (org.springframework.security.core.userdetails.User) ((Authentication) principal).getPrincipal();
-		String userInfo = UserInfoUtil.toString(logUser);//Truyền vào đối tượng UserDetail trả về thuộc tính đã build
+		org.springframework.security.core.userdetails.User loggedUser = GetUserDetailService.getUserDetails(principal);//Lấy UserDetails của user đang logged
+		String userInfo = UserInfoUtil.toString(loggedUser);//Truyền vào đối tượng UserDetail trả về thuộc tính đã build
 		model.addAttribute("USER_INFO", userInfo);
 		return "showUserInfo";
 	}

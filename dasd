@@ -1,0 +1,111 @@
+[33mcommit 749cfb4d6a904290efff9daf7e4ac027bb072d32[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/dev1[m[33m, [m[1;32mdev1[m[33m)[m
+Author: taiprovip3 <taito1doraemon@gmail.com>
+Date:   Thu May 12 09:43:20 2022 +0700
+
+    Hoan thanh registration va admin.html
+
+[33mcommit 0bef48318541a3e15bb8caa4bac05b23512ed1c7[m
+Author: taiprovip3 <taito1doraemon@gmail.com>
+Date:   Wed May 11 21:03:32 2022 +0700
+
+    Them BCryptedEncoder + hoan thanh Registration
+
+[33mcommit 3211ca051c6a3942015f5e7546b3a15c297f8e2a[m
+Author: taiprovip3 <taito1doraemon@gmail.com>
+Date:   Wed May 11 19:16:14 2022 +0700
+
+    them register
+
+[33mcommit 3dacd3c29c3464fc1366401ff2653333fc499f80[m
+Merge: a0fd7f6 2da2217
+Author: DESKTOP-VL5REEG\quang <quangnhat180799@gmail.com>
+Date:   Wed May 11 17:03:31 2022 +0700
+
+    Merge branch 'main' of https://github.com/taiprovip3/PetFood
+
+[33mcommit 2da22175c7ee3e9699edafa34b14891e92fccf69[m
+Merge: 15928ad 340d16a
+Author: taiprovip3 <taito1doraemon@gmail.com>
+Date:   Wed May 11 16:43:42 2022 +0700
+
+    Merge branch 'main' of https://github.com/taiprovip3/PetFood
+
+[33mcommit 15928ad5181526ec0a887672227100495c24d442[m
+Author: taiprovip3 <taito1doraemon@gmail.com>
+Date:   Wed May 11 16:43:32 2022 +0700
+
+    them AdminController
+
+[33mcommit a0fd7f6a2778323db9bfcc28f28b8d4aac0536ed[m[33m ([m[1;31morigin/dev3[m[33m)[m
+Author: DESKTOP-VL5REEG\quang <quangnhat180799@gmail.com>
+Date:   Wed May 11 16:39:53 2022 +0700
+
+    create form register
+
+[33mcommit 340d16ab243ef37b8c9fc754006ec20516f49089[m
+Author: NVPL1234 <nlam39784@gmail.com>
+Date:   Wed May 11 16:16:48 2022 +0700
+
+    aaaa
+
+[33mcommit 826db4e1c35849392866c0456ebabb92433923a3[m
+Author: taiprovip3 <taito1doraemon@gmail.com>
+Date:   Wed May 11 16:13:07 2022 +0700
+
+    sua conntroller ShowUserIUnfo
+
+[33mcommit 97b4cae22e0530c2ccac8640b63eb76514cc2a38[m
+Author: taiprovip3 <taito1doraemon@gmail.com>
+Date:   Wed May 11 16:12:10 2022 +0700
+
+    sua controller
+
+[33mcommit 70c69f34a2e81d197b34066fbb7d314208f39b66[m
+Merge: d61ea0d d097a28
+Author: taiprovip3 <taito1doraemon@gmail.com>
+Date:   Wed May 11 16:11:03 2022 +0700
+
+    asd
+
+[33mcommit d097a28df9568a2317da6381e8cce6ce7e75b042[m
+Author: taiprovip3 <taito1doraemon@gmail.com>
+Date:   Wed May 11 16:08:23 2022 +0700
+
+    t vua lam cai j do
+
+[33mcommit d61ea0d72ea3c332eb78d0e6e3eb47010a06a192[m
+Merge: 997622a 1641922
+Author: DESKTOP-VL5REEG\quang <quangnhat180799@gmail.com>
+Date:   Wed May 11 16:01:59 2022 +0700
+
+    abc
+
+[33mcommit 997622ac31c6ac5f753bd76114580d1f727fbdd8[m
+Author: DESKTOP-VL5REEG\quang <quangnhat180799@gmail.com>
+Date:   Wed May 11 15:57:36 2022 +0700
+
+    add form login
+
+[33mcommit 1641922b070135dd01382e375a9d5681f1a16e0e[m
+Author: NVPL1234 <nlam39784@gmail.com>
+Date:   Wed May 11 15:45:13 2022 +0700
+
+    a
+
+[33mcommit 2cac50997e74662c92fa1aea1d7b419d24f1f66d[m
+Author: taiprovip3 <taito1doraemon@gmail.com>
+Date:   Wed May 11 15:20:48 2022 +0700
+
+    sua lai giao dien + controller client
+
+[33mcommit 96a4a8e232f0b87d7fa426e30c4c85acd8f022c7[m
+Author: taiprovip3 <taito1doraemon@gmail.com>
+Date:   Wed May 11 12:18:54 2022 +0700
+
+    done login security
+
+[33mcommit aa6dd299cc3e4f23c66ae56ec2d3d268f09829e6[m
+Author: taiprovip3 <taito1doraemon@gmail.com>
+Date:   Wed May 11 09:22:39 2022 +0700
+
+    dag lam securyti

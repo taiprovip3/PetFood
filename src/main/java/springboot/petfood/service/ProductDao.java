@@ -1,4 +1,4 @@
-package springboot.petfood.dao;
+package springboot.petfood.service;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ public interface ProductDao {
 	
 	public Product getProductById(int id);
 	public List<Product> findAllProducts(String type);
-	public void addProductToCart(int productId, int userId);
+	public void addProductToCart(Product p, User u);//int productId, int userId
 	public void checkOutProduct(int productId, int quantity);
 	public List<Product> filterProduct(String petType, String categoryName);
 }
