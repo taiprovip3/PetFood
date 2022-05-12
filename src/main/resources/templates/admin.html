@@ -17,12 +17,59 @@
         <div id="iconShop">
             <img th:src="@{/img/logo.png}" width="10%" class="rounded-circle">
         </div>
-        <div id="nav">
+        <div id="nav" class="text-center">
             <i class="fas fa-user-check"></i>
-            <div class="text-center">
-                <p><u><a th:href="@{/client/showUserInfo}" th:utext="${SESSION_USERNAME}"></a></u></p>
-                <a th:href="@{/logout}"><u>Sign out</u></a>
-            </div>
+            <p><u><a th:href="@{/client/showUserInfo}">nano</a></u></p>
+            <a th:href="@{/logout}"><u>Sign out</u></a>
+        </div>
+    </div>
+    <div class="jumbotron text-center">
+        <h1>Welcome back, Admin</h1>
+        <p>Easily manage your data from this admin</p>
+    </div>
+    <style>
+        #menu{
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: -24px;
+        }
+        #menu > div{
+            background: rgb(226, 225, 225);
+            border: 1px solid grey;
+            border-radius: 10px;
+            width: 31%;
+            margin: 5px;
+            padding: 15px;
+        }
+        #item > h3{
+            font-weight: bold;
+        }
+    </style>
+    <div id="menu">
+        <div id="item">
+            <h3>Category</h3>
+            <p>- Category classify or devide products into tag key. Admin can CRUD category type of food be.</p>
+            <a th:href="@{/admin/categories}" class="btn btn-primary btn-lg" role="button">Manager</a>
+        </div>
+        <div id="item">
+            <h3>Product</h3>
+            <p>- Admin can create-read-update-delete (CRUD) products (food) avaiable in database.</p>
+            <a th:href="@{/admin/products}" class="btn btn-primary btn-lg" role="button">Manager</a>
+        </div>
+        <div id="item">
+            <h3>User</h3>
+            <p>- The list profile of all account was registed and roles of them. You also maybe CRUD</p>
+            <a th:href="@{/admin/users}" class="btn btn-primary btn-lg" role="button">Manager</a>
+        </div>
+        <div id="item">
+            <h3>Role</h3>
+            <p>- Add a new role or change the default system role. The default is 2 roles: MEMBER, ADMIN</p>
+            <a th:href="@{/admin/roles}" class="btn btn-primary btn-lg" role="button">Manager</a>
+        </div>
+        <div id="item">
+            <h3>Cart</h3>
+            <p>- CRUD some cart of user bought. Don't tough much it will cause some proplems to client.</p>
+            <a th:href="@{/admin/carts}" class="btn btn-primary btn-lg" role="button">Manager</a>
         </div>
     </div>
 </body>

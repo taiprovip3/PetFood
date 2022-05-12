@@ -41,4 +41,9 @@ public class CommonController {
 		System.out.println("Register success user :: "+user);
 		return "login";
 	}
+	
+	@GetMapping("/403")
+	public String showAccessDeniedPage() {
+		return "access-denied";
+	}
 }

@@ -13,20 +13,25 @@ input::placeholder{
     font-style: italic;
 }
 /* header css */
-#header{
-    background: lightgrey;
-    display: flex;
-    padding: 30px;
-    border: 2px solid blue;
-}
-#header > div{
-    border: 2px solid red;
-    width: 100%;
-}
-
-#iconShop{
-   
-}
-#nav{
-    
-}
+    #header{
+        background: rgb(245, 245, 245);
+        display: flex;
+        padding: 30px;
+    }
+    #header > div{
+        margin: 3px;
+    }
+    #iconShop{
+        width: 90%;
+    }
+    #iconShop > img{
+    background: lightyellow;
+    }
+    #nav{
+        background: rgb(255, 255, 253);
+        text-align: right;
+        width: 10%;
+        border-radius: 15px;
+        padding-top: 8px;
+    }
+/* menu admin */

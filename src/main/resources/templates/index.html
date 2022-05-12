@@ -31,13 +31,13 @@
             <div id="navsub">
                 <a th:href="@{/admin/homepage}">Admin</a>
             </div>
-            <div id="navsub" th:if="${SESSION_USERNAME == 'anonymousUser'}">
+            <div id="navsub" th:if="${#request.userPrincipal == null}">
                 <a th:href="@{/common/login}">Login</a>
             </div>
-            <div id="navsub" th:unless="${SESSION_USERNAME == 'anonymousUser'}">
+            <div id="navsub" th:unless="${#request.userPrincipal == null}">
                 <i class="fas fa-user-check"></i>
                 <div class="text-center">
-                    <p><u><a th:href="@{/client/showUserInfo}" th:utext="${SESSION_USERNAME}"></a></u></p>
+                    <p><u><a th:href="@{/client/showUserInfo}" th:utext="${USER_DATA}"></a></u></p>
                     <a th:href="@{/logout}"><u>Sign out</u></a>
                 </div>
             </div>

@@ -47,7 +47,7 @@ public class ClientController {
 		} else {
 			username = principal.toString();
 		}
-		model.addAttribute("SESSION_USERNAME", username);
+		model.addAttribute("USER_DATA", username);
 		String type = "ALL";
 		List<Product> products = productDao.findAllProducts(type);
 		model.addAttribute("LIST_PRODUCTS", products);

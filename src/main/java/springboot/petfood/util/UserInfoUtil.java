@@ -20,6 +20,7 @@ public class UserInfoUtil {
 			for (GrantedAuthority grantedAuthority : authorities) { //Mỗi role trong tổng roles
 				if(first) {
 					sb.append(grantedAuthority.getAuthority());
+					first = false;
 				} else
 					sb.append(", ").append(grantedAuthority.getAuthority());//Khoản cách giữa mỗi role '(MEMBER, ADMIN)'
 			}//end For
