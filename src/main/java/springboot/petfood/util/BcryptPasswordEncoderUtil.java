@@ -1,4 +1,4 @@
-package springboot.petfood.service;
+package springboot.petfood.util;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 

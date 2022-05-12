@@ -132,8 +132,10 @@ public class Product {
 	public Product() {
 	}
 
+	
 	public Product(int productId, String name, String type, String description, double price, double weight,
 			int quantity, String image, Category category, List<Cart> carts) {
+		super();
 		this.productId = productId;
 		this.name = name;
 		this.type = type;
@@ -149,7 +151,7 @@ public class Product {
 	@Override
 	public String toString() {
 		return "Product [productId=" + productId + ", name=" + name + ", type=" + type + ", description=" + description
-				+ ", price=" + price + ", weight=" + weight + ", quantity=" + quantity + ", image=" + image
-				+ ", category=" + category + ", carts=" + carts + "]";
+				+ ", price=" + price + ", weight=" + weight + ", quantity=" + quantity + ", image=" + image + "]";
 	}
+
 }

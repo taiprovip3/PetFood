@@ -1,4 +1,4 @@
-package springboot.petfood.service;
+package springboot.petfood.dao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +13,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import springboot.petfood.dao.RoleDaoJpaImpl;
-import springboot.petfood.dao.UserDaoJpaImpl;
-
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService{
+public class UserDetailsServiceImpl implements UserDetailsService{//Lớp này dc gọi tự động bởi spring security
 	
 	@Autowired
 	private UserDaoJpaImpl userDaoJpaImpl;

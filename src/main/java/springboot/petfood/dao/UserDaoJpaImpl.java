@@ -15,10 +15,11 @@ import org.springframework.stereotype.Repository;
 import springboot.petfood.entity.Role;
 import springboot.petfood.entity.User;
 import springboot.petfood.entity.UserRole;
-import springboot.petfood.service.BcryptPasswordEncoderUtil;
+import springboot.petfood.service.UserDao;
+import springboot.petfood.util.BcryptPasswordEncoderUtil;
 
 @Repository
-public class UserDaoJpaImpl {
+public class UserDaoJpaImpl implements UserDao{
 
 	private EntityManager entityManager;
 	

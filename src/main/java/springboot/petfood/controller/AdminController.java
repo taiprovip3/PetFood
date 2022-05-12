@@ -9,10 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/admin")
 public class AdminController {
 	
-	
-	@GetMapping("/homepage2")
-	public String showAdminPage2(Model model) {
+	@GetMapping("/homepage")
+	public String showAdminPage(Model model) {
 		return "admin";
 	}
-	
 }

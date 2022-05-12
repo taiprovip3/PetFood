@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import springboot.petfood.entity.Cart;
 import springboot.petfood.entity.Product;
 import springboot.petfood.entity.User;
+import springboot.petfood.service.ProductDao;
 
 @Repository
 public class ProductDaoJpaImpl implements ProductDao{
@@ -37,7 +38,7 @@ public class ProductDaoJpaImpl implements ProductDao{
 		if(type.equals(" ") || type.equals(null))
 			type = "ALL";
 		if(type.equals("ALL")) {
-			Query query = entityManager.createQuery("SELECT p FROM Product p WHERE p.type = 'DOG' OR p.type = 'CAT'");
+			Query query = entityManager.createQuery("SELECT p FROM Product p WHERE p.type = 'DOG' OR p.type = 'CAT' OR p.type = 'ALL'");
 			products = query.getResultList();
 		} else {
 			Query query = entityManager.createQuery("SELECT p FROM Product p WHERE p.type = :productType");
@@ -47,12 +48,19 @@ public class ProductDaoJpaImpl implements ProductDao{
 		return products;
 	}
 
-//	@Override
-//	@Transactional
-//	public void addProductToCart(int productId, int userId) {
-//		Cart cart = new Cart(0, productId, userId);
+	@Override
+	@Transactional
+	public void addProductToCart(Product p, User u) {//int productId, int userId
+		Product product = new Product();
+		product.setProductId(p.getProductId());
+		User user = new User();
+		user.setUserId(u.getUserId());
+		Cart cart = new Cart();
+		cart.setProduct(product);
+		cart.setUser(user);
+		System.out.println("---PRODUCT " + product + "---USER " + user);
 //		entityManager.persist(cart);
-//	}
+	}
 
 	@Override
 	@Transactional
@@ -87,12 +95,6 @@ public class ProductDaoJpaImpl implements ProductDao{
 			}
 		}
 		return products;
-	}
-
-	@Override
-	public void addProductToCart(int productId, int userId) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

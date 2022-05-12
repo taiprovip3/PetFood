@@ -31,13 +31,13 @@
             <div id="navsub">
                 <a th:href="@{/admin/homepage}">Admin</a>
             </div>
-            <div id="navsub" th:if="${SESSION_USERNAME == 'anonymousUser'}">
+            <div id="navsub" th:if="${#request.userPrincipal == null}">
                 <a th:href="@{/common/login}">Login</a>
             </div>
-            <div id="navsub" th:unless="${SESSION_USERNAME == 'anonymousUser'}">
+            <div id="navsub" th:unless="${#request.userPrincipal == null}">
                 <i class="fas fa-user-check"></i>
                 <div class="text-center">
-                    <p><u><a th:href="@{/client/showUserInfo}" th:utext="${SESSION_USERNAME}"></a></u></p>
+                    <p><u><a th:href="@{/client/showUserInfo}" th:utext="${USER_DATA}"></a></u></p>
                     <a th:href="@{/logout}"><u>Sign out</u></a>
                 </div>
             </div>
@@ -55,11 +55,14 @@
             </ul>
         </div>
         <div id="content">
-            <h1>INTRODUCTION</h1>
-            <p>- 4Pet is one of the best service online orders in the internet for the pet food. Our price is very very cheap but quality must called "perfect". If you want to feed a pet (dogs or cats), please check out my products. You will get an order and delivery immediately in minutes.</p>
-            <img th:src="@{/img/pet-shop.png}" alt="" width="40%">
-            <img th:src="@{/img/dog-food.png}" alt="" width="50%">
-            <p>You are visiting our official website: <u><i><b>4pet.com</b></i></u></p>
+            <div id="intro">
+                <h1>INTRODUCTION</h1>
+                <p>4Pet is one of the best service online orders in the internet for the pet food. Our price is very very cheap but quality must called "perfect". If you want to feed a pet (dogs or cats), please check out my products. You will get an order and delivery immediately in minutes.</p>
+                <img th:src="@{/img/pet-shop.png}" alt="" width="10%">
+                <img th:src="@{/img/dog-food.png}" alt="" width="10%">
+                <img th:src="@{/img/bone.png}" alt="" width="10%">
+                <p>You are visiting our official website: <u><i><b>4pet.com</b></i></u></p>
+            </div>
             <h1 id="getStarted">GET STARTED</h1>
             <h3>
                 Choose your pet type:
@@ -105,7 +108,7 @@
             <br>
             <div id="contact">
                 <h1>Contact us</h1>
-                <p><i>Contact to get support detail, our media:</i></p>
+                <p><i>Social media:</i></p>
                 <div id="media">
                     <div id="facebook">
                         <img th:src="@{/img/contact-facebook.PNG}" alt="" width="100%">
@@ -121,7 +124,9 @@
                     </div>
                 </div>
                 <hr>
-                <ul style="list-style-type: none;"><b>4Pet Store at HaNoi city</b>
+                <p><i>Hotline / phone call:</i> +84 0338188506 &emsp;|&emsp;  FAX: 02838837067  &emsp;|&emsp;  www.4pet.com</p>
+                <hr>
+                <ul style="list-style-type: none;"><b>4Pet Store at HaNoi location's</b>
                     <li>3 Đại Cồ Việt, Phường Cầu Dền, Quận Hai Bà Trưng</li>
                     <li>476 Minh Khai, Phường Vĩnh Tuy, Quận Hai Bà Trưng</li>
                     <li>83 Nghi Tàm, Phường Yên Phụ, Quận Tây Hồ</li>

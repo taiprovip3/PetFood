@@ -1,17 +1,17 @@
 /* Initialize */
-    *{
-        margin: 0;
-        padding: 0;
-    }
-    input, button, textarea{
-        outline: none;
-    }
-    input{
-        text-align:center;
-    }
-    input::placeholder{
-        font-style: italic;
-    }
+*{
+    margin: 0;
+    padding: 0;
+}
+input, button, textarea{
+    outline: none;
+}
+input{
+    text-align:center;
+}
+input::placeholder{
+    font-style: italic;
+}
 /* header css */
     #header{
         background: lightgrey;
@@ -74,13 +74,18 @@
         background: lightgrey;
     }
     #content h1{
-        font-weight: 900;
-        text-shadow: 0 -1px 4px #FFF, 0 -2px 10px #ff0, 0 -10px 20px #ff8000, 0 -18px 40px #F00;
+        font-weight: bold;
     }
     #content{
         width: 75%;
         padding-left: 30px;
     }
+/* intro */
+    #intro > img{
+        border-radius: 20px;
+        background: rgb(242, 245, 245);
+    }
+/* getStarted */
     #petType{
         display: flex;
     }
@@ -88,7 +93,7 @@
         width: 20%;
         font-size: xx-large;
         text-align: center;
-        background: lightgray;
+        background: rgb(242, 245, 245);
         margin: 3px;
         border-radius: 8px;
     }
@@ -102,7 +107,7 @@
         flex-wrap: wrap;
     }
     #food{
-        background: lightgrey;
+        background: rgb(242, 245, 245);
         margin: 3px;
         display: flex;
         width: 49%;

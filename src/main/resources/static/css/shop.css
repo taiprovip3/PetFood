@@ -1,33 +1,31 @@
 /* Initialize */
-    *{
-        margin: 0;
-        padding: 0;
-    }
-    input, button, textarea{
-        outline: none;
-    }
-    input{
-        text-align:center;
-    }
-    input::placeholder{
-        font-style: italic;
-    }
+*{
+    margin: 0;
+    padding: 0;
+}
+input, button, textarea{
+    outline: none;
+}
+input{
+    text-align:center;
+}
+input::placeholder{
+    font-style: italic;
+}
 /* header css */
     #header{
         background: lightgrey;
         display: flex;
         padding: 30px;
     }
-    #currentLocation{
-        padding: 5px;
-        border-radius: 10px;
-        background: darkgrey;
-    }
     #iconShop{
-        width: 70%;
+        width: 60%;
+    }
+    #iconShop > img{
+        background: lightyellow;
     }
     #nav{
-        width: 30%;
+        width: 40%;
     }
     #nav{
         padding: 0;
@@ -40,7 +38,8 @@
     }
     #navsub a{
         text-decoration: none;
-        color: blue;
+        color: black;
+        font-weight: 900;
     }
     #item{
         display: none;
@@ -51,29 +50,8 @@
     #subitem{
         width: 100%;
     }
-    #navsub:hover{
-        cursor: pointer;
-        font-weight: 900;
-    }
-    #navsub:hover > #item{
-        display: flex;
-    }
-    #subitem:hover{
-        background: grey;
-    }
-/* searchBox css */
-#searchBox input{
-    width: 100%;
-    padding: 15px;
-    font-size: xx-large;
-    border-radius: 40px;
-}
-#searchBox input:focus{
-    box-shadow: rgba(50, 50, 93, 0.25) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
-}
-/* contentBox css */
+/* contentBox*/
     #contentBox{
-        display: flex;
         position: relative;
     }
     #contentPage{
@@ -85,31 +63,15 @@
         right: 0;
         padding-left: 1%;
     }
-    #contentPage li {
-        color: blue;
-        text-decoration: underline;
-        list-style-type: none;
-    }
-    #contentPage li:hover{
-        cursor: pointer;
-        background: lightgrey;
-    }
-    #content h1{
-        font-weight: 900;
-    }
-    #content{
-        width: 75%;
-        padding-left: 30px;
-    }
     #petType{
         display: flex;
     }
     #petType div, #categoryType{
-        width: 20%;
+        width: 10%;
         font-size: xx-large;
         text-align: center;
         background: lightgray;
-        margin: 3px;
+        margin: auto;
         border-radius: 8px;
     }
     #foodDetail div{
@@ -125,8 +87,8 @@
     }
     #food{
         background: lightgrey;
-        margin: 3px;
+        margin: 3px auto;
         display: flex;
-        width: 49%;
+        width: 32.5%;
         padding: 20px;
     }
