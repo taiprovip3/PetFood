@@ -39,7 +39,6 @@ input::placeholder{
     #navsub a{
         text-decoration: none;
         color: black;
-        font-weight: 900;
     }
     #item{
         display: none;
@@ -54,14 +53,8 @@ input::placeholder{
     #contentBox{
         position: relative;
     }
-    #contentPage{
-        width: 25%;
-        background: lightgrey;
-        border: 1px solid black;
-        height: 100%;
-        position: fixed;
-        right: 0;
-        padding-left: 1%;
+    #contentBox > div{
+        margin-top: 5px;
     }
     #petType{
         display: flex;
@@ -80,13 +73,20 @@ input::placeholder{
     #foodDetail div input{
         margin: 1%;
     }
+    #filter{
+        padding-top: 15px;
+    }
+    #category{
+        background: rgb(243, 243, 243);
+        padding: 7px;
+    }
 /* resultType (getStarted) css */
     #resultType{
         display: flex;
         flex-wrap: wrap;
     }
     #food{
-        background: lightgrey;
+        background: rgb(224, 221, 221);
         margin: 3px auto;
         display: flex;
         width: 32.5%;

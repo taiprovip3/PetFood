@@ -51,14 +51,14 @@ public class ProductDaoJpaImpl implements ProductDao{
 	@Override
 	@Transactional
 	public void addProductToCart(Product p, User u) {//int productId, int userId
-		Product product = new Product();
-		product.setProductId(p.getProductId());
-		User user = new User();
-		user.setUserId(u.getUserId());
-		Cart cart = new Cart();
-		cart.setProduct(product);
-		cart.setUser(user);
-		System.out.println("---PRODUCT " + product + "---USER " + user);
+//		Product product = new Product();
+//		product.setProductId(p.getProductId());
+//		User user = new User();
+//		user.setUserId(u.getUserId());
+//		Cart cart = new Cart();
+//		cart.setProduct(p);
+//		cart.setUser(u);
+//		System.out.println("---PRODUCT " + p + "---USER " + u);
 //		entityManager.persist(cart);
 	}
 

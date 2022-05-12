@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4Pet | Product details</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link rel="stylesheet" th:href="@{/css/product-detail.css}">
+</head>
+<body>
+    <div id="header">
+        <div id="iconShop">
+            <img th:src="@{/img/logo.png}" width="10%" class="rounded-circle">
+        </div>
+        <div id="nav">
+            <div id="navsub">
+                <a th:href="@{/client/homepage}">Homepage</a>
+            </div>
+            <div id="navsub">
+                <a th:href="@{/client/shop}">Shop</a>
+            </div>
+            <div id="navsub">
+                <a th:href="@{/client/cart}">Cart</a>
+            </div>
+            <div id="navsub">
+                <a th:href="@{/admin/homepage}">Admin</a>
+            </div>
+            <div id="navsub" th:if="${#request.userPrincipal == null}">
+                <a th:href="@{/common/login}">Login</a>
+            </div>
+            <div id="navsub" th:unless="${#request.userPrincipal == null}">
+                <i class="fas fa-user-check"></i>
+                <div class="text-center">
+                    <p><u><a th:href="@{/client/showUserInfo}" th:utext="${#request.userPrincipal.name}"></a></u></p>
+                    <a th:href="@{/logout}"><u>Sign out</u></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        #content{
+            width: 100%;
+            padding: 8%;
+        }
+        #box{
+            background: rgb(6, 71, 146);
+            padding: 6%;
+        }
+        #product{
+            display: flex;
+            margin: -1%;
+        }
+        #product > div{
+            margin: 10px;
+        }
+        #product-image{
+            background: rgb(241, 241, 233);
+            padding: 10px;
+            text-align: center;
+        }
+        #product-image > img{
+            border-radius: 10px;
+        }
+        #product-info{
+            color: white;
+        }
+        #amount{
+            display: flex;
+        }
+        #amount *{
+            font-size: larger;
+            margin: 8px;
+            padding: 7px;
+            cursor: pointer;
+        }
+        #minus, #plus{
+            background: lightgrey;
+            color: black;
+            font-weight: 900;
+        }
+        #quantity{
+            border-radius: 20px;
+            width: 18%;
+        }
+    </style>
+    <div id="content">
+        <div id="box">
+            <div id="product">
+                <div id="product-image">
+                    <img th:src="@{/img/royal_canin.jpg}" width="99%">
+                </div>
+                <div id="product-info">
+                    <!-- <form th:action="@{/client/addProductToCart}" th:method="post" th:object="${PRODUCT_FORM}"> -->
+                        <!-- <input type="hidden" th:value="${PRODUCT_DATA.productId}" id="productId" name="productId"/>
+                        <input type="hidden" th:value="${PRODUCT_DATA.name}" id="name" name="name"/>
+                        <input type="hidden" th:value="${PRODUCT_DATA.type}" id="type" name="type"/>
+                        <input type="hidden" th:value="${PRODUCT_DATA.description}" id="description" name="description"/>
+                        <input type="hidden" th:value="${PRODUCT_DATA.price}" id="price" name="price"/>
+                        <input type="hidden" th:value="${PRODUCT_DATA.weight}" id="weight" name="weight"/>
+                        <input type="hidden" th:value="${PRODUCT_DATA.quantity}" id="quantity" name="quantity"/>
+                        <input type="hidden" th:value="${PRODUCT_DATA.image}" id="image" name="image"/>
+                        <input type="hidden" th:value="${PRODUCT_DATA.category}" id="category" name="category"/> -->
+                        <h5 th:text="${PRODUCT_DATA.name} + ' #' + ${PRODUCT_DATA.productId}"></h5>
+                        <p>Recommended pet: <b><span th:text="${PRODUCT_DATA.type}"></span></b></p>
+                        <p>Description:</p>
+                        <p><i th:text="'- ' + ${PRODUCT_DATA.description}"></i></p>
+                        <p>Price: <b><span th:text="${PRODUCT_DATA.price} + '$'"></span></b></p>
+                        <p>Weight (gam): <b><span th:text="${PRODUCT_DATA.weight}"></span></b></p>
+                        <p>Quantity left(s): <b><span th:text="${PRODUCT_DATA.quantity}" id="quantity-left"></span></b></p>
+                        <p>Classify: <b><span th:text="${PRODUCT_DATA.category.nameCategory}"></span></b></p>
+                        <div id="amount">
+                            <p id="minus">-</p>
+                            <input type="text" name="" id="quantity" value="1" readonly>
+                            <p id="plus">+</p>
+                        </div>
+                        <a th:href="@{/client/addProductToCart/(productId=${PRODUCT_DATA.productId})}" role="button" class="btn btn-light btn-lg">Add to cart</a>
+                        <!-- <input type="submit" value="Add to cart" class="btn btn-light btn-lg"> -->
+                    <!-- </form> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <script th:src="@{/jQuery/product-detail.js}"></script> -->
+    <script>
+        $(document).ready(function(){
+            $("#plus").click(function(){
+                var quantity = $("#quantity").val();
+                var quantity_left = $("#quantity-left").text();
+                if(quantity < quantity_left){
+                    quantity++;
+                $("#quantity").val(quantity);
+                }
+            });
+            $("#minus").click(function(){
+                var quantity = $("#quantity").val();
+                quantity--;
+                if(quantity > 0)
+                    $("#quantity").val(quantity);
+            });
+        });
+    </script>
+</body>
+</html>

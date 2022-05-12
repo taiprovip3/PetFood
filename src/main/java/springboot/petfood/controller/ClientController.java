@@ -72,7 +72,6 @@ public class ClientController {
 		String type = "ALL";
 		List<Product> products = productDao.findAllProducts(type);
 		model.addAttribute("LIST_PRODUCTS", products);
-		model.addAttribute("PRODUCT_DATA", new Product());
 		return "shop";
 	}
 	
@@ -83,15 +82,25 @@ public class ClientController {
 		return "shop";
 	}
 	
-	@PostMapping("/addProductToCart")
-	public String addProductToCart(@RequestParam("productId") int productId, Principal principal, Model model) {
-		String username = principal.getName();
-		if(username == null)
-			return "/common/login";
-		Product p = productDao.getProductById(productId);
+	@GetMapping("/addProductToCart")
+	public String addProductToCart(@RequestParam("productId") int id, Principal principal, Model model) {
+		Product p = productDao.getProductById(id);
+		String username = null;
+		try {
+			username = principal.getName();
+		} catch (Exception e) {
+			return "redirect:/common/login?error=true";
+		}
 		User u = userDao.findUserAccount(username);
 		productDao.addProductToCart(p, u);
 		return "redirect:/client/shop";
+	}
+	@GetMapping("/products")
+	public String showProductDetail(@RequestParam("productId") int productId, Model model) {
+		Product p = productDao.getProductById(productId);
+		model.addAttribute("PRODUCT_DATA", p);
+		model.addAttribute("PRODUCT_FORM", new Product());
+		return "product-detail";
 	}
 
 	//ShowUserInfo.html

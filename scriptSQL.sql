@@ -72,6 +72,10 @@ insert into products (product_name,product_type,product_description,product_pric
 	values ('Smart Heart','CAT','Strongest label in labor economic buisiness, very heath impact to cats and dogs heart', 222.0, 5.1, 2100,'C://images/smart_heart.png',2);
 insert into products (product_name,product_type,product_description,product_price,product_weight,product_quantity,product_image,category_id)
 	values ('Classic Pets','ALL','Very light and smuff delicious food for both dogs and cats. This was produced in 1988 factory until now!', 159.0, 6.3, 1360,'C://images/classis_pets.png',3);
+insert into products (product_name,product_type,product_description,product_price,product_weight,product_quantity,product_image,category_id)
+	values ('Pedigree','DOG','Pedigree dog food is a brand of Mars corporation (USA). Products include all types of dog food. Pedigree is a ready-to-eat wet food, so it is suitable for small pet dogs such as chihuahuas, foxes, poodles, etc.', 168.0, 5.1, 2390,'C://images/pedigree.png',4);
+insert into products (product_name,product_type,product_description,product_price,product_weight,product_quantity,product_image,category_id)
+	values ('Winner,'CAT','This is a food exclusively for large dogs, especially good for becgie, malinois, pitbull, rottweiler, doberman...', 168.0, 5.1, 2390,'C://images/winner.png',4);
 
 insert into users (user_name,crypted_password,email,first_name,last_name) values
 (N'nano',N'$2a$10$TCnFcIb0ulVx0wRnjuM8E.glduflWD7fmRxXR1gieW/T4xrfoAIWe','nano@gmail.com',N'Client',N'A');
