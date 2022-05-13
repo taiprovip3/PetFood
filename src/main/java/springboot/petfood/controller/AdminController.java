@@ -1,16 +1,153 @@
 package springboot.petfood.controller;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import springboot.petfood.dto.ProductDTO;
+import springboot.petfood.entity.Category;
+import springboot.petfood.entity.Product;
+import springboot.petfood.service.CategoryDao;
+import springboot.petfood.service.ProductDao;
 
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
 	
+	public static String uploadDir = System.getProperty("user.dir") + "/src/main/resources/static/product-img";
+	
+	@Autowired
+    CategoryDao categoryDao;
+
+    @Autowired
+    ProductDao productDao;
+    
 	@GetMapping("/homepage")
 	public String showAdminPage(Model model) {
 		return "admin";
 	}
+	
+	//CATEGORY MAPPING
+	@GetMapping("/categories")
+	public String showCategoryPage(Model model) {
+		model.addAttribute("LIST_CATEGORY", categoryDao.getAllCategory());
+		return "category";
+	}
+	
+	@GetMapping("/categories/add")
+    public String showFormCategoryAdd(Model model){
+        model.addAttribute("CATEGORY_DATA", new Category());
+        return "category-form-add";
+    }
+	
+	@PostMapping("/categories/add")
+    public String addCategory(@ModelAttribute("CATEGORY_DATA") Category category){//Phương thức này gọi hàm merge tự xác định save or update
+        categoryDao.addCategory(category);
+        return "redirect:/admin/categories";
+    }
+	
+	@GetMapping("/categories/delete/{id}")
+    public String deleteCategory(@PathVariable int id){
+        categoryDao.removeCategoryById(id);
+        return "redirect:/admin/categories";
+    }
+	
+	@GetMapping("/categories/update/{id}")
+    public String showFormCategoryUpdate(@PathVariable int id, Model model){
+		Category category = categoryDao.getCategoryById(id);
+		model.addAttribute("CATEGORY_DATA", category);
+		return "category-form-add";
+    }
+	
+	//PRODUCT MAPPING
+	@GetMapping("/products")
+    public String showProductPage(Model model){
+        model.addAttribute("LIST_PRODUCT", productDao.findAllProduct("ALL"));
+        return "product";
+    }
+	
+	@GetMapping("/products/add")
+    public String showFormProductAdd(Model model){
+        model.addAttribute("PRODUCT_DATA", new ProductDTO());
+        model.addAttribute("LIST_CATEGORY", categoryDao.getAllCategory());
+        return "product-form-add";
+    }
+	
+	@PostMapping("/products/add")
+    public String addProduct(@ModelAttribute("PRODUCT_DATA") ProductDTO productDTO,
+                                 @RequestParam("productImage")MultipartFile file,
+                                 @RequestParam("image")String image) throws IOException {
+        Product product = new Product();
+        product.setProductId(productDTO.getProductId());
+        product.setName(productDTO.getName());
+        product.setType(productDTO.getType());
+        product.setDescription(productDTO.getDescription());
+        product.setPrice(productDTO.getPrice());
+        product.setWeight(productDTO.getWeight());
+        product.setQuantity(productDTO.getQuantity());
+        
+        String imageUUID;
+        if(!file.isEmpty()){
+            imageUUID = file.getOriginalFilename();
+            Path fileNameAndPath = Paths.get(uploadDir, imageUUID);
+            Files.write(fileNameAndPath, file.getBytes());
+        }else{
+            imageUUID = image;
+        }
+        product.setImage(imageUUID);
+        product.setCategory(categoryDao.getCategoryById(productDTO.getCategoryId()));
+        productDao.addProduct(product);
+        return "redirect:/admin/products";
+    }
+	
+	@GetMapping("/product/update/{id}")
+    public String showFormProductUpdate(@PathVariable int id, Model model){
+        Product product = productDao.getProductById(id);
+        
+        
+        ProductDTO productDTO = new ProductDTO();
+        productDTO.setProductId(product.getProductId());
+        productDTO.setName(product.getName());
+        productDTO.setType(product.getType());
+        productDTO.setDescription(product.getDescription());
+        productDTO.setPrice(product.getPrice());
+        productDTO.setWeight(product.getWeight());
+        productDTO.setQuantity(product.getQuantity());
+        productDTO.setImage(product.getImage());
+        productDTO.setCategoryId(product.getCategory().getCategoryId());
+        productDTO.setCarts(null);
+  
+
+        model.addAttribute("LIST_CATEGORY", categoryDao.getAllCategory());
+        model.addAttribute("PRODUCT_DATA", productDTO);
+        return "product-form-add";
+    }
+	
+	@GetMapping("/product/delete/{id}")
+    public String deleteProductById(@PathVariable int id){
+		productDao.removeProductById(id);
+        return "redirect:/admin/products";
+    }
+	
+	
+	
+	
+	
+	
+	
+	
 }

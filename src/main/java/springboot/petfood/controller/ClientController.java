@@ -54,14 +54,14 @@ public class ClientController {
 		}
 		model.addAttribute("USER_DATA", username);
 		String type = "ALL";
-		List<Product> products = productDao.findAllProducts(type);
+		List<Product> products = productDao.findAllProduct(type);
 		model.addAttribute("LIST_PRODUCTS", products);
 		return "index";
 	}
 	
 	@GetMapping("/getTypeFoods")
 	public String getTypeFoods(@RequestParam("type") String type, Model model) {
-		List<Product> products = productDao.findAllProducts(type);
+		List<Product> products = productDao.findAllProduct(type);
 		model.addAttribute("LIST_PRODUCTS", products);
 		return "index";
 	}
@@ -70,7 +70,7 @@ public class ClientController {
 	@GetMapping("/shop")
 	public String showShopPage(Model model) {
 		String type = "ALL";
-		List<Product> products = productDao.findAllProducts(type);
+		List<Product> products = productDao.findAllProduct(type);
 		model.addAttribute("LIST_PRODUCTS", products);
 		return "shop";
 	}

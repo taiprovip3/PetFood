@@ -34,7 +34,7 @@ public class ProductDaoJpaImpl implements ProductDao{
 	
 	@Override
 	@Transactional
-	public List<Product> findAllProducts(String type) {
+	public List<Product> findAllProduct(String type) {
 		if(type.equals(" ") || type.equals(null))
 			type = "ALL";
 		if(type.equals("ALL")) {
@@ -71,9 +71,10 @@ public class ProductDaoJpaImpl implements ProductDao{
 	}
 
 	@Override
+	@Transactional
 	public List<Product> filterProduct(String petType, String categoryName) {
 		if(petType.equals("ALL") && categoryName.equals("ALL")) {
-			products = findAllProducts("ALL");
+			products = findAllProduct("ALL");
 		} else {
 			if(petType.equals("ALL") && !categoryName.equals("ALL")) {
 				Query query = entityManager.createNativeQuery("SELECT * FROM products p JOIN categories c ON p.category_id = c.category_id WHERE p.product_type = :petType1 AND c.category_name = :categoryName OR p.product_type = :petType2 AND c.category_name = :categoryName", Product.class);
@@ -95,6 +96,22 @@ public class ProductDaoJpaImpl implements ProductDao{
 			}
 		}
 		return products;
+	}
+
+	@Override
+	@Transactional
+	public void addProduct(Product product) {
+		List<Cart> carts = null;
+		product.setCarts(carts);
+		Product p = entityManager.merge(product);
+	}
+
+	@Override
+	@Transactional
+	public void removeProductById(int productId) {
+		Query query = entityManager.createQuery("delete from Product where productId = :PRODUCT_ID");
+		query.setParameter("PRODUCT_ID", productId);
+		query.executeUpdate();
 	}
 
 }

@@ -1,17 +1,17 @@
 /* Initialize */
-    *{
-        margin: 0;
-        padding: 0;
-    }
-    input, button, textarea{
-        outline: none;
-    }
-    input{
-        text-align:center;
-    }
-    input::placeholder{
-        font-style: italic;
-    }
+*{
+    margin: 0;
+    padding: 0;
+}
+input, button, textarea{
+    outline: none;
+}
+input{
+    text-align:center;
+}
+input::placeholder{
+    font-style: italic;
+}
 /* header css */
     #header{
         background: lightgrey;
@@ -40,7 +40,7 @@
     }
     #navsub a{
         text-decoration: none;
-        color: blue;
+        color: black;
     }
     #item{
         display: none;
@@ -53,7 +53,7 @@
     }
     #navsub:hover{
         cursor: pointer;
-        font-weight: 900;
+        text-decoration: underline;
     }
     #navsub:hover > #item{
         display: flex;
