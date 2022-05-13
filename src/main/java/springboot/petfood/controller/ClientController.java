@@ -52,14 +52,14 @@ public class ClientController {
 		}
 		model.addAttribute("USER_DATA", username);
 		String type = "ALL";
-		List<Product> products = productDao.findAllProducts(type);
+		List<Product> products = productDao.findAllProduct(type);
 		model.addAttribute("LIST_PRODUCTS", products);
 		return "index";
 	}
 	
 	@GetMapping("/getTypeFoods")
 	public String getTypeFoods(@RequestParam("type") String type, Model model) {
-		List<Product> products = productDao.findAllProducts(type);
+		List<Product> products = productDao.findAllProduct(type);
 		model.addAttribute("LIST_PRODUCTS", products);
 		return "index";
 	}
@@ -68,9 +68,8 @@ public class ClientController {
 	@GetMapping("/shop")
 	public String showShopPage(Model model) {
 		String type = "ALL";
-		List<Product> products = productDao.findAllProducts(type);
+		List<Product> products = productDao.findAllProduct(type);
 		model.addAttribute("LIST_PRODUCTS", products);
-		model.addAttribute("PRODUCT_DATA", new Product());
 		return "shop";
 	}
 	
@@ -81,15 +80,34 @@ public class ClientController {
 		return "shop";
 	}
 	
+<<<<<<< HEAD
 	@PostMapping("/addProductToCart")
 	public String addProductToCart(@RequestParam("productId") int productId, @RequestParam("quantity") int quantity, Principal principal, Model model) {
 		String username = principal.getName();
 		if(username == null)
 			return "/common/login";
 		Product p = productDao.getProductById(productId);
+=======
+	@GetMapping("/addProductToCart")
+	public String addProductToCart(@RequestParam("productId") int id, Principal principal, Model model) {
+		Product p = productDao.getProductById(id);
+		String username = null;
+		try {
+			username = principal.getName();
+		} catch (Exception e) {
+			return "redirect:/common/login?error=true";
+		}
+>>>>>>> dca74e53a3de640ffb9b0c53101ef90dcc6f5044
 		User u = userDao.findUserAccount(username);
 		productDao.addProductToCart(p, u, quantity);
 		return "redirect:/client/shop";
+	}
+	@GetMapping("/products")
+	public String showProductDetail(@RequestParam("productId") int productId, Model model) {
+		Product p = productDao.getProductById(productId);
+		model.addAttribute("PRODUCT_DATA", p);
+		model.addAttribute("PRODUCT_FORM", new Product());
+		return "product-detail";
 	}
 
 	@GetMapping("/cart")

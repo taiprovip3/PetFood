@@ -15,11 +15,13 @@
 <body>
     <div id="header">
         <div id="iconShop">
-            <img th:src="@{/img/logo.png}" width="10%" class="rounded-circle">
+            <a th:href="@{/client/homepage}">
+                <img th:src="@{/img/logo.png}" width="10%" class="rounded-circle" style="background: lightgoldenrodyellow;">
+            </a>
         </div>
         <div id="nav" class="text-center">
             <i class="fas fa-user-check"></i>
-            <p><u><a th:href="@{/client/showUserInfo}">nano</a></u></p>
+            <p><u><a th:href="@{/client/showUserInfo}" th:text="${#request.userPrincipal.name}"></a></u></p>
             <a th:href="@{/logout}"><u>Sign out</u></a>
         </div>
     </div>

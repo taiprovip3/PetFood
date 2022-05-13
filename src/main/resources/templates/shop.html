@@ -43,11 +43,6 @@
         </div>
     </div>
     <div id="contentBox">
-
-        <div id="navLocation" class="text-center">
-            <p id="getStarted"><a th:href="@{/client/homepage}">Homepage</a> > Shop <i class="fas fa-street-view" style="color: forestgreen;"></i></p>
-        </div>
-<hr>
         <div id="filter" class="text-center">
             <form th:action="@{/client/filterProduct}" th:method="get">
             <h3>
@@ -70,7 +65,6 @@
                 <div></div>
                 <div></div>
             </div>
-            <br>
             <h3>
                 Select category:
                 <select name="selectCategory" id="selectCategory">
@@ -91,17 +85,16 @@
             </div>
             </form>
         </div>
-<hr>
         <div id="category">
-            <p><u><i>List products:</i></u></p>
+            <p><u><i>LIST PRODUCTS:</i></u></p>
             <div id="resultType">
             <th:block th:each="i : ${LIST_PRODUCTS}">
             	<div id="food">
                     <div id="foodImg" style="padding: 10px;">
                         <img th:src="@{/img/royal_canin.jpg}" width="100%">
                     </div>
-                    <form th:action="@{/client/addProductToCart}" th:method="post" th:object="${PRODUCT_DATA}">
                     <div id="foodDetail">
+<<<<<<< HEAD
                         <input type="text" th:value="${i.productId}" id="productId" name="productId"/>
                         <input type="text" th:value="${i.name}" id="name" name="name"/>
                         <input type="text" th:value="${i.type}" id="type" name="type"/>
@@ -111,12 +104,13 @@
                         <input type="text" id="quantity" name="quantity"/>
                         <input type="text" th:value="${i.image}" id="image" name="image"/>
                         <input type="text" th:value="${i.category}" id="category" name="category"/>
+=======
+>>>>>>> dca74e53a3de640ffb9b0c53101ef90dcc6f5044
                         <h6 th:utext="${i.name}"></h6>
                         <p th:utext="${i.price}"></p>
                         <p th:utext="${i.description}"></p>
                         <div>
-                            <input type="submit" value="Add to cart" class="btn btn-info">
-                            <!-- <input type="button" value="View product" class="btn btn-info"> -->
+                            <a th:href="@{/client/products/(productId=${i.productId})}" role="button" class="btn btn-primary">View product</a>
                         </div>
                     </div>
                     </form>
@@ -124,7 +118,6 @@
 			</th:block>
             </div>
         </div>
-
     </div>
 <script th:src="@{/jQuery/shop.js}"></script>
 </body>

@@ -5,6 +5,7 @@ import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -12,6 +13,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Table(name="products")
@@ -43,8 +47,9 @@ public class Product {
 	@Column(name="product_image")
 	private String image;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="category_id")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Category category;
 	
 	@OneToMany(mappedBy = "product")
@@ -154,9 +159,11 @@ public class Product {
 	@Override
 	public String toString() {
 		return "Product [productId=" + productId + ", name=" + name + ", type=" + type + ", description=" + description
-				+ ", price=" + price + ", weight=" + weight + ", quantity=" + quantity + ", image=" + image + "]";
+				+ ", price=" + price + ", weight=" + weight + ", quantity=" + quantity + ", image=" + image
+				+ ", category=" + category + "]";
 	}
 
+<<<<<<< HEAD
 	@Override
 	public int hashCode() {
 		return Objects.hash(productId);
@@ -173,4 +180,7 @@ public class Product {
 		Product other = (Product) obj;
 		return productId == other.productId;
 	}
+=======
+	
+>>>>>>> dca74e53a3de640ffb9b0c53101ef90dcc6f5044
 }

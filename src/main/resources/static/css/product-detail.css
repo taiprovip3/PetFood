@@ -5,6 +5,7 @@
 }
 input, button, textarea{
     outline: none;
+    border: none;
 }
 input{
     text-align:center;
@@ -18,13 +19,11 @@ input::placeholder{
         display: flex;
         padding: 30px;
     }
-    .currentLocation{
-        padding: 5px;
-        border-radius: 10px;
-        background: darkgrey;
-    }
     #iconShop{
         width: 60%;
+    }
+    #iconShop > img{
+        background: lightyellow;
     }
     #nav{
         width: 40%;
@@ -50,14 +49,4 @@ input::placeholder{
     }
     #subitem{
         width: 100%;
-    }
-    #navsub:hover{
-        cursor: pointer;
-        text-decoration: underline;
-    }
-    #navsub:hover > #item{
-        display: flex;
-    }
-    #subitem:hover{
-        background: grey;
     }
