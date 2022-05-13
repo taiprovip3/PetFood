@@ -1,6 +1,7 @@
 package springboot.petfood.entity;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -132,10 +133,12 @@ public class Product {
 	public Product() {
 	}
 
-	
+	public Product(int productId) {
+		this.productId = productId;
+	}
+
 	public Product(int productId, String name, String type, String description, double price, double weight,
 			int quantity, String image, Category category, List<Cart> carts) {
-		super();
 		this.productId = productId;
 		this.name = name;
 		this.type = type;
@@ -154,4 +157,20 @@ public class Product {
 				+ ", price=" + price + ", weight=" + weight + ", quantity=" + quantity + ", image=" + image + "]";
 	}
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(productId);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Product other = (Product) obj;
+		return productId == other.productId;
+	}
 }

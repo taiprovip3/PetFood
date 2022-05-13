@@ -2,8 +2,6 @@ package springboot.petfood.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
@@ -14,7 +12,6 @@ import javax.persistence.ManyToOne;
 public class Cart {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="cart_id")
 	private int cartId;
 
@@ -27,6 +24,25 @@ public class Cart {
 	@ManyToOne
 	@JoinColumn(name="user_id")
 	private User user;
+	
+	private int quantity;
+	private double price;
+	
+	public int getQuantity() {
+		return quantity;
+	}
+
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
 
 	public int getCartId() {
 		return cartId;
@@ -55,14 +71,17 @@ public class Cart {
 	public Cart() {
 	}
 
-	public Cart(int cartId, Product product, User user) {
+	public Cart(int cartId, Product product, User user, int quantity) {
 		this.cartId = cartId;
 		this.product = product;
 		this.user = user;
+		this.quantity = quantity;
+		this.price = product.getPrice()*quantity;
 	}
 
 	@Override
 	public String toString() {
-		return "Cart [cartId=" + cartId + ", product=" + product + ", user=" + user + "]";
+		return "Cart [cartId=" + cartId + ", product=" + product + ", user=" + user + ", quantity=" + quantity
+				+ ", price=" + price + "]";
 	}
 }

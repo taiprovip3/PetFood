@@ -33,6 +33,9 @@ public class User {
 	@Column(name="last_name")
 	private String lastName;
 
+	@OneToMany(mappedBy = "user")
+	private List<Cart> carts;
+	
 	public int getUserId() {
 		return userId;
 	}
@@ -81,25 +84,35 @@ public class User {
 		this.lastName = lastName;
 	}
 
-	public User() {
-		super();
+	public List<Cart> getCarts() {
+		return carts;
 	}
 
-	public User(int userId, String username, String password, String email, String firstName, String lastName) {
-		super();
+	public void setCarts(List<Cart> carts) {
+		this.carts = carts;
+	}
+	
+	public User() {
+	}
+
+	public User(int userId) {
+		this.userId = userId;
+	}
+
+	public User(int userId, String username, String password, String email, String firstName, String lastName,
+			List<Cart> carts) {
 		this.userId = userId;
 		this.username = username;
 		this.password = password;
 		this.email = email;
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.carts = carts;
 	}
 
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", email=" + email
-				+ ", firstName=" + firstName + ", lastName=" + lastName + "]";
+				+ ", firstName=" + firstName + ", lastName=" + lastName + ", carts=" + carts + "]";
 	}
-	
-	
 }

@@ -12,9 +12,33 @@ public class CartPK implements Serializable{
 	private int product;
 	private int user;
 	
-	public CartPK() {
+	public int getCartId() {
+		return cartId;
 	}
 
+	public void setCartId(int cartId) {
+		this.cartId = cartId;
+	}
+
+	public int getProduct() {
+		return product;
+	}
+
+	public void setProduct(int product) {
+		this.product = product;
+	}
+
+	public int getUser() {
+		return user;
+	}
+
+	public void setUser(int user) {
+		this.user = user;
+	}
+
+	public CartPK() {
+	}
+	
 	public CartPK(int cartId, int product, int user) {
 		this.cartId = cartId;
 		this.product = product;
