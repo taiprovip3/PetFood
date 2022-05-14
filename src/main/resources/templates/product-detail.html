@@ -38,23 +38,9 @@
         #product-info{
             color: white;
         }
-        #amount{
-            display: flex;
-        }
-        #amount *{
-            font-size: larger;
-            margin: 8px;
-            padding: 7px;
-            cursor: pointer;
-        }
-        #minus, #plus{
-            background: lightgrey;
-            color: black;
-            font-weight: 900;
-        }
         #quantity{
-            border-radius: 20px;
-            width: 18%;
+            padding: 8px;
+            border-radius: 15px;
         }
     </style>
 </head>
@@ -93,7 +79,11 @@
         <div id="box">
             <div id="product">
                 <div id="product-image">
+<<<<<<< HEAD
                     <img th:src="${PRODUCT_DATA.image}" width="99%">
+=======
+                    <img th:src="${'/product-img/' + PRODUCT_DATA.image}" width="99%">
+>>>>>>> ffadcf35dcc459fae72f1303702ae83bd31f5013
                 </div>
                 <div id="product-info">
                 	<form th:action="@{/client/addProductToCart}" th:method="post">
@@ -103,8 +93,9 @@
                         <p><i th:text="'- ' + ${PRODUCT_DATA.description}"></i></p>
                         <p>Price: <b><span th:text="${PRODUCT_DATA.price} + '$'"></span></b></p>
                         <p>Weight (gam): <b><span th:text="${PRODUCT_DATA.weight}"></span></b></p>
-                        <p>Quantity left(s): <b><span th:text="${PRODUCT_DATA.quantity}" id="quantity-left"></span></b></p>
+                        <p>Quantity left(s): <b><span th:text="${PRODUCT_DATA.quantity}"></span></b></p>
                         <p>Classify: <b><span th:text="${PRODUCT_DATA.category.nameCategory}"></span></b></p>
+<<<<<<< HEAD
                        	<div id="amount">
 							<p id="minus">-</p>
 							<input type="hidden" name="productId" th:value="${PRODUCT_DATA.productId}">
@@ -113,10 +104,17 @@
                        	</div>
                        	<input type="submit" value="Add to cart" class="btn btn-success">
                      </form>
+=======
+                        <input type="number" value="1" id="quantity"><br><br>
+                        <a th:href="@{/client/addProductToCart/(productId=${PRODUCT_DATA.productId})}" role="button" class="btn btn-light btn-lg">Add to cart</a>
+                        <!-- <input type="submit" value="Add to cart" class="btn btn-light btn-lg"> -->
+                    <!-- </form> -->
+>>>>>>> ffadcf35dcc459fae72f1303702ae83bd31f5013
                 </div>
             </div>
         </div>
     </div>
+<<<<<<< HEAD
 
     <script>
         $(document).ready(function(){
@@ -136,5 +134,7 @@
             });
         });
     </script>
+=======
+>>>>>>> ffadcf35dcc459fae72f1303702ae83bd31f5013
 </body>
 </html>

@@ -23,7 +23,7 @@ import springboot.petfood.service.CartDao;
 import springboot.petfood.service.ProductDao;
 import springboot.petfood.service.UserDao;
 import springboot.petfood.util.GetUserDetailService;
-import springboot.petfood.util.UserInfoUtil;
+import springboot.petfood.util.UserRolesBuilderUtil;
 
 @Controller
 @RequestMapping("/client")
@@ -114,8 +114,10 @@ public class ClientController {
 	@GetMapping("/showUserInfo")
 	public String showUserInfo(Model model, Principal principal) {
 		org.springframework.security.core.userdetails.User loggedUser = GetUserDetailService.getUserDetails(principal);//Lấy UserDetails của user đang logged
-		String userInfo = UserInfoUtil.toString(loggedUser);//Truyền vào đối tượng UserDetail trả về thuộc tính đã build
-		model.addAttribute("USER_INFO", userInfo);
+		String userRoles = UserRolesBuilderUtil.toString(loggedUser);//Truyền vào đối tượng UserDetail trả về thuộc tính đã build
+		model.addAttribute("USER_ROLES", userRoles);
+		String username = loggedUser.getUsername();
+		model.addAttribute("USER_DATA", userDao.findUserAccount(username));
 		return "showUserInfo";
 	}
 

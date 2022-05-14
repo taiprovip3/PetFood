@@ -12,9 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
-import springboot.petfood.entity.Role;
-import springboot.petfood.entity.User;
-import springboot.petfood.entity.UserRole;
+import springboot.petfood.entity.*;
 import springboot.petfood.service.UserDao;
 import springboot.petfood.util.BcryptPasswordEncoderUtil;
 
@@ -22,12 +20,34 @@ import springboot.petfood.util.BcryptPasswordEncoderUtil;
 public class UserDaoJpaImpl implements UserDao{
 
 	private EntityManager entityManager;
+	private List<User> users;
+
 	
 	@Autowired
 	public UserDaoJpaImpl(EntityManager entityManager) {
 		this.entityManager = entityManager;
 	}
-	
+
+
+	@Override
+	public List<User> getAllUser() {
+		Query query = entityManager.createQuery("from User");
+		List<User> users = query.getResultList();
+		return users;
+	}
+
+	@Override
+	public List<User> findAllUser(String username) {
+		return null;
+	}
+
+	@Override
+	@Transactional
+	public User getUserById(int id) {
+		User u = entityManager.find(User.class, id);
+		return null;
+	}
+
 	@Transactional
 	public User findUserAccount(String username) {
         try {
@@ -42,12 +62,14 @@ public class UserDaoJpaImpl implements UserDao{
 	@Transactional
 	public void saveUser(User u) {
 	
-		String encryptedPassword = BcryptPasswordEncoderUtil.encryptPassword(u.getPassword());
-		u.setPassword(encryptedPassword);
-		
+		//Khởi tạo role default
 		Role role = new Role();
 		role.setRoleId(1);
 		role.setNameRole("MEMBER");
+		
+		String encryptedPassword = BcryptPasswordEncoderUtil.encryptPassword(u.getPassword());
+		u.setPassword(encryptedPassword);	
+		u.setRole(role);
 		
 		UserRole userRole = new UserRole();
 		userRole.setUser(u);
@@ -56,4 +78,6 @@ public class UserDaoJpaImpl implements UserDao{
 		entityManager.persist(u);
 		entityManager.persist(userRole);
 	}
+
+
 }
