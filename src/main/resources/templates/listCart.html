@@ -12,6 +12,14 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 	<link rel="stylesheet" th:href="@{/css/shop.css}">
+	<style>
+			table{
+				background-color: lightgray;
+			}
+			table input{
+				border-radius: 20px;
+			}
+		</style>
 </head>
 
 <body>
@@ -47,14 +55,6 @@
 		</div>
 	</div>
 	<div class="container-fluid">
-		<style>
-			table{
-				background-color: lightgray;
-			}
-			table input{
-				border-radius: 20px;
-			}
-		</style>
 		<br>
 		<table class="table">
 			<thead class="thead-light">
@@ -75,15 +75,9 @@
 					<td th:text="${cart.price} + '$'"></td>
 					<td>
 						<form th:action="@{/client/cart/update}" th:method="post">
-<<<<<<< HEAD
-							<input type="hidden" name="productId" th:value="${i.product.productId}">
-							<input type="text" th:value="${i.quantity}" id="quantity" name="quantity" />
-							<input style="margin-left: 20%; margin-top: 10px" type="submit" value="Update" class="btn btn-outline-warning">
-=======
 							<input type="hidden" name="productId" th:value="${cart.product.productId}">
-							<input type="number" th:value="${cart.quantity}" id="quantity" name="quantity" readonly />
-							<input style="margin-left: 20%; margin-top: 10px" type="submit" value="Update" class="btn btn-outline-success">
->>>>>>> 02128c86413739f18bcdf23d47524d4cc6160be8
+							<input type="number" th:value="${cart.quantity}" id="quantity" name="quantity"/>
+							<input style="margin-left: 20%; margin-top: 10px" type="submit" value="Update" class="btn btn-outline-warning">
 						</form>
 					</td>
 					<td>
