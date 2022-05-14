@@ -49,9 +49,9 @@
         <div id="contentPage">
             <h1>Page content</h1>
             <ul>
-                <li id="scr-intro">Introduction <i class="fas fa-check-square"></i></li>
-                <li id="scr-getstarted">Choose your pet food <i class="fas fa-check-square"></i></li>
-                <li id="scr-contact">Contact / support <i class="fas fa-check-square"></i></li>
+                <li id="scr-intro">Introduction</li>
+                <li id="scr-getstarted">Choose your pet food</li>
+                <li id="scr-contact">Contact / support</li>
             </ul>
         </div>
         <div id="content">
@@ -67,7 +67,7 @@
             <h3>
                 Choose your pet type:
                 <select id="selectPetType" disabled>
-                    <option value="ALL" selected>All</option>
+                    <option value="ALL" selected>Dog & Cat</option>
                     <option value="DOG">Dog</option>
                     <option value="CAT">Cat</option>
                 </select>
@@ -90,15 +90,15 @@
             <p><u><i>Products recommended for new:</i></u></p>
             <div id="resultType">
             
-            <th:block th:each="i: ${LIST_PRODUCTS}">
+            <th:block th:each="product : ${LIST_PRODUCTS}">
             	<div id="food">
                     <div id="foodImg" style="padding: 10px;">
-                        <img th:src="${i.image}" width="100%">
+                        <img th:src="${'/product-img/' + product.image}" width="100%">
                     </div>
                     <div id="foodDetail">
-                        <h6>[(${i.name})]</h6>
-                        <p>[(${i.price})]$</p>
-                        <p>- [(${i.description})]</p>
+                        <h6>[(${product.name})]</h6>
+                        <p>[(${product.price})]$</p>
+                        <p>- [(${product.description})]</p>
                         <input type="button" value="View product" class="btn btn-info">
                     </div>
                 </div>

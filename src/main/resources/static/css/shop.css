@@ -38,7 +38,8 @@ input::placeholder{
     }
     #navsub a{
         text-decoration: none;
-        color: black;
+        color: #000080;
+        font-weight: bold;
     }
     #item{
         display: none;
