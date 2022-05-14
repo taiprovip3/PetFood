@@ -91,21 +91,9 @@
             <th:block th:each="i : ${LIST_PRODUCTS}">
             	<div id="food">
                     <div id="foodImg" style="padding: 10px;">
-                        <img th:src="@{/img/royal_canin.jpg}" width="100%">
+                        <img th:src="${i.image}" width="100%">
                     </div>
                     <div id="foodDetail">
-<<<<<<< HEAD
-                        <input type="text" th:value="${i.productId}" id="productId" name="productId"/>
-                        <input type="text" th:value="${i.name}" id="name" name="name"/>
-                        <input type="text" th:value="${i.type}" id="type" name="type"/>
-                        <input type="text" th:value="${i.description}" id="description" name="description"/>
-                        <input type="text" th:value="${i.price}" id="price" name="price"/>
-                        <input type="text" th:value="${i.weight}" id="weight" name="weight"/>
-                        <input type="text" id="quantity" name="quantity"/>
-                        <input type="text" th:value="${i.image}" id="image" name="image"/>
-                        <input type="text" th:value="${i.category}" id="category" name="category"/>
-=======
->>>>>>> dca74e53a3de640ffb9b0c53101ef90dcc6f5044
                         <h6 th:utext="${i.name}"></h6>
                         <p th:utext="${i.price}"></p>
                         <p th:utext="${i.description}"></p>

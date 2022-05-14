@@ -162,25 +162,4 @@ public class Product {
 				+ ", price=" + price + ", weight=" + weight + ", quantity=" + quantity + ", image=" + image
 				+ ", category=" + category + "]";
 	}
-
-<<<<<<< HEAD
-	@Override
-	public int hashCode() {
-		return Objects.hash(productId);
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Product other = (Product) obj;
-		return productId == other.productId;
-	}
-=======
-	
->>>>>>> dca74e53a3de640ffb9b0c53101ef90dcc6f5044
 }

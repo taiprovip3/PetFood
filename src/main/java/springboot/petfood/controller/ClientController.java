@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -52,14 +53,14 @@ public class ClientController {
 		}
 		model.addAttribute("USER_DATA", username);
 		String type = "ALL";
-		List<Product> products = productDao.findAllProduct(type);
+		List<Product> products = productDao.findAllProducts(type);
 		model.addAttribute("LIST_PRODUCTS", products);
 		return "index";
 	}
 	
 	@GetMapping("/getTypeFoods")
 	public String getTypeFoods(@RequestParam("type") String type, Model model) {
-		List<Product> products = productDao.findAllProduct(type);
+		List<Product> products = productDao.findAllProducts(type);
 		model.addAttribute("LIST_PRODUCTS", products);
 		return "index";
 	}
@@ -68,7 +69,7 @@ public class ClientController {
 	@GetMapping("/shop")
 	public String showShopPage(Model model) {
 		String type = "ALL";
-		List<Product> products = productDao.findAllProduct(type);
+		List<Product> products = productDao.findAllProducts(type);
 		model.addAttribute("LIST_PRODUCTS", products);
 		return "shop";
 	}
@@ -80,24 +81,12 @@ public class ClientController {
 		return "shop";
 	}
 	
-<<<<<<< HEAD
 	@PostMapping("/addProductToCart")
 	public String addProductToCart(@RequestParam("productId") int productId, @RequestParam("quantity") int quantity, Principal principal, Model model) {
 		String username = principal.getName();
 		if(username == null)
 			return "/common/login";
 		Product p = productDao.getProductById(productId);
-=======
-	@GetMapping("/addProductToCart")
-	public String addProductToCart(@RequestParam("productId") int id, Principal principal, Model model) {
-		Product p = productDao.getProductById(id);
-		String username = null;
-		try {
-			username = principal.getName();
-		} catch (Exception e) {
-			return "redirect:/common/login?error=true";
-		}
->>>>>>> dca74e53a3de640ffb9b0c53101ef90dcc6f5044
 		User u = userDao.findUserAccount(username);
 		productDao.addProductToCart(p, u, quantity);
 		return "redirect:/client/shop";
@@ -130,4 +119,24 @@ public class ClientController {
 		return "showUserInfo";
 	}
 
+	@GetMapping("/cart/delete")
+	public String deleteCart(@RequestParam("productId") int productId, Principal principal){
+		String username = principal.getName();
+		if(username == null)
+			return "/common/login";
+		User user = userDao.findUserAccount(username);
+		cartDao.deleteCart(productId, user.getUserId());
+		return "redirect:/client/cart";
+	}
+
+	@PostMapping("/cart/update")
+	public String updateCart(@RequestParam("productId") int productId, @RequestParam("quantity") int quantity, Principal principal){
+		String username = principal.getName();
+		if(username == null)
+			return "/common/login";
+		User user = userDao.findUserAccount(username);
+		Product product = productDao.getProductById(productId);
+		cartDao.updateCart(product, user, quantity);
+		return "redirect:/client/cart";
+	}
 }

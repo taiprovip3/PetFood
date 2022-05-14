@@ -76,7 +76,7 @@ public class AdminController {
 	//PRODUCT MAPPING
 	@GetMapping("/products")
     public String showProductPage(Model model){
-        model.addAttribute("LIST_PRODUCT", productDao.findAllProduct("ALL"));
+        model.addAttribute("LIST_PRODUCT", productDao.findAllProducts("ALL"));
         return "product";
     }
 	

@@ -34,7 +34,7 @@ public class ProductDaoJpaImpl implements ProductDao{
 	
 	@Override
 	@Transactional
-	public List<Product> findAllProduct(String type) {
+	public List<Product> findAllProducts(String type) {
 		if(type.equals(" ") || type.equals(null))
 			type = "ALL";
 		if(type.equals("ALL")) {
@@ -50,22 +50,9 @@ public class ProductDaoJpaImpl implements ProductDao{
 
 	@Override
 	@Transactional
-<<<<<<< HEAD
 	public void addProductToCart(Product p, User u, int quantity) {
-		Cart cart = new Cart(u.getUserId(), new Product(p.getProductId()), new User(u.getUserId()), quantity);
+		Cart cart = new Cart(u.getUserId(), p, u, quantity);
 		entityManager.persist(cart);
-=======
-	public void addProductToCart(Product p, User u) {//int productId, int userId
-//		Product product = new Product();
-//		product.setProductId(p.getProductId());
-//		User user = new User();
-//		user.setUserId(u.getUserId());
-//		Cart cart = new Cart();
-//		cart.setProduct(p);
-//		cart.setUser(u);
-//		System.out.println("---PRODUCT " + p + "---USER " + u);
-//		entityManager.persist(cart);
->>>>>>> dca74e53a3de640ffb9b0c53101ef90dcc6f5044
 	}
 
 	@Override
@@ -80,7 +67,7 @@ public class ProductDaoJpaImpl implements ProductDao{
 	@Transactional
 	public List<Product> filterProduct(String petType, String categoryName) {
 		if(petType.equals("ALL") && categoryName.equals("ALL")) {
-			products = findAllProduct("ALL");
+			products = findAllProducts("ALL");
 		} else {
 			if(petType.equals("ALL") && !categoryName.equals("ALL")) {
 				Query query = entityManager.createNativeQuery("SELECT * FROM products p JOIN categories c ON p.category_id = c.category_id WHERE p.product_type = :petType1 AND c.category_name = :categoryName OR p.product_type = :petType2 AND c.category_name = :categoryName", Product.class);
