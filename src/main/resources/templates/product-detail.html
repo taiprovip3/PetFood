@@ -40,7 +40,7 @@
         }
         #quantity{
             padding: 8px;
-            border-radius: 15px;
+            border-radius: 20px;
         }
     </style>
 </head>
@@ -79,7 +79,7 @@
         <div id="box">
             <div id="product">
                 <div id="product-image">
-                    <img th:src="${PRODUCT_DATA.image}" width="99%">
+                    <img th:src="${'/product-img/' + PRODUCT_DATA.image}" width="99%">
                 </div>
                 <div id="product-info">
                 	<form th:action="@{/client/addProductToCart}" th:method="post">
@@ -92,35 +92,15 @@
                         <p>Quantity left(s): <b><span th:text="${PRODUCT_DATA.quantity}"></span></b></p>
                         <p>Classify: <b><span th:text="${PRODUCT_DATA.category.nameCategory}"></span></b></p>
                        	<div id="amount">
-							<p id="minus">-</p>
 							<input type="hidden" name="productId" th:value="${PRODUCT_DATA.productId}">
-                           	<input type="text" name="quantity" id="quantity" value="1" readonly>
-                           	<p id="plus">+</p>
+                           	<input type="number" name="quantity" id="quantity" value="1">
                        	</div>
-                       	<input type="submit" value="Add to cart" class="btn btn-success">
+                       	<br>
+                       	<input type="submit" value="Add to cart" class="btn btn-light btn-lg">
                      </form>
                 </div>
             </div>
         </div>
     </div>
-
-    <script>
-        $(document).ready(function(){
-            $("#plus").click(function(){
-                var quantity = $("#quantity").val();
-                var quantity_left = $("#quantity-left").text();
-                if(quantity < quantity_left){
-                    quantity++;
-                $("#quantity").val(quantity);
-                }
-            });
-            $("#minus").click(function(){
-                var quantity = $("#quantity").val();
-                quantity--;
-                if(quantity > 0)
-                    $("#quantity").val(quantity);
-            });
-        });
-    </script>
 </body>
 </html>
