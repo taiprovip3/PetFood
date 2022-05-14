@@ -1,14 +1,11 @@
 package springboot.petfood.entity;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
@@ -32,6 +29,19 @@ public class User {
 	
 	@Column(name="last_name")
 	private String lastName;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="role_id")
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	private Role role;
+
+	public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
 
 	public int getUserId() {
 		return userId;
@@ -81,9 +91,7 @@ public class User {
 		this.lastName = lastName;
 	}
 
-	public User() {
-		super();
-	}
+	public User() {	}
 
 	public User(int userId, String username, String password, String email, String firstName, String lastName) {
 		super();

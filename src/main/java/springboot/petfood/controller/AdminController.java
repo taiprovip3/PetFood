@@ -19,10 +19,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import springboot.petfood.dto.ProductDTO;
+import springboot.petfood.dto.UserDTO;
 import springboot.petfood.entity.Category;
 import springboot.petfood.entity.Product;
 import springboot.petfood.service.CategoryDao;
 import springboot.petfood.service.ProductDao;
+import springboot.petfood.service.UserDao;
 
 @Controller
 @RequestMapping("/admin")
@@ -35,6 +37,9 @@ public class AdminController {
 
     @Autowired
     ProductDao productDao;
+
+    @Autowired
+    UserDao userDao;
     
 	@GetMapping("/homepage")
 	public String showAdminPage(Model model) {
@@ -72,7 +77,7 @@ public class AdminController {
 		model.addAttribute("CATEGORY_DATA", category);
 		return "category-form-add";
     }
-	
+
 	//PRODUCT MAPPING
 	@GetMapping("/products")
     public String showProductPage(Model model){
@@ -142,12 +147,20 @@ public class AdminController {
 		productDao.removeProductById(id);
         return "redirect:/admin/products";
     }
-	
-	
-	
-	
-	
-	
-	
-	
+
+
+    //USER MAPPING
+    @GetMapping("/users")
+    public String showUserPage(Model model){
+        model.addAttribute("LIST_USER", userDao.getAllUser());
+        System.out.println(userDao.getAllUser());
+        return "User";
+    }
+
+    @GetMapping("/users/add")
+    public String showFormUserAdd(Model model){
+        model.addAttribute("USER_DATA", new UserDTO());
+
+        return "user-form-add";
+    }
 }
