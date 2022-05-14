@@ -31,7 +31,9 @@
     }
 </style>
 <body>
-
+<div class="alert alert-danger" th:if="${#request.getParameter('logged') == 'false'}">
+  <strong>Failed!</strong> Please login to use.
+</div>
 
 
 

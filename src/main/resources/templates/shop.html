@@ -48,7 +48,7 @@
             <h3>
                 Choose your pet type:
                 <select name="selectPetType" id="selectPetType">
-                    <option value="ALL" selected>All</option>
+                    <option value="ALL" selected>Dog & Cat</option>
                     <option value="DOG">Dog</option>
                     <option value="CAT">Cat</option>
                 </select>
@@ -81,7 +81,7 @@
                 <img th:src="@{/img/category_all.png}" width="50%">
             </div>
             <div class="text-right">
-                <input type="submit" value="Filter" class="btn btn-primary btn-lg text-center" style="margin: 1%;">
+                <input type="submit" value="Filter" class="btn btn-primary btn-lg text-center" style="margin: 1%; width: 12%;">
             </div>
             </form>
         </div>
@@ -91,14 +91,17 @@
             <th:block th:each="i : ${LIST_PRODUCTS}">
             	<div id="food">
                     <div id="foodImg" style="padding: 10px;">
-                        <img th:src="${i.image}" width="100%">
+                        <img th:src="${'/product-img/' + i.image}" width="100%">
                     </div>
                     <div id="foodDetail">
                         <h6 th:utext="${i.name}"></h6>
-                        <p th:utext="${i.price}"></p>
+                        <p th:utext="${i.price} + '$'"></p>
                         <p th:utext="${i.description}"></p>
-                        <div>
+                        <div th:if="${#request.userPrincipal != null}">
                             <a th:href="@{/client/products/(productId=${i.productId})}" role="button" class="btn btn-primary">View product</a>
+                        </div>
+                        <div th:if="${#request.userPrincipal == null}">
+                            <a th:href="@{/common/login?logged=false}" role="button" class="btn btn-primary">View product</a>
                         </div>
                     </div>
                 </div>
