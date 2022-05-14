@@ -31,7 +31,7 @@ public class UserDaoJpaImpl implements UserDao{
 
 	@Override
 	public List<User> getAllUser() {
-		Query query = entityManager.createQuery("from UserDTO");
+		Query query = entityManager.createQuery("from User");
 		List<User> users = query.getResultList();
 		return users;
 	}
@@ -62,12 +62,14 @@ public class UserDaoJpaImpl implements UserDao{
 	@Transactional
 	public void saveUser(User u) {
 	
-		String encryptedPassword = BcryptPasswordEncoderUtil.encryptPassword(u.getPassword());
-		u.setPassword(encryptedPassword);
-		
+		//Khởi tạo role default
 		Role role = new Role();
 		role.setRoleId(1);
 		role.setNameRole("MEMBER");
+		
+		String encryptedPassword = BcryptPasswordEncoderUtil.encryptPassword(u.getPassword());
+		u.setPassword(encryptedPassword);	
+		u.setRole(role);
 		
 		UserRole userRole = new UserRole();
 		userRole.setUser(u);

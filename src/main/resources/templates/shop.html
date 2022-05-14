@@ -91,7 +91,7 @@
             <th:block th:each="i : ${LIST_PRODUCTS}">
             	<div id="food">
                     <div id="foodImg" style="padding: 10px;">
-                        <img th:src="@{/img/royal_canin.jpg}" width="100%">
+                        <img th:src="${'/product-img/' + i.image}" width="100%">
                     </div>
                     <div id="foodDetail">
                         <h6 th:utext="${i.name}"></h6>

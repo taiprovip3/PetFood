@@ -43,9 +43,27 @@
             </div>
         </div>
     </div>
-    <h1 style="display: inline;">User Infomation Page</h1> <h5 style="display: inline-block;"> | This page required login to be seen!</h5>
-    <hr>
-    <p>Welcome back, <b><span th:utext="${#request.userPrincipal.name}"></span></b>!</p>
-    <p>Your current roles: <b th:if="${USER_INFO != null}" th:utext="${USER_INFO}"></b></p>
+    <style>
+        #title h1{
+            font-weight: bold;
+        }
+        #profile{
+            font-size: large;
+            padding: 10px;
+        }
+        #profile b{
+            color: blue;
+        }
+    </style>
+    <div id="title" class="jumbotron text-center">
+        <h1>USER INFOMATION PAGE</h1>
+        <h5>This page required login to be seen!</h5>
+    </div>
+    <div id="profile">
+        <p><i class="fas fa-user-alt"></i> Welcome back, <b><span th:utext="${#request.userPrincipal.name}"></span></b>!</p>
+        <p><i class="fas fa-user-tag"></i> Your roles: <b th:if="${USER_ROLES != null}" th:utext="${USER_ROLES}"></b></p>
+        <p><i class="fas fa-file-signature"></i> Full name: <b th:text="${USER_DATA.firstName + ' ' + USER_DATA.lastName}"></b></p>
+        <p><i class="fas fa-envelope"></i> Email: <b th:text="${USER_DATA.email}"></b></p>
+    </div>
 </body>
 </html>

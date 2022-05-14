@@ -123,7 +123,6 @@ public class AdminController {
     public String showFormProductUpdate(@PathVariable int id, Model model){
         Product product = productDao.getProductById(id);
         
-        
         ProductDTO productDTO = new ProductDTO();
         productDTO.setProductId(product.getProductId());
         productDTO.setName(product.getName());
