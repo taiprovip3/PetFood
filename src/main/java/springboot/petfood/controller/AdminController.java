@@ -142,7 +142,7 @@ public class AdminController {
         return "product-form-add";
     }
 	
-	@GetMapping("/product/delete/{id}")
+	@GetMapping("/products/delete/{id}")
     public String deleteProductById(@PathVariable int id){
 		productDao.removeProductById(id);
         return "redirect:/admin/products";
