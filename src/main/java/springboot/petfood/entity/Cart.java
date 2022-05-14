@@ -79,13 +79,6 @@ public class Cart {
 		this.price = product.getPrice()*quantity;
 	}
 
-	public Cart(Product product, User user, int quantity) {
-		this.product = product;
-		this.user = user;
-		this.quantity = quantity;
-		this.price = product.getPrice()*quantity;
-	}
-
 	@Override
 	public String toString() {
 		return "Cart [cartId=" + cartId + ", product=" + product + ", user=" + user + ", quantity=" + quantity

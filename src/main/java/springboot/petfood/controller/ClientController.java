@@ -1,7 +1,6 @@
 package springboot.petfood.controller;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -45,7 +42,6 @@ public class ClientController {
 	public String showHomepage(Model model) {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String username = null;
-		User user = new User();
 		if (principal instanceof UserDetails) {
 		    username = ((UserDetails) principal).getUsername();
 		} else {
@@ -101,11 +97,16 @@ public class ClientController {
 
 	@GetMapping("/cart")
 	public String showListCart(Model model, Principal principal) {
+		double total=0;
 		String username = principal.getName();
 		if(username == null)
 			return "/common/login";
 		User user = userDao.findUserAccount(username);
 		List<Cart> carts=cartDao.getCarts(user.getUserId());
+		if(carts!=null)
+			for (Cart cart : carts)
+				total+=cart.getPrice();
+		model.addAttribute("TOTAL", total);
 		model.addAttribute("LIST_CART", carts);
 		return "listCart";
 	}

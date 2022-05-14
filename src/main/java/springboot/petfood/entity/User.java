@@ -34,6 +34,17 @@ public class User {
 	@JoinColumn(name="role_id")
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Role role;
+	
+	@OneToMany(mappedBy = "user")
+	private List<Cart> carts;
+
+	public List<Cart> getCarts() {
+		return carts;
+	}
+
+	public void setCarts(List<Cart> carts) {
+		this.carts = carts;
+	}
 
 	public Role getRole() {
 		return role;
@@ -106,9 +117,21 @@ public class User {
 		this.lastName = lastName;
 	}
 
+	public User(int userId, String username, String password, String email, String firstName, String lastName,
+			Role role, List<Cart> carts) {
+		this.userId = userId;
+		this.username = username;
+		this.password = password;
+		this.email = email;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.role = role;
+		this.carts = carts;
+	}
+
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", email=" + email
-				+ ", firstName=" + firstName + ", lastName=" + lastName + "]";
+				+ ", firstName=" + firstName + ", lastName=" + lastName + ", role=" + role + ", carts=" + carts + "]";
 	}
 }

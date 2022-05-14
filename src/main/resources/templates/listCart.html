@@ -68,7 +68,7 @@
 						<form th:action="@{/client/cart/update}" th:method="post">
 							<input type="hidden" name="productId" th:value="${i.product.productId}">
 							<input type="text" th:value="${i.quantity}" id="quantity" name="quantity" />
-							<input style="margin-left: 20%; margin-top: 10px" type="submit" value="Update" class="btn btn-outline-success">
+							<input style="margin-left: 20%; margin-top: 10px" type="submit" value="Update" class="btn btn-outline-warning">
 						</form>
 					</td>
 					<td>
@@ -81,8 +81,8 @@
 				</tr>
 			</tbody>
 		</table>
-		<label>Total:</label>
-		<button type="button" class="btn btn-outline-success">Buy</button>
+		<label>Total: <label th:text="${TOTAL}"></label></label>
+		<button style="margin-left: 10px" type="button" class="btn btn-outline-success">Buy</button>
 	</div>
 
 </body>
