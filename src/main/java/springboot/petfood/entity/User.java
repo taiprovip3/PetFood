@@ -3,8 +3,6 @@ package springboot.petfood.entity;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import java.util.List;
-
 import javax.persistence.*;
 
 @Entity
@@ -34,7 +32,7 @@ public class User {
 	@JoinColumn(name="role_id")
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Role role;
-
+	
 	public Role getRole() {
 		return role;
 	}
@@ -109,6 +107,6 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", email=" + email
-				+ ", firstName=" + firstName + ", lastName=" + lastName + "]";
+				+ ", firstName=" + firstName + ", lastName=" + lastName + ", role=" + role + "]";
 	}
 }

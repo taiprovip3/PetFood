@@ -12,6 +12,14 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 	<link rel="stylesheet" th:href="@{/css/shop.css}">
+	<style>
+			table{
+				background-color: lightgray;
+			}
+			table input{
+				border-radius: 20px;
+			}
+		</style>
 </head>
 
 <body>
@@ -47,14 +55,6 @@
 		</div>
 	</div>
 	<div class="container-fluid">
-		<style>
-			table{
-				background-color: lightgray;
-			}
-			table input{
-				border-radius: 20px;
-			}
-		</style>
 		<br>
 		<table class="table">
 			<thead class="thead-light">
@@ -63,7 +63,7 @@
 					<th scope="col">Product Name</th>
 					<th scope="col">Price</th>
 					<th scope="col">Quantity</th>
-					<th scope="col"></th>
+					<th scope="col">Action</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -76,22 +76,22 @@
 					<td>
 						<form th:action="@{/client/cart/update}" th:method="post">
 							<input type="hidden" name="productId" th:value="${cart.product.productId}">
-							<input type="number" th:value="${cart.quantity}" id="quantity" name="quantity" readonly />
-							<input style="margin-left: 20%; margin-top: 10px" type="submit" value="Update" class="btn btn-outline-success">
-						</form>
+							<input type="number" th:value="${cart.quantity}" id="quantity" name="quantity"/>
 					</td>
 					<td>
+						<input type="submit" value="Update" class="btn btn-outline-warning">
 						<a th:href="@{/client/cart/delete/(productId=${cart.product.productId})}"
 							class="btn btn-outline-danger"
 							onclick="if(!(confirm('Are you sure you want to delete this product?'))) return false">
 								Delete
 						</a>
+						</form>
 					</td>
 				</tr>
 			</tbody>
 		</table>
-		<label>Total:</label>
-		<button type="button" class="btn btn-outline-success">Buy</button>
+		<label>Total: <label th:text="${TOTAL}"></label></label>
+		<button style="margin-left: 10px" type="button" class="btn btn-outline-success">Buy</button>
 	</div>
 
 </body>
