@@ -22,6 +22,9 @@ public class Role {
 	@Column(name="role_name")
 	private String nameRole;
 
+	@OneToMany(mappedBy = "role")
+	private List<User> users;
+
 	public int getRoleId() {
 		return roleId;
 	}

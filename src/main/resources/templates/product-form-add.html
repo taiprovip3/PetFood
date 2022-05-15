@@ -59,7 +59,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="category">Select Category</label>
+                    <label for="categoryId">Select Category</label>
                     <select class="form-control" th:field="*{categoryId}" id="categoryId" name="categoryId">
                         <option th:each="category : ${LIST_CATEGORY}"
                                 th:value="${category.categoryId}"

@@ -37,7 +37,10 @@ public class CommonController {
 	
 	@PostMapping("/register")
 	public String registerUser(@ModelAttribute("USER_DATA") User user, Model model) {
-		userDaoJpaImpl.saveUser(user);
+		Role role = new Role();
+		role.setRoleId(1);
+		role.setNameRole("MEMBER");
+		userDaoJpaImpl.saveUser(user,role);
 		System.out.println("Register success user :: "+user);
 		return "login";
 	}
