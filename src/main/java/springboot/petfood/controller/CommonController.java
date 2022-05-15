@@ -25,14 +25,14 @@ public class CommonController {
 	
 	@GetMapping("/login")
 	public String showLoginPage() {
-		return "login";
+		return "common/login";
 	}
 	
 	@GetMapping("/register")
 	public String showRegisterPage(Model model) {
 		User user = new User();
 		model.addAttribute("USER_DATA", user);
-		return "register";
+		return "common/register";
 	}
 	
 	@PostMapping("/register")
@@ -42,11 +42,11 @@ public class CommonController {
 		role.setNameRole("MEMBER");
 		userDaoJpaImpl.saveUser(user,role);
 		System.out.println("Register success user :: "+user);
-		return "login";
+		return "common/login";
 	}
 	
 	@GetMapping("/403")
 	public String showAccessDeniedPage() {
-		return "access-denied";
+		return "common/access-denied";
 	}
 }

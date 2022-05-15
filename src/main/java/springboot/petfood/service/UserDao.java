@@ -14,5 +14,6 @@ public interface UserDao {
 	public void removeUserById(int userId);
 	public User findUserAccount(String username);
 	public void saveUser(User u, Role r);
+	public String getUserPasswordById(int id);
 
 }

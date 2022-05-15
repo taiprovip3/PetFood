@@ -19,6 +19,7 @@ import springboot.petfood.entity.User;
 import springboot.petfood.service.CartDao;
 import springboot.petfood.service.ProductDao;
 import springboot.petfood.service.UserDao;
+import springboot.petfood.util.GetUserBalanceUtil;
 import springboot.petfood.util.GetUserDetailService;
 import springboot.petfood.util.UserRolesBuilderUtil;
 
@@ -40,45 +41,49 @@ public class ClientController {
 	//Index.html
 	@GetMapping("/homepage")
 	public String showHomepage(Model model) {
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		String username = null;
-		if (principal instanceof UserDetails) {
-		    username = ((UserDetails) principal).getUsername();
-		} else {
-			username = principal.toString();
-		}
-		model.addAttribute("USER_DATA", username);
+//		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//		if (principal instanceof UserDetails) {
+//		    username = ((UserDetails) principal).getUsername();
+//		} else {
+//			username = principal.toString();
+//		}
+//		model.addAttribute("USER_DATA", username);
 		String type = "ALL";
 		List<Product> products = productDao.findAllProducts(type);
-		model.addAttribute("LIST_PRODUCTS", products);
-		return "index";
+		model.addAttribute("LIST_PRODUCT", products);
+		return "client/index";
 	}
 	
 	@GetMapping("/getTypeFoods")
 	public String getTypeFoods(@RequestParam("type") String type, Model model) {
 		List<Product> products = productDao.findAllProducts(type);
-		model.addAttribute("LIST_PRODUCTS", products);
-		return "index";
+		model.addAttribute("LIST_PRODUCT", products);
+		
+		return "client/index";
 	}
 	
 	//Shop.html
 	@GetMapping("/shop")
-	public String showShopPage(Model model) {
+	public String showShopPage(Model model, Principal principal) {
+		double balance = GetUserBalanceUtil.getUserBalance(principal, userDao);
+		model.addAttribute("USER_BALANCE", balance);
 		String type = "ALL";
 		List<Product> products = productDao.findAllProducts(type);
-		model.addAttribute("LIST_PRODUCTS", products);
-		return "shop";
+		model.addAttribute("LIST_PRODUCT", products);
+		return "client/shop";
 	}
 	
 	@GetMapping("/filterProduct")
-	public String filterProduct(@RequestParam("selectPetType") String petType, @RequestParam("selectCategory") String categoryName, Model model) {
+	public String filterProduct(@RequestParam("selectPetType") String petType, @RequestParam("selectCategory") String categoryName, Model model, Principal principal) {
+		double balance = GetUserBalanceUtil.getUserBalance(principal, userDao);
+		model.addAttribute("USER_BALANCE", balance);
 		List<Product> products = productDao.filterProduct(petType, categoryName);
-		model.addAttribute("LIST_PRODUCTS", products);
-		return "shop";
+		model.addAttribute("LIST_PRODUCT", products);
+		return "client/shop";
 	}
 	
 	@PostMapping("/addProductToCart")
-	public String addProductToCart(@RequestParam("productId") int productId, @RequestParam("quantity") int quantity, Principal principal, Model model) {
+	public String addProductToCart(@RequestParam("productId") int productId, @RequestParam("quantity") int quantity, Principal principal) {
 		String username = principal.getName();
 		if(username == null)
 			return "/common/login";
@@ -87,16 +92,33 @@ public class ClientController {
 		productDao.addProductToCart(p, u, quantity);
 		return "redirect:/client/shop";
 	}
+	
 	@GetMapping("/products")
-	public String showProductDetail(@RequestParam("productId") int productId, Model model) {
+	public String showProductDetail(@RequestParam("productId") int productId, Model model, Principal principal) {
+		double balance = GetUserBalanceUtil.getUserBalance(principal, userDao);
+		model.addAttribute("USER_BALANCE", balance);
 		Product p = productDao.getProductById(productId);
 		model.addAttribute("PRODUCT_DATA", p);
 		model.addAttribute("PRODUCT_FORM", new Product());
-		return "product-detail";
+		return "client/product-detail";
+	}
+	
+	//user-info
+	@GetMapping("/user-info")
+	public String showUserInfo(Model model, Principal principal) {
+		org.springframework.security.core.userdetails.User loggedUser = GetUserDetailService.getUserDetails(principal);//Lấy UserDetails của user đang logged
+		String userRoles = UserRolesBuilderUtil.toString(loggedUser);//Truyền vào đối tượng UserDetail trả về thuộc tính đã build
+		model.addAttribute("USER_ROLES", userRoles);
+		String username = loggedUser.getUsername();
+		model.addAttribute("USER_DATA", userDao.findUserAccount(username));
+		return "client/user-info";
 	}
 
+	//CART MAPPING
 	@GetMapping("/cart")
 	public String showListCart(Model model, Principal principal) {
+		double balance = GetUserBalanceUtil.getUserBalance(principal, userDao);
+		model.addAttribute("USER_BALANCE", balance);
 		double total=0;
 		String username = principal.getName();
 		if(username == null)
@@ -108,20 +130,9 @@ public class ClientController {
 				total+=cart.getPrice();
 		model.addAttribute("TOTAL", total);
 		model.addAttribute("LIST_CART", carts);
-		return "listCart";
+		return "client/cart";
 	}
 	
-	//ShowUserInfo.html
-	@GetMapping("/showUserInfo")
-	public String showUserInfo(Model model, Principal principal) {
-		org.springframework.security.core.userdetails.User loggedUser = GetUserDetailService.getUserDetails(principal);//Lấy UserDetails của user đang logged
-		String userRoles = UserRolesBuilderUtil.toString(loggedUser);//Truyền vào đối tượng UserDetail trả về thuộc tính đã build
-		model.addAttribute("USER_ROLES", userRoles);
-		String username = loggedUser.getUsername();
-		model.addAttribute("USER_DATA", userDao.findUserAccount(username));
-		return "showUserInfo";
-	}
-
 	@GetMapping("/cart/delete")
 	public String deleteCart(@RequestParam("productId") int productId, Principal principal){
 		String username = principal.getName();

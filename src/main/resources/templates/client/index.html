@@ -37,7 +37,7 @@
             <div id="navsub" th:unless="${#request.userPrincipal == null}">
                 <i class="fas fa-user-check"></i>
                 <div class="text-center">
-                    <p><u><a th:href="@{/client/showUserInfo}" th:utext="${USER_DATA}"></a></u></p>
+                    <p><u><a th:href="@{/client/user-info}" th:utext="${#request.userPrincipal.name}"></a></u></p>
                     <a th:href="@{/logout}"><u>Sign out</u></a>
                 </div>
             </div>
@@ -90,7 +90,7 @@
             <p><u><i>Products recommended for new:</i></u></p>
             <div id="resultType">
             
-            <th:block th:each="product : ${LIST_PRODUCTS}">
+            <th:block th:each="product : ${LIST_PRODUCT}">
             	<div id="food">
                     <div id="foodImg" style="padding: 10px;">
                         <img th:src="${'/product-img/' + product.image}" width="100%">
@@ -99,7 +99,8 @@
                         <h6>[(${product.name})]</h6>
                         <p>[(${product.price})]$</p>
                         <p>- [(${product.description})]</p>
-                        <input type="button" value="View product" class="btn btn-info">
+                        <a th:if="${#request.userPrincipal == null}" th:href="@{/common/login?logged=false}" role="button" class="btn btn-info">View product</a>
+                        <a th:if="${#request.userPrincipal != null}" th:href="@{/client/products/(productId=${product.productId})}" role="button" class="btn btn-primary">View product</a>
                     </div>
                 </div>
 			</th:block>

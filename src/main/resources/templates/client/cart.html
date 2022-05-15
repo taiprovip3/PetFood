@@ -12,16 +12,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 	<link rel="stylesheet" th:href="@{/css/shop.css}">
-	<style>
-			table{
-				background-color: lightgray;
-			}
-			table input{
-				border-radius: 20px;
-			}
-		</style>
 </head>
-
 <body>
 	<div id="header">
 		<div id="iconShop">
@@ -54,10 +45,13 @@
 			</div>
 		</div>
 	</div>
+	<div class="text-center">
+		<p class="text-primary">Your balance is: <br><b><u th:text="${USER_BALANCE} + '$'" class="text-info"></u></b></p>
+	</div>
 	<div class="container-fluid">
 		<br>
 		<table class="table">
-			<thead class="thead-light">
+			<thead class="table table-bordered">
 				<tr>
 					<th scope="col">Image</th>
 					<th scope="col">Product Name</th>
@@ -69,20 +63,20 @@
 			<tbody>
 				<tr th:each="cart : ${LIST_CART}">
 					<td>
-						<img th:src="${'/product-img/' + cart.product.image}" width="30%">
+						<img th:src="${'/product-img/' + cart.product.image}" width="15%" style="border: 1px solid grey; border-radius: 15px;">
 					</td>
 					<td th:text="${cart.product.name}"></td>
 					<td th:text="${cart.price} + '$'"></td>
 					<td>
 						<form th:action="@{/client/cart/update}" th:method="post">
 							<input type="hidden" name="productId" th:value="${cart.product.productId}">
-							<input type="number" th:value="${cart.quantity}" id="quantity" name="quantity"/>
+							<input type="number" th:value="${cart.quantity}" id="quantity" name="quantity" style="border-radius: 20px; width: 100%;"/>
 					</td>
-					<td>
-						<input type="submit" value="Update" class="btn btn-outline-warning">
+					<td style="display: flex;">
+						<input type="submit" value="Update" class="btn btn-outline-warning btn-lg">
 						<a th:href="@{/client/cart/delete/(productId=${cart.product.productId})}"
-							class="btn btn-outline-danger"
-							onclick="if(!(confirm('Are you sure you want to delete this product?'))) return false">
+							class="btn btn-danger btn-lg"
+							onclick="if(!(confirm('Are you sure you want to delete this product?'))) return false" role="button">
 								Delete
 						</a>
 						</form>

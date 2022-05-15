@@ -50,3 +50,34 @@ input::placeholder{
     #subitem{
         width: 100%;
     }
+/* content css */
+	#content{
+        width: 100%;
+        padding: 6%;
+    }
+    #box{
+        background: #004080;
+        padding: 3.5%;
+    }
+    #product{
+        display: flex;
+        margin: -3%;
+    }
+    #product > div{
+        margin: 10px;
+    }
+    #product-image{
+        background: rgb(241, 241, 233);
+        padding: 10px;
+        text-align: center;
+    }
+    #product-image > img{
+        border-radius: 10px;
+    }
+    #product-info{
+        color: white;
+    }
+    #quantity{
+        padding: 8px;
+        border-radius: 20px;
+    }
