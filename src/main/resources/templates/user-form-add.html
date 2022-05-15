@@ -39,15 +39,15 @@
   </div>
 </nav>
 <div class="container">
-  <h3>Add a new User</h3>
+  <h3>Add/Update a new User</h3>
   <form th:action="@{/admin/users/add}" method="post" th:object="${USER_DATA}" enctype="multipart/form-data">
     <div class="row">
       <div class="col-sm-5">
 
-        <input type="hidden" name="userId" th:field="*{userId}">
+        <input type="hidden" name="userId" id="userId" th:field="*{userId}">
         <div class="form-group">
           <label for="name">User Name</label>
-          <input type="text" class="form-control" required th:field="*{username}" name="name" id="name"
+          <input type="text" class="form-control" required th:field="*{username}" name="username" id="username"
                  placeholder="Enter user name">
         </div>
         <div class="input-group mb-3">

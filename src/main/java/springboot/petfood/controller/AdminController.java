@@ -177,16 +177,19 @@ public class AdminController {
 
     @PostMapping("/users/add")
     public String addProduct(@ModelAttribute("USER_DATA") UserDTO userDTO) {
-        User user = new User();
-        user.setUserId(userDTO.getUserId());
-        user.setUsername(userDTO.getUsername());
-        user.setFirstName(userDTO.getFirstName());
-        user.setLastName(userDTO.getLastName());
-        user.setPassword(userDTO.getPassword());
-        user.setEmail(userDTO.getEmail());
+    	
+    	User user = new User();
+    	user.setUserId(userDTO.getUserId());
+    	user.setUsername(userDTO.getUsername());
+    	user.setPassword(userDTO.getPassword());
+    	user.setEmail(userDTO.getEmail());
+	    user.setFirstName(userDTO.getFirstName());
+	    user.setLastName(userDTO.getLastName());
 
-        Role role = roleDao.getRoleById(userDTO.getRoleId());
-        userDao.saveUser(user, role);
+	    Role role = roleDao.getRoleById(userDTO.getRoleId());
+	    
+	    userDao.saveUser(user, role);
+ 
         return "redirect:/admin/users";
     }
 
@@ -196,21 +199,19 @@ public class AdminController {
         return "redirect:/admin/users";
     }
 
-
-    //ĐOạn này bị lỗi
     @GetMapping("/users/update")
     public String showFormUserUpdate(@RequestParam("id") int id, Model model) {
+    	
         User user = userDao.getUserById(id);
 
         UserDTO userDTO = new UserDTO();
-        userDTO.setUserId(id);
+        userDTO.setUserId(user.getUserId());
         userDTO.setUsername(user.getUsername());
         userDTO.setFirstName(user.getFirstName());
         userDTO.setLastName(user.getLastName());
         userDTO.setPassword(user.getPassword());
         userDTO.setEmail(user.getEmail());
         userDTO.setRoleId(user.getRole().getRoleId());
-
 
         model.addAttribute("USER_DATA", userDTO);
         model.addAttribute("LIST_ROLE", roleDao.getAllRole());

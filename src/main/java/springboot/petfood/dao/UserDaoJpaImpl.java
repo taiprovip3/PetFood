@@ -70,10 +70,6 @@ public class UserDaoJpaImpl implements UserDao{
 	@Transactional
 	public void saveUser(User u, Role r) {
 
-		//Khởi tạo role default
-
-
-
 		String encryptedPassword = BcryptPasswordEncoderUtil.encryptPassword(u.getPassword());
 		u.setPassword(encryptedPassword);
 		u.setRole(r);
@@ -82,7 +78,12 @@ public class UserDaoJpaImpl implements UserDao{
 		userRole.setUser(u);
 		userRole.setRole(r);
 
-		entityManager.persist(u);
+		if(u.getUserId() == 0) {
+			entityManager.persist(u);
+		} else {
+			entityManager.merge(u);
+		}
+		
 		entityManager.persist(userRole);
 	}
 

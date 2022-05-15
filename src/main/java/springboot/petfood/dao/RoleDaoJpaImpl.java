@@ -40,7 +40,7 @@ public class RoleDaoJpaImpl implements RoleDao {
 
 	@Override
 	public Role getRoleById(int id) {
-		Role r = entityManager.find(Role.class, id);
-		return r;
+		Role role = entityManager.find(Role.class, id);
+		return role;
 	}
 }
