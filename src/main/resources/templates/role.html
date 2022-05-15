@@ -38,33 +38,25 @@
 </nav>
 <div class="container">
 
-    <a th:href="@{/admin/users/add}" style="margin: 20px 0" class="btn btn-primary">Add User</a>
+    <a th:href="@{/admin/roles/add}" style="margin: 20px 0" class="btn btn-primary">Add role</a>
     <table class="table">
         <thead class="thead-light">
         <tr>
             <th scope="col">SN</th>
-            <th scope="col">Username</th>
-            <th scope="col">Password</th>
-            <th scope="col">Email</th>
-            <th scope="col">First Name</th>
-            <th scope="col">Last Name</th>
-            <th scope="col">Role</th>
+            <th scope="col">UserRole</th>
+            <th scope="col">RoleID</th>
             <th scope="col">Delete</th>
             <th scope="col">Update</th>
         </tr>
         </thead>
         <tbody>
 
-        <tr th:each="user, iStat : ${LIST_USER}">
+        <tr th:each="role, iStat : ${LIST_ROLE}">
             <th scope="row" th:text="${iStat.index + 1}">1</th>
-            <td th:text="${user.username}">Susan</td>
-            <td>Bcrypted</td>
-            <td th:text="${user.email}">Larry@gmail.com</td>
-            <td th:text="${user.firstName}">Larry</td>
-            <td th:text="${user.lastName}">Susan</td>
-            <td th:text="${user.role.nameRole}">Susan</td>
-            <td><a href="" th:href="@{/admin/users/delete/{id}(id=${user.userId})}" class="btn btn-danger">Delete</a></td>
-            <td><a href="" th:href="@{/admin/users/update(id=${user.userId})}" class="btn btn-warning">Edit</a></td>
+            <td th:text="${role.nameRole}">Susan</td>
+            <td th:text="${role.roleId}">Larry@gmail.com</td>
+            <td><a href="" th:href="@{/admin/roles/delete/{id}(id=${role.roleId})}" class="btn btn-danger">Delete</a></td>
+            <td><a href="" th:href="@{/admin/roless/update/{id}(id=${role.roleId})}" class="btn btn-warning">Edit</a></td>
 
         </tr>
 
