@@ -63,7 +63,7 @@
 					<th scope="col">Product Name</th>
 					<th scope="col">Price</th>
 					<th scope="col">Quantity</th>
-					<th scope="col"></th>
+					<th scope="col">Action</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -77,15 +77,15 @@
 						<form th:action="@{/client/cart/update}" th:method="post">
 							<input type="hidden" name="productId" th:value="${cart.product.productId}">
 							<input type="number" th:value="${cart.quantity}" id="quantity" name="quantity"/>
-							<input style="margin-left: 20%; margin-top: 10px" type="submit" value="Update" class="btn btn-outline-warning">
-						</form>
 					</td>
 					<td>
+						<input type="submit" value="Update" class="btn btn-outline-warning">
 						<a th:href="@{/client/cart/delete/(productId=${cart.product.productId})}"
 							class="btn btn-outline-danger"
 							onclick="if(!(confirm('Are you sure you want to delete this product?'))) return false">
 								Delete
 						</a>
+						</form>
 					</td>
 				</tr>
 			</tbody>
