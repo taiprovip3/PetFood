@@ -45,7 +45,15 @@ public class UserDaoJpaImpl implements UserDao{
 	@Transactional
 	public User getUserById(int id) {
 		User u = entityManager.find(User.class, id);
-		return null;
+		return u;
+	}
+
+	@Override
+	@Transactional
+	public void removeUserById(int userId) {
+		Query query = entityManager.createQuery("delete from User where userId = :USER_ID");
+		query.setParameter("USER_ID", userId);
+		query.executeUpdate();
 	}
 
 	@Transactional
@@ -60,21 +68,20 @@ public class UserDaoJpaImpl implements UserDao{
     }
 	
 	@Transactional
-	public void saveUser(User u) {
-	
+	public void saveUser(User u, Role r) {
+
 		//Khởi tạo role default
-		Role role = new Role();
-		role.setRoleId(1);
-		role.setNameRole("MEMBER");
-		
+
+
+
 		String encryptedPassword = BcryptPasswordEncoderUtil.encryptPassword(u.getPassword());
-		u.setPassword(encryptedPassword);	
-		u.setRole(role);
-		
+		u.setPassword(encryptedPassword);
+		u.setRole(r);
+
 		UserRole userRole = new UserRole();
 		userRole.setUser(u);
-		userRole.setRole(role);
-		
+		userRole.setRole(r);
+
 		entityManager.persist(u);
 		entityManager.persist(userRole);
 	}

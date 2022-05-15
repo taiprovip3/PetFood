@@ -1,5 +1,4 @@
 ﻿
-
 use master;
 go
 create database petfood;

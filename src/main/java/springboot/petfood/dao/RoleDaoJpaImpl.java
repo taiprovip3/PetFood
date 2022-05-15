@@ -9,10 +9,13 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import springboot.petfood.entity.Product;
 import springboot.petfood.entity.Role;
+import springboot.petfood.entity.User;
+import springboot.petfood.service.RoleDao;
 
 @Repository
-public class RoleDaoJpaImpl {
+public class RoleDaoJpaImpl implements RoleDao {
 	
 	private EntityManager entityManager;
 	
@@ -27,4 +30,17 @@ public class RoleDaoJpaImpl {
 		query.setParameter("USER_ID", userId);
 		return query.getResultList();
     }
+
+	@Override
+	public List<Role> getAllRole() {
+		Query query = entityManager.createQuery("from Role");
+		List<Role> roles = query.getResultList();
+		return roles;
+	}
+
+	@Override
+	public Role getRoleById(int id) {
+		Role r = entityManager.find(Role.class, id);
+		return r;
+	}
 }
