@@ -21,7 +21,7 @@
         </div>
         <div id="nav" class="text-center">
             <i class="fas fa-user-check"></i>
-            <p><u><a th:href="@{/client/showUserInfo}" th:text="${#request.userPrincipal.name}"></a></u></p>
+            <p><u><a th:href="@{/client/user-info}" th:text="${#request.userPrincipal.name}"></a></u></p>
             <a th:href="@{/logout}"><u>Sign out</u></a>
         </div>
     </div>

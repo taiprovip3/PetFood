@@ -26,6 +26,13 @@ public class CartDaoJpaImpl implements CartDao{
 
 	@Override
 	@Transactional
+	public List<Cart> getAllCart() {
+		Query query = entityManager.createQuery("from Cart");
+		return query.getResultList();
+	}
+	
+	@Override
+	@Transactional
 	public List<Cart> getCarts(int userId) {
 		Query query = entityManager.createNativeQuery("SELECT * FROM cart WHERE user_id= :userId", Cart.class);
 		query.setParameter("userId", userId);
@@ -33,6 +40,7 @@ public class CartDaoJpaImpl implements CartDao{
 		return carts;
 	}
 
+//	Lỗi chỗ này
 	@Override
 	@Transactional
 	public void updateCart(Product product, User user, int quantity) {

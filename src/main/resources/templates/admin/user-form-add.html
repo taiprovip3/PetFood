@@ -58,11 +58,20 @@
           <input type="text" class="form-control" placeholder="Last Name"  required th:field="*{lastName}" name="lastName" id="lastName" >
         </div>
         <div class="form-group">
-          <label for="password">Your password</label>
-          <input type="password" class="form-control" required th:field="*{password}" name="password" id="password"
+          <label for="password">Your password <i class="text-danger">(leave empty to:</i>
+          	<br>
+          	<i class=text-danger>- Set default password is '123123az' for ADD action</i>
+          	<br>
+          	<i class=text-danger>- Keep non-change old password for UPDATE action)</i>
+          </label>
+          <input type="password" class="form-control" th:field="*{password}" name="password" id="password"
                  placeholder="Enter your password">
         </div>
-
+        <div class="form-group">
+          <label for="balance">Balance ($)</label>
+          <input type="number" step="any" class="form-control" required th:field="*{balance}" name="balance" id="balance"
+                 placeholder="Enter balance ($)">
+        </div>
         <div class="form-group">
           <label for="email">Email</label>
           <input type="email" class="form-control" required th:field="*{email}" name="email" id="email"

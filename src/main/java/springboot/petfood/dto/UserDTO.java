@@ -10,6 +10,7 @@ public class UserDTO {
     private String email;
     private String firstName;
     private String lastName;
+    private double balance;
     private int roleId;
 
     public int getUserId() {
@@ -60,7 +61,15 @@ public class UserDTO {
         this.lastName = lastName;
     }
 
-    public int getRoleId() {
+    public double getBalance() {
+		return balance;
+	}
+
+	public void setBalance(double balance) {
+		this.balance = balance;
+	}
+
+	public int getRoleId() {
         return roleId;
     }
 
@@ -71,7 +80,7 @@ public class UserDTO {
 	@Override
 	public String toString() {
 		return "UserDTO [userId=" + userId + ", username=" + username + ", password=" + password + ", email=" + email
-				+ ", firstName=" + firstName + ", lastName=" + lastName + ", roleId=" + roleId + "]";
+				+ ", firstName=" + firstName + ", lastName=" + lastName + ", balance=" + balance + ", roleId=" + roleId
+				+ "]";
 	}
-    
 }

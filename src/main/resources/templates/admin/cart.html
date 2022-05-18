@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <title>4Pet | Manager Cart</title>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" >
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">
+                <img th:src="@{/img/logo.png}"  src="../static/img/logo.png" width="auto" height="70" class="d-inline-block align-top" alt=""/>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+    
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto"></ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" th:href="@{/admin/homepage}" href="#">admin-home</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" th:href="@{/logout}" href="#">logout</a>
+                    </li>
+    
+                </ul>
+    
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid p-3 my-3 bg-primary text-white text-center">
+        <h1>MANAGER CART</h1>
+    </div>
+    <div class="container-fluid">
+        <a th:href="@{/admin/carts/formAdd}" style="margin: 20px 0" class="btn btn-primary">Add Cart</a>
+        <table class="table">
+            <thead class="thead-light">
+            <tr>
+                <th scope="col">Cart Id</th>
+                <th scope="col">Belong to</th>
+                <th scope="col">Product name</th>
+                <th scope="col">Image</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Total Price</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr th:each="cart : ${LIST_CART}">
+                <td th:text="${cart.cartId}"></td>
+                <td th:text="${cart.user.username}"></td>
+                <td th:text="${cart.product.name}"></td>
+                <td><img th:src="${'/product-img/' + cart.product.image}" alt="image product" width="64px"></td>
+                <td th:text="${cart.quantity}"></td>
+                <td th:text="${cart.price}"></td>
+                <td><a href="" th:href="@{/admin/carts/delete(id=${cart.cartId})}" class="btn btn-danger">Delete</a></td>
+                <td><a href="" th:href="@{/admin/users/update(id=${cart.cartId})}" class="btn btn-warning">Update</a></td>
+    
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

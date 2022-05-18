@@ -36,11 +36,15 @@
             <div id="navsub" th:unless="${#request.userPrincipal == null}">
                 <i class="fas fa-user-check"></i>
                 <div class="text-center">
-                    <p><u><a th:href="@{/client/showUserInfo}" th:utext="${#request.userPrincipal.name}"></a></u></p>
+                    <p><u><a th:href="@{/client/user-info}" th:utext="${#request.userPrincipal.name}"></a></u></p>
                     <a th:href="@{/logout}"><u>Sign out</u></a>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="jumbotron text-center">
+        <h1>Your Balance:</h1>
+        <p><u th:text="${USER_BALANCE} + '$'"></u></p>
     </div>
     <div id="contentBox">
         <div id="filter" class="text-center">
@@ -88,17 +92,17 @@
         <div id="category">
             <p><u><i>LIST PRODUCTS:</i></u></p>
             <div id="resultType">
-            <th:block th:each="i : ${LIST_PRODUCTS}">
+            <th:block th:each="product : ${LIST_PRODUCT}">
             	<div id="food">
                     <div id="foodImg" style="padding: 10px;">
-                        <img th:src="${'/product-img/' + i.image}" width="100%">
+                        <img th:src="${'/product-img/' + product.image}" width="100%">
                     </div>
                     <div id="foodDetail">
-                        <h6 th:utext="${i.name}"></h6>
-                        <p th:utext="${i.price} + '$'"></p>
-                        <p th:utext="${i.description}"></p>
+                        <h6 th:utext="${product.name}"></h6>
+                        <p th:utext="${product.price} + '$'"></p>
+                        <p th:utext="${product.description}"></p>
                         <div th:if="${#request.userPrincipal != null}">
-                            <a th:href="@{/client/products/(productId=${i.productId})}" role="button" class="btn btn-primary">View product</a>
+                            <a th:href="@{/client/products/(productId=${product.productId})}" role="button" class="btn btn-primary">View product</a>
                         </div>
                         <div th:if="${#request.userPrincipal == null}">
                             <a th:href="@{/common/login?logged=false}" role="button" class="btn btn-primary">View product</a>

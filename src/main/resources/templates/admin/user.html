@@ -48,6 +48,7 @@
             <th scope="col">Email</th>
             <th scope="col">First Name</th>
             <th scope="col">Last Name</th>
+            <th scope="col">Balance</th>
             <th scope="col">Role</th>
             <th scope="col">Delete</th>
             <th scope="col">Update</th>
@@ -62,6 +63,7 @@
             <td th:text="${user.email}">Larry@gmail.com</td>
             <td th:text="${user.firstName}">Larry</td>
             <td th:text="${user.lastName}">Susan</td>
+            <td th:text="${user.balance} + '$'">Susan</td>
             <td th:text="${user.role.nameRole}">Susan</td>
             <td><a href="" th:href="@{/admin/users/delete/{id}(id=${user.userId})}" class="btn btn-danger">Delete</a></td>
             <td><a href="" th:href="@{/admin/users/update(id=${user.userId})}" class="btn btn-warning">Edit</a></td>

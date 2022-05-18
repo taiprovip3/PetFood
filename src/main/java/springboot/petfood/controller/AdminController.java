@@ -18,12 +18,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import springboot.petfood.dto.CartDTO;
 import springboot.petfood.dto.ProductDTO;
 import springboot.petfood.dto.UserDTO;
+import springboot.petfood.entity.Cart;
 import springboot.petfood.entity.Category;
 import springboot.petfood.entity.Product;
 import springboot.petfood.entity.Role;
 import springboot.petfood.entity.User;
+import springboot.petfood.service.CartDao;
 import springboot.petfood.service.CategoryDao;
 import springboot.petfood.service.ProductDao;
 import springboot.petfood.service.RoleDao;
@@ -46,27 +49,30 @@ public class AdminController {
 
     @Autowired
     RoleDao roleDao;
+    
+    @Autowired
+    CartDao cartDao;
 
     @GetMapping("/homepage")
     public String showAdminPage(Model model) {
-        return "admin";
+        return "admin/index.html";
     }
 
     //CATEGORY MAPPING
     @GetMapping("/categories")
     public String showCategoryPage(Model model) {
         model.addAttribute("LIST_CATEGORY", categoryDao.getAllCategory());
-        return "category";
+        return "admin/category";
     }
 
     @GetMapping("/categories/add")
     public String showFormCategoryAdd(Model model) {
         model.addAttribute("CATEGORY_DATA", new Category());
-        return "category-form-add";
+        return "admin/category-form-add";
     }
 
     @PostMapping("/categories/add")
-    public String addCategory(@ModelAttribute("CATEGORY_DATA") Category category) {//Phương thức này gọi hàm merge tự xác định save or update
+    public String addCategory(@ModelAttribute("CATEGORY_DATA") Category category) {
         categoryDao.addCategory(category);
         return "redirect:/admin/categories";
     }
@@ -81,14 +87,14 @@ public class AdminController {
     public String showFormCategoryUpdate(@PathVariable int id, Model model) {
         Category category = categoryDao.getCategoryById(id);
         model.addAttribute("CATEGORY_DATA", category);
-        return "category-form-add";
+        return "admin/category-form-add";
     }
 
     //PRODUCT MAPPING
     @GetMapping("/products")
     public String showProductPage(Model model) {
         model.addAttribute("LIST_PRODUCT", productDao.findAllProducts("ALL"));
-        return "product";
+        return "admin/product";
     }
 
     @GetMapping("/products/add")
@@ -144,7 +150,7 @@ public class AdminController {
 
         model.addAttribute("LIST_CATEGORY", categoryDao.getAllCategory());
         model.addAttribute("PRODUCT_DATA", productDTO);
-        return "product-form-add";
+        return "admin/product-form-add";
     }
 
     @GetMapping("/products/delete/{id}")
@@ -157,22 +163,21 @@ public class AdminController {
     @GetMapping("/roles")
     public String showRolePage(Model model) {
         model.addAttribute("LIST_ROLE", roleDao.getAllRole());
-        return "role";
+        return "admin/role";
     }
 
     //USER MAPPING
     @GetMapping("/users")
     public String showUserPage(Model model) {
         model.addAttribute("LIST_USER", userDao.getAllUser());
-//        System.out.println(userDao.getAllUser());
-        return "User";
+        return "admin/user";
     }
 
     @GetMapping("/users/add")
     public String showFormUserAdd(Model model) {
         model.addAttribute("USER_DATA", new UserDTO());
         model.addAttribute("LIST_ROLE", roleDao.getAllRole());
-        return "user-form-add";
+        return "admin/user-form-add";
     }
 
     @PostMapping("/users/add")
@@ -185,6 +190,7 @@ public class AdminController {
     	user.setEmail(userDTO.getEmail());
 	    user.setFirstName(userDTO.getFirstName());
 	    user.setLastName(userDTO.getLastName());
+	    user.setBalance(userDTO.getBalance());
 
 	    Role role = roleDao.getRoleById(userDTO.getRoleId());
 	    
@@ -209,14 +215,35 @@ public class AdminController {
         userDTO.setUsername(user.getUsername());
         userDTO.setFirstName(user.getFirstName());
         userDTO.setLastName(user.getLastName());
+        userDTO.setBalance(user.getBalance());
         userDTO.setPassword(user.getPassword());
         userDTO.setEmail(user.getEmail());
         userDTO.setRoleId(user.getRole().getRoleId());
 
         model.addAttribute("USER_DATA", userDTO);
         model.addAttribute("LIST_ROLE", roleDao.getAllRole());
-        return "user-form-add";
+        return "admin/user-form-add";
     }
 
+    //CART MAPPING
+    @GetMapping("/carts")
+    public String showCartPage(Model model) {
+        model.addAttribute("LIST_CART", cartDao.getAllCart());
+        return "admin/cart";
+    }
+    
+    @GetMapping("/carts/formAdd")
+    public String showFromCartAdd(Model model) {
+        model.addAttribute("CART_DATA", new CartDTO());
+        model.addAttribute("LIST_USER", userDao.getAllUser());
+        model.addAttribute("LIST_PRODUCT", productDao.findAllProducts("ALL"));
+        return "admin/cart-form-add";
+    }
+    
+    @PostMapping("/carts")
+    public String addCart(@ModelAttribute("CART_DATA") CartDTO cartDTO) {
+    	cartDao.updateCart(productDao.getProductById(cartDTO.getProductId()), userDao.getUserById(cartDTO.getUserId()), cartDTO.getQuantity());
+    	return "redirect:/admin/carts";
+    }
 
 }

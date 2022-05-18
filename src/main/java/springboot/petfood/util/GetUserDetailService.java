@@ -7,7 +7,12 @@ import org.springframework.security.core.userdetails.User;
 
 public class GetUserDetailService {
 	public static User getUserDetails(Principal principal) {
-		User loggedUser = (User) ((Authentication) principal).getPrincipal();
-		return loggedUser;
+		User loggedUser = null;
+		try {
+			loggedUser = (User) ((Authentication) principal).getPrincipal();
+			return loggedUser;
+		} catch (Exception e) {
+			return null;
+		}
 	}
 }

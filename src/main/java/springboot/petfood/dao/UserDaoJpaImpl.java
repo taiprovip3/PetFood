@@ -51,9 +51,12 @@ public class UserDaoJpaImpl implements UserDao{
 	@Override
 	@Transactional
 	public void removeUserById(int userId) {
-		Query query = entityManager.createQuery("delete from User where userId = :USER_ID");
+		Query query = entityManager.createQuery("DELETE FROM UserRole ur WHERE ur.user.userId = :USER_ID");
 		query.setParameter("USER_ID", userId);
 		query.executeUpdate();
+		Query query2 = entityManager.createQuery("delete from User where userId = :USER_ID");
+		query2.setParameter("USER_ID", userId);
+		query2.executeUpdate();
 	}
 
 	@Transactional
@@ -69,22 +72,44 @@ public class UserDaoJpaImpl implements UserDao{
 	
 	@Transactional
 	public void saveUser(User u, Role r) {
-
-		String encryptedPassword = BcryptPasswordEncoderUtil.encryptPassword(u.getPassword());
-		u.setPassword(encryptedPassword);
+		
 		u.setRole(r);
+		String password = u.getPassword();
+		
+		if(u.getUserId() == 0) {//TH addUser
+			if(password.isEmpty()) {//TH bỏ trống input Password
+				String passwordGenerated = BcryptPasswordEncoderUtil.encryptPassword("123123az");
+				u.setPassword(passwordGenerated);
+			} else {//TH có nhập password
+				String encryptedPassword = BcryptPasswordEncoderUtil.encryptPassword(password);
+				u.setPassword(encryptedPassword);
+			}
+			entityManager.persist(u);
+		} else {//TH updateUser
+			if(password.isEmpty()) {//TH bỏ trống input Password
+				String oldPassworld = getUserPasswordById(u.getUserId());
+				u.setPassword(oldPassworld);
+			} else {
+				String encryptedPassword = BcryptPasswordEncoderUtil.encryptPassword(password);
+				u.setPassword(encryptedPassword);
+			}
+			entityManager.merge(u);
+		}
 
 		UserRole userRole = new UserRole();
 		userRole.setUser(u);
 		userRole.setRole(r);
-
-		if(u.getUserId() == 0) {
-			entityManager.persist(u);
-		} else {
-			entityManager.merge(u);
-		}
 		
 		entityManager.persist(userRole);
+	}
+
+
+	@Override
+	@Transactional
+	public String getUserPasswordById(int id) {
+		Query query = entityManager.createQuery("SELECT u.password FROM User u WHERE u.userId = :USER_ID");
+		query.setParameter("USER_ID", id);
+		return (String) query.getSingleResult();
 	}
 
 

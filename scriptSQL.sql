@@ -35,7 +35,8 @@ create table users(
 	crypted_password varchar(255),
 	email varchar(255),
 	first_name nvarchar(255),
-	last_name nvarchar(255)
+	last_name nvarchar(255),
+	balance money
 );
 create table roles(
 	role_id int IDENTITY(1,1) PRIMARY KEY,
@@ -84,15 +85,15 @@ insert into products (product_name,product_type,product_description,product_pric
 insert into products (product_name,product_type,product_description,product_price,product_weight,product_quantity,product_image,category_id)
 	values ('Zenith','ALL','Providing soft grain food for puppies, Zeniths products contain many nutrients such as protein, starch, protein', 182.0, 5.5, 2235,'zenith.png',3);
 
-insert into users (user_name,crypted_password,email,first_name,last_name,role_id) values
-(N'nano',N'$2a$10$TCnFcIb0ulVx0wRnjuM8E.glduflWD7fmRxXR1gieW/T4xrfoAIWe','nano@gmail.com',N'Client',N'A','1');
-insert into users (user_name,crypted_password,email,first_name,last_name,role_id) values
-(N'susan',N'$2a$10$TCnFcIb0ulVx0wRnjuM8E.glduflWD7fmRxXR1gieW/T4xrfoAIWe','susan@gmail.com',N'Admin',N'B','2');
-insert into users (user_name,crypted_password,email,first_name,last_name,role_id) values
-(N'papa',N'$2a$10$TCnFcIb0ulVx0wRnjuM8E.glduflWD7fmRxXR1gieW/T4xrfoAIWe','papa@gmail.com',N'Client',N'C','1');
-
 insert into roles (role_name) values ('MEMBER');
 insert into roles (role_name) values ('ADMIN');
+
+insert into users (user_name,crypted_password,email,first_name,last_name,balance,role_id) values
+(N'nano',N'$2a$10$TCnFcIb0ulVx0wRnjuM8E.glduflWD7fmRxXR1gieW/T4xrfoAIWe','nano@gmail.com',N'Client',N'A',0,'1');
+insert into users (user_name,crypted_password,email,first_name,last_name,balance,role_id) values
+(N'susan',N'$2a$10$TCnFcIb0ulVx0wRnjuM8E.glduflWD7fmRxXR1gieW/T4xrfoAIWe','susan@gmail.com',N'Admin',N'B',0,'2');
+insert into users (user_name,crypted_password,email,first_name,last_name,balance,role_id) values
+(N'papa',N'$2a$10$TCnFcIb0ulVx0wRnjuM8E.glduflWD7fmRxXR1gieW/T4xrfoAIWe','papa@gmail.com',N'Client',N'C',0,'1');
 
 insert into cart (cart_id, product_id, user_id, price, quantity) values (1,1,1,232,1);
 insert into cart (cart_id, product_id, user_id, price, quantity) values (2,2,1,503,3);
