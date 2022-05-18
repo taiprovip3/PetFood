@@ -19,6 +19,7 @@ input::placeholder{
         padding: 30px;
     }
     #iconShop{
+		display: flex;
         width: 60%;
     }
     #iconShop > img{

@@ -15,7 +15,7 @@
 <body>
     <div id="header">
         <div id="iconShop">
-            <img th:src="@{/img/logo.png}" width="10%" class="rounded-circle">
+            <img th:src="@{/img/logo.png}" width="14%" class="rounded-circle">
         </div>
         <div id="nav">
             <div id="navsub">
@@ -36,16 +36,16 @@
             <div id="navsub" th:unless="${#request.userPrincipal == null}">
                 <i class="fas fa-user-check"></i>
                 <div class="text-center">
-                    <p><u><a th:href="@{/client/user-info}" th:utext="${#request.userPrincipal.name}"></a></u></p>
+                    <a th:href="@{/client/user-info}" th:utext="${#request.userPrincipal.name + ' ' + USER_BALANCE + '$'}"></a>
                     <a th:href="@{/logout}"><u>Sign out</u></a>
                 </div>
             </div>
         </div>
     </div>
-    <div class="jumbotron text-center">
-        <h1>Your Balance:</h1>
-        <p><u th:text="${USER_BALANCE} + '$'"></u></p>
-    </div>
+    <div class="container-fluid p-3 bg-primary text-center text-white">
+		<h1>4PET SHOP</h1>
+		<p>Get your best food with the best price!</p>
+	</div>
     <div id="contentBox">
         <div id="filter" class="text-center">
             <form th:action="@{/client/filterProduct}" th:method="get">

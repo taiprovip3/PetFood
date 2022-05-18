@@ -15,7 +15,7 @@
 <body>
     <div id="header">
         <div id="iconShop">
-            <img th:src="@{/img/logo.png}" alt="" width="10%" class="rounded-circle">
+            <img th:src="@{/img/logo.png}" alt="" width="14%" class="rounded-circle">
         </div>
         <div id="nav">
             <div id="navsub">
@@ -55,10 +55,10 @@
             color: blue;
         }
     </style>
-    <div id="title" class="jumbotron text-center">
-        <h1>USER INFOMATION PAGE</h1>
-        <h5>This page required login to be seen!</h5>
-    </div>
+    <div class="container-fluid p-3 bg-dark text-white">
+	  	<h1>USER INFOMATION PAGE</h1>
+	  	<p>This page required login to be seen!</p>
+	</div>
     <div id="profile">
         <p><i class="fas fa-user-alt"></i> Welcome back, <b><span th:utext="${#request.userPrincipal.name}"></span></b>!</p>
         <p><i class="fas fa-user-tag"></i> Your roles: <b th:if="${USER_ROLES != null}" th:utext="${USER_ROLES}"></b></p>

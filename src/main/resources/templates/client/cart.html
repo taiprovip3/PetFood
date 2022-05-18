@@ -16,7 +16,7 @@
 <body>
 	<div id="header">
 		<div id="iconShop">
-			<img th:src="@{/img/logo.png}" width="10%" class="rounded-circle">
+			<img th:src="@{/img/logo.png}" width="14%" class="rounded-circle">
 		</div>
 		<div id="nav">
 			<div id="navsub">
@@ -35,18 +35,17 @@
 				<a th:href="@{/common/login}">Login</a>
 			</div>
 			<div id="navsub" th:unless="${#request.userPrincipal == null}">
-				<i class="fas fa-user-check"></i>
-				<div class="text-center">
-					<p>
-						<u><a th:href="@{/client/showUserInfo}" th:utext="${#request.userPrincipal.name}"></a></u>
-					</p>
-					<a th:href="@{/logout}"><u>Sign out</u></a>
-				</div>
-			</div>
+                <i class="fas fa-user-check"></i>
+                <div class="text-center">
+                    <a th:href="@{/client/user-info}" th:utext="${#request.userPrincipal.name + ' ' + USER_BALANCE + '$'}"></a>
+                    <a th:href="@{/logout}"><u>Sign out</u></a>
+                </div>
+            </div>
 		</div>
 	</div>
-	<div class="text-center">
-		<p class="text-primary">Your balance is: <br><b><u th:text="${USER_BALANCE} + '$'" class="text-info"></u></b></p>
+	<div class="container-fluid p-3 bg-primary text-center text-white">
+		<h1>YOUR CART</h1>
+		<p>Your choice is the best!</p>
 	</div>
 	<div class="container-fluid">
 		<br>
@@ -70,7 +69,7 @@
 					<td>
 						<form th:action="@{/client/cart/update}" th:method="post">
 							<input type="hidden" name="productId" th:value="${cart.product.productId}">
-							<input type="number" th:value="${cart.quantity}" id="quantity" name="quantity" style="border-radius: 20px; width: 100%;"/>
+							<input type="number" min="1" th:value="${cart.quantity}" id="quantity" name="quantity" style="border-radius: 20px; width: 100%;"/>
 					</td>
 					<td style="display: flex;">
 						<input type="submit" value="Update" class="btn btn-outline-warning btn-lg">

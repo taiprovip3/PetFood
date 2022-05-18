@@ -54,7 +54,7 @@ public class AdminController {
     CartDao cartDao;
 
     @GetMapping("/homepage")
-    public String showAdminPage(Model model) {
+    public String showAdminPage() {
         return "admin/index.html";
     }
 
@@ -206,9 +206,9 @@ public class AdminController {
     }
 
     @GetMapping("/users/update")
-    public String showFormUserUpdate(@RequestParam("id") int id, Model model) {
+    public String showFormUserUpdate(@RequestParam("id") int userid, Model model) {
     	
-        User user = userDao.getUserById(id);
+        User user = userDao.getUserById(userid);
 
         UserDTO userDTO = new UserDTO();
         userDTO.setUserId(user.getUserId());
@@ -245,5 +245,26 @@ public class AdminController {
     	cartDao.updateCart(productDao.getProductById(cartDTO.getProductId()), userDao.getUserById(cartDTO.getUserId()), cartDTO.getQuantity());
     	return "redirect:/admin/carts";
     }
-
+    
+    @GetMapping("/carts/update")
+    public String showFromCartUpdate(@RequestParam("productId") int productId, @RequestParam("userId") int userId, Model model) {
+    	Product product = productDao.getProductById(productId);
+    	User user = userDao.getUserById(userId);
+    	Cart cart = cartDao.getCartByProductIdAndUserId(product, user);
+    	CartDTO cartDTO = new CartDTO();
+    	cartDTO.setProductId(productId);
+    	cartDTO.setUserId(userId);
+    	cartDTO.setQuantity(cart.getQuantity());
+    	cartDTO.setPrice(cart.getPrice());
+    	model.addAttribute("CART_DATA", cartDTO);
+    	model.addAttribute("LIST_USER", userDao.getAllUser());
+        model.addAttribute("LIST_PRODUCT", productDao.findAllProducts("ALL"));
+        return "admin/cart-form-add";
+    }
+    
+    @GetMapping("/carts/delete")
+    public String deleteCart(@RequestParam("productId") int productId, @RequestParam("userId") int userId) {
+    	cartDao.deleteCart(productId, userId);
+    	return "redirect:/admin/carts";
+    }
 }

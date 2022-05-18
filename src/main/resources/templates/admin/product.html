@@ -24,17 +24,37 @@
             <ul class="navbar-nav mr-auto"></ul>
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                    <a class="nav-link" th:href="@{/admin/homepage}" href="#">admin-home</a>
+                    <a class="nav-link" th:href="@{/admin/homepage}" href="#">Admin-home</a>
                 </li>
                 <li class="nav-item active">
                     <a class="nav-link" th:href="@{/logout}" href="#">logout</a>
                 </li>
-
             </ul>
-
         </div>
     </div>
 </nav>
+<nav class="navbar navbar-expand-sm bg-light justify-content-center">
+	<ul class="nav nav-pills">
+	    <li class="nav-item">
+	    	<a class="nav-link" th:href="@{/admin/categories}">Category</a>
+	    </li>
+	    <li class="nav-item">
+	    	<a class="nav-link disabled" href="#">Product</a>
+	    </li>
+	    <li class="nav-item">
+	    	<a class="nav-link" th:href="@{/admin/users}">User</a>
+	    </li>
+	    <li class="nav-item">
+	    	<a class="nav-link" th:href="@{/admin/roles}">Role</a>
+	    </li>
+	    <li class="nav-item">
+	    	<a class="nav-link" th:href="@{/admin/carts}">Cart</a>
+	    </li>
+  	</ul>
+</nav>
+<div class="container-fluid p-3 my-3 bg-primary text-white text-center">
+	<h1>MANAGE PRODUCT</h1>
+</div>
 <div class="container-fluid">
 
     <a th:href="@{/admin/products/add}" style="margin: 20px 0" class="btn btn-primary">Add Product</a>

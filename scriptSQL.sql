@@ -120,3 +120,4 @@ select * from products a1 join categories a2 on a1.category_id = a2.category_id
 select b.role_name from user_roles a join roles b on a.role_id = b.role_id where a.user_id = 2
 delete from users where user_id = 4
 delete from products where category_id = 'NULL'
+select * from cart where product_id = 1 and user_id = 1

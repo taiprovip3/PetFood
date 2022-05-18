@@ -15,7 +15,7 @@
 <body>
     <div id="header">
         <div id="iconShop">
-            <img th:src="@{/img/logo.png}" width="10%" class="rounded-circle">
+            <img th:src="@{/img/logo.png}" width="14%" class="rounded-circle">
         </div>
         <div id="nav">
             <div id="navsub">
@@ -36,15 +36,12 @@
             <div id="navsub" th:unless="${#request.userPrincipal == null}">
                 <i class="fas fa-user-check"></i>
                 <div class="text-center">
-                    <p><u><a th:href="@{/client/user-info}" th:utext="${#request.userPrincipal.name}"></a></u></p>
+                    <a th:href="@{/client/user-info}" th:utext="${#request.userPrincipal.name + ' ' + USER_BALANCE + '$'}"></a>
                     <a th:href="@{/logout}"><u>Sign out</u></a>
                 </div>
             </div>
         </div>
     </div>
-	<div class="text-center">
-		<p class="text-primary">Your balance is: <br><b><u th:text="${USER_BALANCE} + '$'" class="text-info"></u></b></p>
-	</div>
     <div id="content">
         <div id="box">
             <div id="product">
@@ -63,7 +60,7 @@
                         <p>Classify: <b><span th:text="${PRODUCT_DATA.category.nameCategory}"></span></b></p>
                        	<div id="amount">
 							<input type="hidden" name="productId" th:value="${PRODUCT_DATA.productId}">
-                           	<input type="number" name="quantity" id="quantity" value="1">
+                           	<input type="number" min="1" onkeypress="return event.charCode != 45" name="quantity" id="quantity" value="1">
                        	</div>
                        	<br>
                        	<input type="submit" value="Add to cart" class="btn btn-light btn-lg">

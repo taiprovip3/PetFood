@@ -1,9 +1,12 @@
 package springboot.petfood.controller;
 
 import java.security.Principal;
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -27,6 +30,8 @@ import springboot.petfood.util.UserRolesBuilderUtil;
 @RequestMapping("/client")
 public class ClientController {
 	
+	private boolean autoRedirectAdminPage = true;
+	
 	private ProductDao productDao;
 	private UserDao userDao;
 	private CartDao cartDao;
@@ -41,13 +46,23 @@ public class ClientController {
 	//Index.html
 	@GetMapping("/homepage")
 	public String showHomepage(Model model) {
-//		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//		if (principal instanceof UserDetails) {
-//		    username = ((UserDetails) principal).getUsername();
-//		} else {
-//			username = principal.toString();
-//		}
-//		model.addAttribute("USER_DATA", username);
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String username = null;
+		if (principal instanceof UserDetails) {
+		    username = ((UserDetails) principal).getUsername();
+		} else {
+			username = principal.toString();
+		}
+		if(!username.equals("anonymousUser")) {
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			if (auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ADMIN"))) {
+				if(autoRedirectAdminPage) {
+					autoRedirectAdminPage = false;
+					return "admin/index";
+				}
+			}
+		}
+		
 		String type = "ALL";
 		List<Product> products = productDao.findAllProducts(type);
 		model.addAttribute("LIST_PRODUCT", products);
