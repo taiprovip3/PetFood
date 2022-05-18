@@ -18,12 +18,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import springboot.petfood.dto.CartDTO;
 import springboot.petfood.dto.ProductDTO;
 import springboot.petfood.dto.UserDTO;
+import springboot.petfood.entity.Cart;
 import springboot.petfood.entity.Category;
 import springboot.petfood.entity.Product;
 import springboot.petfood.entity.Role;
 import springboot.petfood.entity.User;
+import springboot.petfood.service.CartDao;
 import springboot.petfood.service.CategoryDao;
 import springboot.petfood.service.ProductDao;
 import springboot.petfood.service.RoleDao;
@@ -46,6 +49,9 @@ public class AdminController {
 
     @Autowired
     RoleDao roleDao;
+    
+    @Autowired
+    CartDao cartDao;
 
     @GetMapping("/homepage")
     public String showAdminPage(Model model) {
@@ -219,5 +225,25 @@ public class AdminController {
         return "admin/user-form-add";
     }
 
+    //CART MAPPING
+    @GetMapping("/carts")
+    public String showCartPage(Model model) {
+        model.addAttribute("LIST_CART", cartDao.getAllCart());
+        return "admin/cart";
+    }
+    
+    @GetMapping("/carts/formAdd")
+    public String showFromCartAdd(Model model) {
+        model.addAttribute("CART_DATA", new CartDTO());
+        model.addAttribute("LIST_USER", userDao.getAllUser());
+        model.addAttribute("LIST_PRODUCT", productDao.findAllProducts("ALL"));
+        return "admin/cart-form-add";
+    }
+    
+    @PostMapping("/carts")
+    public String addCart(@ModelAttribute("CART_DATA") CartDTO cartDTO) {
+    	cartDao.updateCart(productDao.getProductById(cartDTO.getProductId()), userDao.getUserById(cartDTO.getUserId()), cartDTO.getQuantity());
+    	return "redirect:/admin/carts";
+    }
 
 }
