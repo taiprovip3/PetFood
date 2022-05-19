@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +32,7 @@ import springboot.petfood.service.CategoryDao;
 import springboot.petfood.service.ProductDao;
 import springboot.petfood.service.RoleDao;
 import springboot.petfood.service.UserDao;
+import springboot.petfood.util.GetUserBalanceUtil;
 
 @Controller
 @RequestMapping("/admin")
@@ -54,7 +56,9 @@ public class AdminController {
     CartDao cartDao;
 
     @GetMapping("/homepage")
-    public String showAdminPage() {
+    public String showAdminPage(Model model, Principal principal) {
+        double balance = GetUserBalanceUtil.getUserBalance(principal, userDao);
+		model.addAttribute("USER_BALANCE", balance);
         return "admin/index.html";
     }
 
@@ -101,7 +105,7 @@ public class AdminController {
     public String showFormProductAdd(Model model) {
         model.addAttribute("PRODUCT_DATA", new ProductDTO());
         model.addAttribute("LIST_CATEGORY", categoryDao.getAllCategory());
-        return "product-form-add";
+        return "admin/product-form-add";
     }
 
     @PostMapping("/products/add")

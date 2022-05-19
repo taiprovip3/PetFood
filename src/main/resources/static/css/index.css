@@ -1,128 +1,35 @@
-/* Initialize */
-*{
-    margin: 0;
-    padding: 0;
+/* intro + started + contact */
+#intro, #started, #contact{
+    background: lightyellow;
+    padding: 15px;
+    border-radius: 30px;
+    border: 1px solid lightgrey;
 }
-input, button, textarea{
-    outline: none;
+/* petType */
+#petType{
+    display: flex;
 }
-input{
-    text-align:center;
+#petType > div{
+    width: 20%;
+    font-size: xx-large;
+    text-align: center;
+    background: rgb(242, 245, 245);
+    margin: 3px;
+    border-radius: 8px;
 }
-input::placeholder{
+#petType div:hover{
+    cursor: pointer;
+    background: lightslategrey;
+}
+/* media */
+#media{
+    display: flex;
+}
+#media div{
+    width: 33.3%;
+}
+#media a{
+    text-decoration: underline;
+    color: blue;
     font-style: italic;
 }
-/* header css */
-    #header{
-        background: lightgrey;
-        display: flex;
-        padding: 30px;
-    }
-    #iconShop{
-        width: 60%;
-    }
-    #iconShop > img{
-        background: lightyellow;
-    }
-    #nav{
-        width: 40%;
-    }
-    #nav{
-        padding: 0;
-        display: flex;
-    }
-    #navsub{
-        width: 100%;
-        position: relative;
-        text-align: center;
-    }
-    #navsub a{
-        text-decoration: none;
-        color: #000080;
-        font-weight: bold;
-    }
-    #item{
-        display: none;
-        flex-wrap: wrap;
-        position: absolute;
-        width: 100%;
-    }
-    #subitem{
-        width: 100%;
-    }
-/* contentBox css */
-    #contentBox{
-        display: flex;
-        position: relative;
-    }
-    #contentPage{
-        width: 25%;
-        background: lightgrey;
-        border: 1px solid black;
-        height: 100%;
-        position: fixed;
-        right: 0;
-        padding-left: 1%;
-    }
-    #contentPage li {
-        color: #000080;
-        font-weight: bold;
-        text-decoration: underline;
-        list-style-type: none;
-    }
-    #contentPage li:hover{
-        cursor: pointer;
-        background: lightgrey;
-    }
-    #content h1{
-        font-weight: bold;
-    }
-    #content{
-        width: 75%;
-        padding-left: 30px;
-    }
-/* intro */
-    #intro > img{
-        border-radius: 20px;
-        background: rgb(242, 245, 245);
-    }
-/* getStarted */
-    #petType{
-        display: flex;
-    }
-    #petType div{
-        width: 20%;
-        font-size: xx-large;
-        text-align: center;
-        background: rgb(242, 245, 245);
-        margin: 3px;
-        border-radius: 8px;
-    }
-    #petType div:hover{
-        cursor: pointer;
-        background: lightslategrey;
-    }
-/* resultType (getStarted) css */
-    #resultType{
-        display: flex;
-        flex-wrap: wrap;
-    }
-    #food{
-        background: rgb(242, 245, 245);
-        margin: 3px;
-        display: flex;
-        width: 49%;
-        padding: 20px;
-    }
-/* media css */
-    #media{
-        display: flex;
-    }
-    #media div{
-        width: 33.3%;
-    }
-    #media a{
-        text-decoration: underline;
-        color: blue;
-        font-style: italic;
-    }

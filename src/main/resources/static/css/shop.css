@@ -1,63 +1,4 @@
-/* Initialize */
-*{
-    margin: 0;
-    padding: 0;
-}
-input, button, textarea{
-    outline: none;
-}
-input{
-    text-align:center;
-}
-input::placeholder{
-    font-style: italic;
-}
-/* header css */
-    #header{
-        background: lightgrey;
-        display: flex;
-        padding: 30px;
-    }
-    #iconShop{
-		display: flex;
-        width: 60%;
-    }
-    #iconShop > img{
-        background: lightyellow;
-    }
-    #nav{
-        width: 40%;
-    }
-    #nav{
-        padding: 0;
-        display: flex;
-    }
-    #navsub{
-        width: 100%;
-        position: relative;
-        text-align: center;
-    }
-    #navsub a{
-        text-decoration: none;
-        color: #000080;
-        font-weight: bold;
-    }
-    #item{
-        display: none;
-        flex-wrap: wrap;
-        position: absolute;
-        width: 100%;
-    }
-    #subitem{
-        width: 100%;
-    }
-/* contentBox*/
-    #contentBox{
-        position: relative;
-    }
-    #contentBox > div{
-        margin-top: 5px;
-    }
+/* filter */
     #petType{
         display: flex;
     }
@@ -82,7 +23,7 @@ input::placeholder{
         background: rgb(243, 243, 243);
         padding: 7px;
     }
-/* resultType (getStarted) css */
+/* resultType */
     #resultType{
         display: flex;
         flex-wrap: wrap;

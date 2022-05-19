@@ -1,6 +1,8 @@
 package springboot.petfood.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -45,7 +47,7 @@ public class ClientController {
 
 	//Index.html
 	@GetMapping("/homepage")
-	public String showHomepage(Model model) {
+	public String showHomepage(Model model, Principal principal2) {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String username = null;
 		if (principal instanceof UserDetails) {
@@ -62,18 +64,8 @@ public class ClientController {
 				}
 			}
 		}
-		
-		String type = "ALL";
-		List<Product> products = productDao.findAllProducts(type);
-		model.addAttribute("LIST_PRODUCT", products);
-		return "client/index";
-	}
-	
-	@GetMapping("/getTypeFoods")
-	public String getTypeFoods(@RequestParam("type") String type, Model model) {
-		List<Product> products = productDao.findAllProducts(type);
-		model.addAttribute("LIST_PRODUCT", products);
-		
+		double balance = GetUserBalanceUtil.getUserBalance(principal2, userDao);
+		model.addAttribute("USER_BALANCE", balance);
 		return "client/index";
 	}
 	
@@ -85,6 +77,7 @@ public class ClientController {
 		String type = "ALL";
 		List<Product> products = productDao.findAllProducts(type);
 		model.addAttribute("LIST_PRODUCT", products);
+		model.addAttribute("TOTAL_PRODUCT_COUNTER", products.size());
 		return "client/shop";
 	}
 	
@@ -94,6 +87,7 @@ public class ClientController {
 		model.addAttribute("USER_BALANCE", balance);
 		List<Product> products = productDao.filterProduct(petType, categoryName);
 		model.addAttribute("LIST_PRODUCT", products);
+		model.addAttribute("TOTAL_PRODUCT_COUNTER", products.size());
 		return "client/shop";
 	}
 	
@@ -126,28 +120,51 @@ public class ClientController {
 		model.addAttribute("USER_ROLES", userRoles);
 		String username = loggedUser.getUsername();
 		model.addAttribute("USER_DATA", userDao.findUserAccount(username));
+		double balance = GetUserBalanceUtil.getUserBalance(principal, userDao);
+		model.addAttribute("USER_BALANCE", balance);
 		return "client/user-info";
 	}
 
 	//CART MAPPING
 	@GetMapping("/cart")
 	public String showListCart(Model model, Principal principal) {
-		double balance = GetUserBalanceUtil.getUserBalance(principal, userDao);
-		model.addAttribute("USER_BALANCE", balance);
 		double total=0;
 		String username = principal.getName();
 		if(username == null)
 			return "/common/login";
 		User user = userDao.findUserAccount(username);
 		List<Cart> carts=cartDao.getCarts(user.getUserId());
-		if(carts!=null)
-			for (Cart cart : carts)
-				total+=cart.getPrice();
-		model.addAttribute("TOTAL", total);
 		model.addAttribute("LIST_CART", carts);
+		model.addAttribute("TOTAL_PRODUCT_COUNTER", carts.size());
+		double balance = GetUserBalanceUtil.getUserBalance(principal, userDao);
+		model.addAttribute("USER_BALANCE", balance);
 		return "client/cart";
 	}
 	
+	@PostMapping("/cart/buy")
+	public String showPageBuySuccess(@RequestParam("LIST_PRODUCT_CHECKED") List<Integer> listProductChecked, @RequestParam("TOTAL_PRICE") Double totalPrice) {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String username = null;
+		if (principal instanceof UserDetails) {
+		    username = ((UserDetails) principal).getUsername();
+		} else {
+			username = principal.toString();
+		}
+		User user = userDao.findUserAccount(username);
+		double userBalance = user.getBalance();
+		if(userBalance < totalPrice) {
+			return "redirect:/client/cart?sufficient=false";
+		} else {
+			user.setBalance(userBalance - totalPrice);//Cập nhật lại tiền
+			for (Integer productId : listProductChecked) {
+				Product product = productDao.getProductById(productId);
+				product.setQuantity(product.getQuantity() - 1);
+				productDao.addProduct(product);//Cập nhật lại tồn kho
+				cartDao.deleteCart(productId, user.getUserId());//Xoá giỏ hàng user
+			}
+			return "redirect:/client/cart?sufficient=true";
+		}
+	}
 	@GetMapping("/cart/delete")
 	public String deleteCart(@RequestParam("productId") int productId, Principal principal){
 		String username = principal.getName();
