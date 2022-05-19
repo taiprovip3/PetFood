@@ -4,8 +4,21 @@
     padding: 0;
 }
 /* logo login */
+#logoIcon{
+    position: relative;
+}
 #logoIcon > img{
     background-color: lightgoldenrodyellow;
+    max-height: 80%;
+    max-width: 80%;
+    width: auto;
+    height: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
 }
 #login{
     /* border: 1px solid blue; */
