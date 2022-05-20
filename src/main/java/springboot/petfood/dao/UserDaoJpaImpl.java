@@ -1,6 +1,5 @@
 package springboot.petfood.dao;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -9,7 +8,6 @@ import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import springboot.petfood.entity.*;
@@ -113,4 +111,9 @@ public class UserDaoJpaImpl implements UserDao{
 	}
 
 
+	@Override
+	@Transactional
+	public void updateUser(User user) {
+		entityManager.merge(user);
+	}
 }

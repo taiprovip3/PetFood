@@ -107,4 +107,10 @@ public class ProductDaoJpaImpl implements ProductDao{
 		query.executeUpdate();
 	}
 
+	@Override
+	@Transactional
+	public void updateProduct(Product product) {
+		entityManager.merge(product);
+	}
+
 }

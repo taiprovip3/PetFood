@@ -14,4 +14,5 @@ public interface ProductDao {
 	public List<Product> filterProduct(String petType, String categoryName);
 	public void addProduct(Product product);
 	public void removeProductById(int productId);
+	public void updateProduct(Product product);
 }

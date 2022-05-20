@@ -13,6 +13,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 	<link rel="stylesheet" th:href="@{/css/shop.css}">
 </head>
+
 <body>
 	<div id="header">
 		<div id="iconShop">
@@ -45,14 +46,13 @@
 			</div>
 		</div>
 	</div>
-	<div class="text-center">
-		<p class="text-primary">Your balance is: <br><b><u th:text="${USER_BALANCE} + '$'" class="text-info"></u></b></p>
-	</div>
+	<div class="text-center"></div>
 	<div class="container-fluid">
 		<br>
 		<table class="table">
 			<thead class="table table-bordered">
 				<tr>
+					<th scope="col"></th>
 					<th scope="col">Image</th>
 					<th scope="col">Product Name</th>
 					<th scope="col">Price</th>
@@ -63,31 +63,85 @@
 			<tbody>
 				<tr th:each="cart : ${LIST_CART}">
 					<td>
-						<img th:src="${'/product-img/' + cart.product.image}" width="15%" style="border: 1px solid grey; border-radius: 15px;">
+						<div class="form-check">
+							<label class="form-check-label">
+								<input type="checkbox" class="form-check-input" th:value="${cart.product.productId}">
+								<input type="hidden" class="quantity" th:value="${cart.product.quantity}">
+							</label>
+						</div>
+					</td>
+					<td><img th:src="${'/product-img/' + cart.product.image}" width="15%"
+							style="border: 1px solid grey; border-radius: 15px;">
 					</td>
 					<td th:text="${cart.product.name}"></td>
-					<td th:text="${cart.price} + '$'"></td>
+					<td id='price' th:text="${cart.price} + '$'"></td>
 					<td>
 						<form th:action="@{/client/cart/update}" th:method="post">
-							<input type="hidden" name="productId" th:value="${cart.product.productId}">
-							<input type="number" th:value="${cart.quantity}" id="quantity" name="quantity" style="border-radius: 20px; width: 100%;"/>
+							<input type="hidden" name="productId" th:value="${cart.product.productId}"> <input
+								type="number" th:value="${cart.quantity}" id="quantity" name="quantity"
+								style="border-radius: 20px; width: 100%;" />
 					</td>
-					<td style="display: flex;">
-						<input type="submit" value="Update" class="btn btn-outline-warning btn-lg">
-						<a th:href="@{/client/cart/delete/(productId=${cart.product.productId})}"
+					<td style="display: flex;"><input type="submit" value="Update"
+							class="btn btn-outline-warning btn-lg"> <a
+							th:href="@{/client/cart/delete/(productId=${cart.product.productId})}"
 							class="btn btn-danger btn-lg"
-							onclick="if(!(confirm('Are you sure you want to delete this product?'))) return false" role="button">
-								Delete
-						</a>
+							onclick="if(!(confirm('Are you sure you want to delete this product?'))) return false"
+							role="button"> Delete </a>
 						</form>
 					</td>
 				</tr>
 			</tbody>
 		</table>
-		<label>Total: <label th:text="${TOTAL}"></label></label>
-		<button style="margin-left: 10px" type="button" class="btn btn-outline-success">Buy</button>
+		<form th:action="@{/client/cart/buy}" th:method="GET"
+			style="position: fixed; bottom: 0; background-color: lightgrey; width: 100%; display: block;">
+			<label>Total: <label id="total" th:text="${TOTAL}"></label></label>
+			<p>
+				Your balance is: <br> <b><u id="balance" th:text="${USER_BALANCE} + '$'" class="text-info"></u></b>
+			</p>
+			<input type="hidden" name="productIdChecked" id="productIdChecked">
+			<input type="hidden" name="total">
+			<input type="submit" id="btnBuy" value="Buy" class="btn btn-outline-success" disabled/>
+		</form>
 	</div>
 
+	<script>
+		$(document).ready(function () {
+			var productId
+			var total
+			var quantityProduct
+			$('input[type=checkbox]').change(function () {
+				productId = ""
+				total=0
+				quantityProduct=0
+				$('#btnBuy').prop('disabled', true);
+				$('#total').text(total)
+				$('input[type=checkbox]').each(function () {
+					if (this.checked) {
+						quantityProduct=parseInt($(this).parent().find(".quantity").val())
+						var quantityPurchased=parseInt($(this).parent().parent().parent().parent().find("#quantity").val())
+						productId += $(this).val() + ","
+						$("#productIdChecked").val(productId)
+						var price = $(this).parent().parent().parent().parent().find("td[id='price']").text();
+						var price2 = price.replace("$", "");
+						total+=parseInt(price2)
+						$('#total').text(total)
+						$('input[name=total]').val(total)
+						var balance=$('#balance').text()
+						var balance2= balance.replace("$","")
+						if(quantityProduct<quantityPurchased)
+							alert("This product is out of stock!")							
+						else if(parseInt(balance2)<total)
+							alert("You don't have enough money!")
+						else
+							$('#btnBuy').removeAttr('disabled')
+					}
+				});
+			})
+			$('#btnBuy').click(function () {
+				
+			})
+		})
+	</script>
 </body>
 
 </html>

@@ -153,4 +153,25 @@ public class ClientController {
 		cartDao.updateCart(product, user, quantity);
 		return "redirect:/client/cart";
 	}
+	
+	@GetMapping("/cart/buy")
+	public String buy(@RequestParam("productIdChecked") String productId, @RequestParam("total") int total, /*@RequestParam("quantity") int quantity,*/ Principal principal){
+		String username = principal.getName();
+		if(username == null)
+			return "/common/login";
+		User user = userDao.findUserAccount(username);
+		for(int i = 0; i<productId.length(); i++) {
+			char c = productId.charAt(i);
+			if(c!=',') {
+				int idProduct=Character.getNumericValue(c);
+				cartDao.deleteCart(idProduct, user.getUserId());
+//				Product product=productDao.getProductById(idProduct);
+//				product.setQuantity(product.getQuantity()-quantity);
+//				productDao.updateProduct(product);
+			}
+		}
+		user.setBalance(user.getBalance()-total);
+		userDao.updateUser(user);
+		return "redirect:/client/cart";
+	}
 }

@@ -40,7 +40,6 @@ public class CartDaoJpaImpl implements CartDao{
 		return carts;
 	}
 
-//	Lỗi chỗ này
 	@Override
 	@Transactional
 	public void updateCart(Product product, User user, int quantity) {
