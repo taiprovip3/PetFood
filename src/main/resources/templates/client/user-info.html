@@ -26,10 +26,19 @@
             <div class="col-sm-2 text-white" style="display: flex;">
                 <div id="login" class="text-center">
                     <i class="fas fa-user-check"></i>
-                    <div class="text-center">
-                        <a th:href="@{/client/user-info}"><code th:utext="${#request.userPrincipal.name + ', ' + USER_BALANCE + '$'}" class="text-danger lead"></code></a>
-                        <p><a th:href="@{/logout}" class="text-reset"><u>Sign out</u></a></p>
-                    </div>
+                    <ul class="nav nav-pills">
+	                    <div class="text-center">
+		                    <li class="nav-item dropdown">
+							    <a class="nav-link active dropdown-toggle" data-toggle="dropdown"><code th:utext="${#request.userPrincipal.name + ', ' + USER_BALANCE + '$'}" class="text-danger"></code></a>
+							    <div class="dropdown-menu">
+							      <a class="dropdown-item" th:href="@{/client/user-info}">User Info</a>
+							      <a class="dropdown-item" th:href="@{/client/cart}">My Cart</a>
+							      <a class="dropdown-item" th:href="@{/client/orders}">My Order</a>
+							    </div>
+							</li>
+	                        <p><a th:href="@{/logout}" class="text-reset"><u>Sign out</u></a></p>
+	                    </div>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -43,20 +52,17 @@
                         <a class="nav-link" th:href="@{/client/shop}">Food Shop</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/client/cart}">My Cart</a>
+                        <a class="nav-link" th:href="@{/admin/homepage}">Admin</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active">User Info</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/admin/homepage}">Admin</a>
                     </li>
                 </ul>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-12 text-center">
-                <img th:src="@{/img/user.png}" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:90px;">
+                <img th:src="@{/img/user.png}" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
             </div>
         </div>
         <div class="row p-3">
@@ -75,6 +81,9 @@
                 <br>
                 <label for="balance">Balance:</label><br>
                 <p id="balance" class="font-weight-bold text-warning" th:text="${USER_DATA.balance} + ' $'"></p>
+                <br>
+                <label for="balance">Address:</label><br>
+                <p id="balance" class="font-weight-bold text-warning" th:text="${USER_DATA.address} + ' $'"></p>
             </div>
         </div>
     </div>

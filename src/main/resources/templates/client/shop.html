@@ -29,10 +29,19 @@
                 </div>
                 <div th:unless="${#request.userPrincipal == null}" id="login" class="text-center">
                     <i class="fas fa-user-check"></i>
-                    <div class="text-center">
-                        <a th:href="@{/client/user-info}"><code th:utext="${#request.userPrincipal.name + ', ' + USER_BALANCE + '$'}" class="text-danger lead"></code></a>
-                        <p><a th:href="@{/logout}" class="text-reset"><u>Sign out</u></a></p>
-                    </div>
+                    <ul class="nav nav-pills">
+	                    <div class="text-center">
+		                    <li class="nav-item dropdown">
+							    <a class="nav-link active dropdown-toggle" data-toggle="dropdown"><code th:utext="${#request.userPrincipal.name + ', ' + USER_BALANCE + '$'}" class="text-danger"></code></a>
+							    <div class="dropdown-menu">
+							      <a class="dropdown-item" th:href="@{/client/user-info}">User Info</a>
+							      <a class="dropdown-item" th:href="@{/client/cart}">My Cart</a>
+							      <a class="dropdown-item" th:href="@{/client/orders}">My Order</a>
+							    </div>
+							</li>
+	                        <p><a th:href="@{/logout}" class="text-reset"><u>Sign out</u></a></p>
+	                    </div>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -43,13 +52,7 @@
                         <a class="nav-link" th:href="@{/client/homepage}">Homepage</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" th:href="@{/client/shop}">Food Shop</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/client/cart}">My Cart</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/client/user-info}">User Info</a>
+                        <a class="nav-link active">Food Shop</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" th:href="@{/admin/homepage}">Admin</a>

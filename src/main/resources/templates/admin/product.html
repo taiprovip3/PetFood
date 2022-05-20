@@ -50,6 +50,9 @@
 	    <li class="nav-item">
 	    	<a class="nav-link" th:href="@{/admin/carts}">Cart</a>
 	    </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/admin/orders}">Order</a>
+        </li>
   	</ul>
 </nav>
 <div class="container-fluid p-3 my-3 bg-primary text-white text-center">
@@ -76,8 +79,8 @@
             <td th:text="${product.name}">Larry</td>
             <td th:text="${product.category.nameCategory}">Larry</td>
             <td><img height="100px" width="100px" th:src="${'/product-img/' + product.image}"></td>
-            <td><a th:href="@{/admin/product/delete/{id}(id=${product.productId})}" class="btn btn-danger">Delete</a></td>
-            <td><a th:href="@{/admin/product/update/{id}(id=${product.productId})}" class="btn btn-warning">Update</a></td>
+            <td><a th:href="@{/admin/products/delete/{id}(id=${product.productId})}" class="btn btn-danger">Delete</a></td>
+            <td><a th:href="@{/admin/products/update/{id}(id=${product.productId})}" class="btn btn-warning">Update</a></td>
 
         </tr>
         </tbody>

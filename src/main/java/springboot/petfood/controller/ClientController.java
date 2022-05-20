@@ -1,9 +1,11 @@
 package springboot.petfood.controller;
 
 import java.security.Principal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +21,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import springboot.petfood.entity.Cart;
+import springboot.petfood.entity.Order;
 import springboot.petfood.entity.Product;
 import springboot.petfood.entity.User;
 import springboot.petfood.service.CartDao;
+import springboot.petfood.service.OrderDao;
 import springboot.petfood.service.ProductDao;
 import springboot.petfood.service.UserDao;
 import springboot.petfood.util.GetUserBalanceUtil;
@@ -37,17 +41,21 @@ public class ClientController {
 	private ProductDao productDao;
 	private UserDao userDao;
 	private CartDao cartDao;
+	private OrderDao orderDao;
 	
 	@Autowired
-	public ClientController(ProductDao productDao, UserDao userDao, CartDao cartDao) {
+	public ClientController(ProductDao productDao, UserDao userDao, CartDao cartDao, OrderDao orderDao) {
 		this.productDao = productDao;
 		this.userDao = userDao;
-		this.cartDao=cartDao;
+		this.cartDao = cartDao;
+		this.orderDao = orderDao;
 	}
 
 	//Index.html
 	@GetMapping("/homepage")
 	public String showHomepage(Model model, Principal principal2) {
+		double balance = GetUserBalanceUtil.getUserBalance(principal2, userDao);
+		model.addAttribute("USER_BALANCE", balance);
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String username = null;
 		if (principal instanceof UserDetails) {
@@ -64,8 +72,6 @@ public class ClientController {
 				}
 			}
 		}
-		double balance = GetUserBalanceUtil.getUserBalance(principal2, userDao);
-		model.addAttribute("USER_BALANCE", balance);
 		return "client/index";
 	}
 	
@@ -158,6 +164,19 @@ public class ClientController {
 			user.setBalance(userBalance - totalPrice);//Cập nhật lại tiền
 			for (Integer productId : listProductChecked) {
 				Product product = productDao.getProductById(productId);
+				Cart cart = cartDao.getCartByProductIdAndUserId(product, user);
+				
+				Order order = new Order();
+				order.setStatus("PENDING");
+				order.setOrderDate(new Timestamp(System.currentTimeMillis()));
+				Date dateNow = new Date(new Date().getTime() + 86400000);
+				order.setShippedDate(new Timestamp(dateNow.getTime()));
+				order.setQuantity(cart.getQuantity());
+				order.setTotalPrice(cart.getPrice());
+				order.setUser(user);
+				order.setProduct(product);
+				orderDao.saveOrder(order);//Thêm hoá đơn
+				
 				product.setQuantity(product.getQuantity() - 1);
 				productDao.addProduct(product);//Cập nhật lại tồn kho
 				cartDao.deleteCart(productId, user.getUserId());//Xoá giỏ hàng user
@@ -184,5 +203,19 @@ public class ClientController {
 		Product product = productDao.getProductById(productId);
 		cartDao.updateCart(product, user, quantity);
 		return "redirect:/client/cart";
+	}
+	
+	//ORDER MAPPING
+	@GetMapping("/orders")
+	public String showMyOrderPage(Model model, Principal principal) {
+		double balance = GetUserBalanceUtil.getUserBalance(principal, userDao);
+		model.addAttribute("USER_BALANCE", balance);
+		model.addAttribute("LIST_ORDER", orderDao.getAllOrder());
+		return "client/order";
+	}
+	@GetMapping("/orders/destroy")
+	public String destroyOder(@RequestParam("orderId") int orderId) {
+		orderDao.destroyOrderById(orderId);
+		return "redirect:/client/orders";
 	}
 }

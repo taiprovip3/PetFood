@@ -30,6 +30,9 @@ public class User {
 	
 	@Column(name="balance")
 	private double balance;
+	
+	@Column(name="address")
+	private String address;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="role_id")
@@ -100,6 +103,15 @@ public class User {
 	public void setBalance(double balance) {
 		this.balance = balance;
 	}
+	
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
 	public User() {	}
 
@@ -107,7 +119,7 @@ public class User {
 		this.userId = userId;
 	}
 
-	public User(int userId, String username, String password, String email, String firstName, String lastName, double balance) {
+	public User(int userId, String username, String password, String email, String firstName, String lastName, double balance, String address) {
 		this.userId = userId;
 		this.username = username;
 		this.password = password;
@@ -115,12 +127,13 @@ public class User {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.balance = balance;
+		this.address = address;
 	}
 
 	@Override
 	public String toString() {
 		return "User [userId=" + userId + ", username=" + username + ", password=" + password + ", email=" + email
-				+ ", firstName=" + firstName + ", lastName=" + lastName + ", balance=" + balance + ", role=" + role
-				+ "]";
+				+ ", firstName=" + firstName + ", lastName=" + lastName + ", balance=" + balance + ", address="
+				+ address + ", role=" + role + "]";
 	}
 }
