@@ -9,7 +9,7 @@
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css"
           integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-    <title>4Pet | Category</title>
+    <title>4Pet | Order</title>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light" >
@@ -37,7 +37,7 @@
 <nav class="navbar navbar-expand-sm bg-light justify-content-center">
 	<ul class="nav nav-pills">
 	    <li class="nav-item">
-	    	<a class="nav-link disabled" href="#">Category</a>
+	    	<a class="nav-link" th:href="@{/admin/categories}">Category</a>
 	    </li>
 	    <li class="nav-item">
 	    	<a class="nav-link" th:href="@{/admin/products}">Product</a>
@@ -52,36 +52,48 @@
 	    	<a class="nav-link" th:href="@{/admin/carts}">Cart</a>
 	    </li>
         <li class="nav-item">
-            <a class="nav-link" th:href="@{/admin/orders}">Order</a>
+            <a class="nav-link disabled" href="#">Order</a>
         </li>
   	</ul>
 </nav>
 <div class="container-fluid p-3 my-3 bg-primary text-white text-center">
-	<h1>MANAGE CATEGORY</h1>
+	<h1>MANAGE ORDER</h1>
 </div>
-<div class="container">
-
-    <a th:href="@{/admin/categories/add}" style="margin: 20px 0" class="btn btn-primary">Add Category</a>
+<div class="container-fluid">
     <table class="table">
         <thead class="thead-light">
         <tr>
             <th scope="col">SN</th>
-            <th scope="col">Category Name</th>
-            <th scope="col">Delete</th>
-            <th scope="col">Update</th>
+            <th scope="col">Image</th>
+            <th scope="col">Name</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Price</th>
+            <th scope="col">Order date</th>
+            <th scope="col">Ship on</th>
+            <th scope="col">To address</th>
+            <th scope="col">Status</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
         </tr>
         </thead>
         <tbody>
-
-        <tr th:each="category, iStat : ${LIST_CATEGORY}">
+        <tr th:each="order, iStat : ${LIST_ORDER}">
             <th scope="row" th:text="${iStat.index + 1}">1</th>
-            <td th:text="${category.nameCategory}">Larry</td>
-
-            <td><a href="" th:href="@{/admin/categories/delete/{id}(id=${category.categoryId})}" class="btn btn-danger">Delete</a></td>
-            <td><a href="" th:href="@{/admin/categories/update/{id}(id=${category.categoryId})}" class="btn btn-warning">Update</a></td>
-
+            <td>
+            	<img th:src="${'/product-img/' + order.product.image}" width="64px"/>
+            </td>
+			<td th:text="${order.product.name}"></td>
+			<td th:text="${order.quantity}"></td>
+			<td th:text="${order.totalPrice} + '$'"></td>
+			<td th:text="${order.orderDate}"></td>
+			<td th:text="${order.shippedDate}"></td>
+			<td th:text="${order.user.address}"></td>
+			<td th:text="${order.status}" class="text-success font-italic"></td>
+            <td><a th:href="@{/admin/orders/destroy(orderId=${order.orderId})}" class="btn btn-outline-danger btn-sm">Destroy</a></td>
+            <td><a th:href="@{/admin/orders/update(orderId=${order.orderId})}" class="btn btn-outline-primary btn-sm">Update</a>
+            <td><a th:href="@{/admin/orders/commit(orderId=${order.orderId})}" class="btn btn-outline-info btn-sm">Commit</a></td>
         </tr>
-
         </tbody>
     </table>
 </div>

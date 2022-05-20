@@ -10,109 +10,126 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}">
     <link rel="stylesheet" th:href="@{/css/shop.css}">
 </head>
 <body>
-    <div id="header">
-        <div id="iconShop">
-            <img th:src="@{/img/logo.png}" width="10%" class="rounded-circle">
-        </div>
-        <div id="nav">
-            <div id="navsub">
-                <a th:href="@{/client/homepage}">Homepage</a>
+    <div class="container-fluid">
+        <div class="row bg-primary">
+            <div class="col-sm-2" id="logoIcon">
+                <img th:src="@{/img/logo.png}" alt="4pet logo" class="rounded-circle">
             </div>
-            <div id="navsub">
-                <a th:href="@{/client/shop}"><u>Shop</u></a>
+            <div class="col-sm-8 container-fluid p-3 bg-primary text-white text-center">
+                <h1>4PET SHOP</h1>
+                <p>Get your best food with the best price!</p>
             </div>
-            <div id="navsub">
-                <a th:href="@{/client/cart}">Cart</a>
-            </div>
-            <div id="navsub">
-                <a th:href="@{/admin/homepage}">Admin</a>
-            </div>
-            <div id="navsub" th:if="${#request.userPrincipal == null}">
-                <a th:href="@{/common/login}">Login</a>
-            </div>
-            <div id="navsub" th:unless="${#request.userPrincipal == null}">
-                <i class="fas fa-user-check"></i>
-                <div class="text-center">
-                    <p><u><a th:href="@{/client/user-info}" th:utext="${#request.userPrincipal.name}"></a></u></p>
-                    <a th:href="@{/logout}"><u>Sign out</u></a>
+            <div class="col-sm-2 text-white" style="display: flex;">
+                <div th:if="${#request.userPrincipal == null}" id="login" class="text-center">
+                    <a th:href="@{/common/login}" class="text-reset">Anonymous, login</a>
+                </div>
+                <div th:unless="${#request.userPrincipal == null}" id="login" class="text-center">
+                    <i class="fas fa-user-check"></i>
+                    <ul class="nav nav-pills">
+	                    <div class="text-center">
+		                    <li class="nav-item dropdown">
+							    <a class="nav-link active dropdown-toggle" data-toggle="dropdown"><code th:utext="${#request.userPrincipal.name + ', ' + USER_BALANCE + '$'}" class="text-danger"></code></a>
+							    <div class="dropdown-menu">
+							      <a class="dropdown-item" th:href="@{/client/user-info}">User Info</a>
+							      <a class="dropdown-item" th:href="@{/client/cart}">My Cart</a>
+							      <a class="dropdown-item" th:href="@{/client/orders}">My Order</a>
+							    </div>
+							</li>
+	                        <p><a th:href="@{/logout}" class="text-reset"><u>Sign out</u></a></p>
+	                    </div>
+                    </ul>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="jumbotron text-center">
-        <h1>Your Balance:</h1>
-        <p><u th:text="${USER_BALANCE} + '$'"></u></p>
-    </div>
-    <div id="contentBox">
-        <div id="filter" class="text-center">
-            <form th:action="@{/client/filterProduct}" th:method="get">
-            <h3>
-                Choose your pet type:
-                <select name="selectPetType" id="selectPetType">
-                    <option value="ALL" selected>Dog & Cat</option>
-                    <option value="DOG">Dog</option>
-                    <option value="CAT">Cat</option>
-                </select>
-            </h3>
-            <div id="petType">
-                <div></div>
-                <div></div>
-                <div id="dogType">
-                    <img th:src="@{/img/dogIcon.png}" width="50%">
-                </div>
-                <div id="catType">
-                    <img th:src="@{/img/catIcon.png}" width="50%">
-                </div>
-                <div></div>
-                <div></div>
+        <div class="row my-3">
+            <div class="col-sm-12">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/client/homepage}">Homepage</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active">Food Shop</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/admin/homepage}">Admin</a>
+                    </li>
+                </ul>
             </div>
-            <h3>
-                Select category:
-                <select name="selectCategory" id="selectCategory">
-                    <option value="ALL" selected>All</option>
-                    <option value="KIBBLE">Kibble</option>
-                    <option value="DEHYDRATED">Dehydrated</option>
-                    <option value="CANNED">Canned</option>
-                    <option value="SEMI-MOIST">Semi - Moist</option>
-                    <option value="HOMEMADE">Home made</option>
-                    <option value="RAW MEAT-BASED">Raw Meat-Based</option>
-                </select>
-            </h3>
-            <div id="categoryType">
-                <img th:src="@{/img/category_all.png}" width="50%">
-            </div>
-            <div class="text-right">
-                <input type="submit" value="Filter" class="btn btn-primary btn-lg text-center" style="margin: 1%; width: 12%;">
-            </div>
-            </form>
         </div>
-        <div id="category">
-            <p><u><i>LIST PRODUCTS:</i></u></p>
-            <div id="resultType">
-            <th:block th:each="product : ${LIST_PRODUCT}">
-            	<div id="food">
-                    <div id="foodImg" style="padding: 10px;">
-                        <img th:src="${'/product-img/' + product.image}" width="100%">
-                    </div>
-                    <div id="foodDetail">
-                        <h6 th:utext="${product.name}"></h6>
-                        <p th:utext="${product.price} + '$'"></p>
-                        <p th:utext="${product.description}"></p>
-                        <div th:if="${#request.userPrincipal != null}">
-                            <a th:href="@{/client/products/(productId=${product.productId})}" role="button" class="btn btn-primary">View product</a>
+        <div class="row">
+            <div class="col-sm-12 text-center" id="filter">
+                    <form th:action="@{/client/filterProduct}" th:method="get">
+                    <h3>
+                        Choose your pet type:
+                        <select name="selectPetType" id="selectPetType">
+                            <option value="ALL" selected>Dog & Cat</option>
+                            <option value="DOG">Dog</option>
+                            <option value="CAT">Cat</option>
+                        </select>
+                    </h3>
+                    <div id="petType">
+                        <div></div>
+                        <div></div>
+                        <div id="dogType">
+                            <img th:src="@{/img/dogIcon.png}" width="50%">
                         </div>
-                        <div th:if="${#request.userPrincipal == null}">
-                            <a th:href="@{/common/login?logged=false}" role="button" class="btn btn-primary">View product</a>
+                        <div id="catType">
+                            <img th:src="@{/img/catIcon.png}" width="50%">
+                        </div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                    <h3>
+                        Select category:
+                        <select name="selectCategory" id="selectCategory">
+                            <option value="ALL" selected>All</option>
+                            <option value="KIBBLE">Kibble</option>
+                            <option value="DEHYDRATED">Dehydrated</option>
+                            <option value="CANNED">Canned</option>
+                            <option value="SEMI-MOIST">Semi - Moist</option>
+                            <option value="HOMEMADE">Home made</option>
+                            <option value="RAW MEAT-BASED">Raw Meat-Based</option>
+                        </select>
+                    </h3>
+                    <div id="categoryType">
+                        <img th:src="@{/img/category_all.png}" width="50%">
+                    </div>
+                    <div class="text-right">
+                        <input type="submit" value="Filter" class="btn btn-primary btn-lg text-center" style="margin: 1%; width: 12%;">
+                    </div>
+                    </form>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12" id="category">
+                <p class="badge badge-pill badge-primary font-weight-lighter font-weight-bold">List products <span class="badge badge-light" th:text="${TOTAL_PRODUCT_COUNTER}">4</span></p>
+                <div id="resultType">
+                <th:block th:each="product : ${LIST_PRODUCT}">
+                    <div id="food">
+                        <div id="foodImg" style="padding: 10px;">
+                            <img th:src="${'/product-img/' + product.image}" width="100%">
+                        </div>
+                        <div id="foodDetail">
+                            <h6 th:utext="${product.name}"></h6>
+                            <p th:utext="${product.price} + '$'"></p>
+                            <p th:utext="${product.description}"></p>
+                            <div th:if="${#request.userPrincipal != null}">
+                                <a th:href="@{/client/products/(productId=${product.productId})}" role="button" class="btn btn-primary">View product</a>
+                            </div>
+                            <div th:if="${#request.userPrincipal == null}">
+                                <a th:href="@{/common/login?logged=false}" role="button" class="btn btn-primary">View product</a>
+                            </div>
                         </div>
                     </div>
+                </th:block>
                 </div>
-			</th:block>
             </div>
         </div>
     </div>
-<script th:src="@{/jQuery/shop.js}"></script>
+<script th:src="@{/jQuery/common.js}"></script>
 </body>
 </html>

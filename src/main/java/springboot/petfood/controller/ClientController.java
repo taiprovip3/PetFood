@@ -1,9 +1,16 @@
 package springboot.petfood.controller;
 
 import java.security.Principal;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -14,9 +21,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import springboot.petfood.entity.Cart;
+import springboot.petfood.entity.Order;
 import springboot.petfood.entity.Product;
 import springboot.petfood.entity.User;
 import springboot.petfood.service.CartDao;
+import springboot.petfood.service.OrderDao;
 import springboot.petfood.service.ProductDao;
 import springboot.petfood.service.UserDao;
 import springboot.petfood.util.GetUserBalanceUtil;
@@ -27,38 +36,42 @@ import springboot.petfood.util.UserRolesBuilderUtil;
 @RequestMapping("/client")
 public class ClientController {
 	
+	private boolean autoRedirectAdminPage = true;
+	
 	private ProductDao productDao;
 	private UserDao userDao;
 	private CartDao cartDao;
+	private OrderDao orderDao;
 	
 	@Autowired
-	public ClientController(ProductDao productDao, UserDao userDao, CartDao cartDao) {
+	public ClientController(ProductDao productDao, UserDao userDao, CartDao cartDao, OrderDao orderDao) {
 		this.productDao = productDao;
 		this.userDao = userDao;
-		this.cartDao=cartDao;
+		this.cartDao = cartDao;
+		this.orderDao = orderDao;
 	}
 
 	//Index.html
 	@GetMapping("/homepage")
-	public String showHomepage(Model model) {
-//		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//		if (principal instanceof UserDetails) {
-//		    username = ((UserDetails) principal).getUsername();
-//		} else {
-//			username = principal.toString();
-//		}
-//		model.addAttribute("USER_DATA", username);
-		String type = "ALL";
-		List<Product> products = productDao.findAllProducts(type);
-		model.addAttribute("LIST_PRODUCT", products);
-		return "client/index";
-	}
-	
-	@GetMapping("/getTypeFoods")
-	public String getTypeFoods(@RequestParam("type") String type, Model model) {
-		List<Product> products = productDao.findAllProducts(type);
-		model.addAttribute("LIST_PRODUCT", products);
-		
+	public String showHomepage(Model model, Principal principal2) {
+		double balance = GetUserBalanceUtil.getUserBalance(principal2, userDao);
+		model.addAttribute("USER_BALANCE", balance);
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String username = null;
+		if (principal instanceof UserDetails) {
+		    username = ((UserDetails) principal).getUsername();
+		} else {
+			username = principal.toString();
+		}
+		if(!username.equals("anonymousUser")) {
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			if (auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ADMIN"))) {
+				if(autoRedirectAdminPage) {
+					autoRedirectAdminPage = false;
+					return "admin/index";
+				}
+			}
+		}
 		return "client/index";
 	}
 	
@@ -70,6 +83,7 @@ public class ClientController {
 		String type = "ALL";
 		List<Product> products = productDao.findAllProducts(type);
 		model.addAttribute("LIST_PRODUCT", products);
+		model.addAttribute("TOTAL_PRODUCT_COUNTER", products.size());
 		return "client/shop";
 	}
 	
@@ -79,6 +93,7 @@ public class ClientController {
 		model.addAttribute("USER_BALANCE", balance);
 		List<Product> products = productDao.filterProduct(petType, categoryName);
 		model.addAttribute("LIST_PRODUCT", products);
+		model.addAttribute("TOTAL_PRODUCT_COUNTER", products.size());
 		return "client/shop";
 	}
 	
@@ -111,28 +126,64 @@ public class ClientController {
 		model.addAttribute("USER_ROLES", userRoles);
 		String username = loggedUser.getUsername();
 		model.addAttribute("USER_DATA", userDao.findUserAccount(username));
+		double balance = GetUserBalanceUtil.getUserBalance(principal, userDao);
+		model.addAttribute("USER_BALANCE", balance);
 		return "client/user-info";
 	}
 
 	//CART MAPPING
 	@GetMapping("/cart")
 	public String showListCart(Model model, Principal principal) {
-		double balance = GetUserBalanceUtil.getUserBalance(principal, userDao);
-		model.addAttribute("USER_BALANCE", balance);
 		double total=0;
 		String username = principal.getName();
 		if(username == null)
 			return "/common/login";
 		User user = userDao.findUserAccount(username);
 		List<Cart> carts=cartDao.getCarts(user.getUserId());
-		if(carts!=null)
-			for (Cart cart : carts)
-				total+=cart.getPrice();
-		model.addAttribute("TOTAL", total);
 		model.addAttribute("LIST_CART", carts);
+		model.addAttribute("TOTAL_PRODUCT_COUNTER", carts.size());
+		double balance = GetUserBalanceUtil.getUserBalance(principal, userDao);
+		model.addAttribute("USER_BALANCE", balance);
 		return "client/cart";
 	}
 	
+	@PostMapping("/cart/buy")
+	public String showPageBuySuccess(@RequestParam("LIST_PRODUCT_CHECKED") List<Integer> listProductChecked, @RequestParam("TOTAL_PRICE") Double totalPrice) {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String username = null;
+		if (principal instanceof UserDetails) {
+		    username = ((UserDetails) principal).getUsername();
+		} else {
+			username = principal.toString();
+		}
+		User user = userDao.findUserAccount(username);
+		double userBalance = user.getBalance();
+		if(userBalance < totalPrice) {
+			return "redirect:/client/cart?sufficient=false";
+		} else {
+			user.setBalance(userBalance - totalPrice);//Cập nhật lại tiền
+			for (Integer productId : listProductChecked) {
+				Product product = productDao.getProductById(productId);
+				Cart cart = cartDao.getCartByProductIdAndUserId(product, user);
+				
+				Order order = new Order();
+				order.setStatus("PENDING");
+				order.setOrderDate(new Timestamp(System.currentTimeMillis()));
+				Date dateNow = new Date(new Date().getTime() + 86400000);
+				order.setShippedDate(new Timestamp(dateNow.getTime()));
+				order.setQuantity(cart.getQuantity());
+				order.setTotalPrice(cart.getPrice());
+				order.setUser(user);
+				order.setProduct(product);
+				orderDao.saveOrder(order);//Thêm hoá đơn
+				
+				product.setQuantity(product.getQuantity() - 1);
+				productDao.addProduct(product);//Cập nhật lại tồn kho
+				cartDao.deleteCart(productId, user.getUserId());//Xoá giỏ hàng user
+			}
+			return "redirect:/client/cart?sufficient=true";
+		}
+	}
 	@GetMapping("/cart/delete")
 	public String deleteCart(@RequestParam("productId") int productId, Principal principal){
 		String username = principal.getName();
@@ -154,6 +205,7 @@ public class ClientController {
 		return "redirect:/client/cart";
 	}
 	
+<<<<<<< HEAD
 	@GetMapping("/cart/buy")
 	public String buy(@RequestParam("productIdChecked") String productId, @RequestParam("total") int total, /*@RequestParam("quantity") int quantity,*/ Principal principal){
 		String username = principal.getName();
@@ -173,5 +225,19 @@ public class ClientController {
 		user.setBalance(user.getBalance()-total);
 		userDao.updateUser(user);
 		return "redirect:/client/cart";
+=======
+	//ORDER MAPPING
+	@GetMapping("/orders")
+	public String showMyOrderPage(Model model, Principal principal) {
+		double balance = GetUserBalanceUtil.getUserBalance(principal, userDao);
+		model.addAttribute("USER_BALANCE", balance);
+		model.addAttribute("LIST_ORDER", orderDao.getAllOrder());
+		return "client/order";
+	}
+	@GetMapping("/orders/destroy")
+	public String destroyOder(@RequestParam("orderId") int orderId) {
+		orderDao.destroyOrderById(orderId);
+		return "redirect:/client/orders";
+>>>>>>> dcb360bd2b7fb5ca51d09cfe50284e6d8386aa8a
 	}
 }

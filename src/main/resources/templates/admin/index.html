@@ -10,68 +10,90 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}">
     <link rel="stylesheet" th:href="@{/css/admin.css}">
 </head>
 <body>
-    <div id="header">
-        <div id="iconShop">
-            <a th:href="@{/client/homepage}">
-                <img th:src="@{/img/logo.png}" width="10%" class="rounded-circle" style="background: lightgoldenrodyellow;">
-            </a>
+    <div class="container-fluid">
+        <div class="row bg-primary">
+            <div class="col-sm-2" id="logoIcon">
+                <img th:src="@{/img/logo.png}" alt="4pet logo" class="rounded-circle">
+            </div>
+            <div class="col-sm-8 container-fluid p-3 bg-primary text-white text-center">
+                <h1>Welcome back, Admin</h1>
+                <p>Easily manage your data from this admin!</p>
+            </div>
+            <div class="col-sm-2 text-white" style="display: flex;">
+                <div th:if="${#request.userPrincipal == null}" id="login" class="text-center">
+                    <a th:href="@{/common/login}" class="text-reset">Anonymous, login</a>
+                </div>
+                <div th:unless="${#request.userPrincipal == null}" id="login" class="text-center">
+                    <i class="fas fa-user-check"></i>
+                    <ul class="nav nav-pills">
+	                    <div class="text-center">
+		                    <li class="nav-item dropdown">
+							    <a class="nav-link active dropdown-toggle" data-toggle="dropdown"><code th:utext="${#request.userPrincipal.name + ', ' + USER_BALANCE + '$'}" class="text-danger"></code></a>
+							    <div class="dropdown-menu">
+							      <a class="dropdown-item" th:href="@{/client/user-info}">User Info</a>
+							      <a class="dropdown-item" th:href="@{/client/cart}">My Cart</a>
+							      <a class="dropdown-item" th:href="@{/client/orders}">My Order</a>
+							    </div>
+							</li>
+	                        <p><a th:href="@{/logout}" class="text-reset"><u>Sign out</u></a></p>
+	                    </div>
+                    </ul>
+                </div>
+            </div>
         </div>
-        <div id="nav" class="text-center">
-            <i class="fas fa-user-check"></i>
-            <p><u><a th:href="@{/client/user-info}" th:text="${#request.userPrincipal.name}"></a></u></p>
-            <a th:href="@{/logout}"><u>Sign out</u></a>
+        <div class="row my-3">
+            <div class="col-sm-12">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/client/homepage}">Homepage</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/client/shop}">Food Shop</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active">Admin</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-    <div class="jumbotron text-center">
-        <h1>Welcome back, Admin</h1>
-        <p>Easily manage your data from this admin</p>
-    </div>
-    <style>
-        #menu{
-            display: flex;
-            flex-wrap: wrap;
-            margin-top: -24px;
-        }
-        #menu > div{
-            background: rgb(226, 225, 225);
-            border: 1px solid grey;
-            border-radius: 10px;
-            width: 31%;
-            margin: 5px;
-            padding: 15px;
-        }
-        #item > h3{
-            font-weight: bold;
-        }
-    </style>
-    <div id="menu">
-        <div id="item">
-            <h3>Category</h3>
-            <p>- Category classify or devide products into tag key. Admin can CRUD category type of food be.</p>
-            <a th:href="@{/admin/categories}" class="btn btn-primary btn-lg" role="button">Manager</a>
-        </div>
-        <div id="item">
-            <h3>Product</h3>
-            <p>- Admin can create-read-update-delete (CRUD) products (food) avaiable in database.</p>
-            <a th:href="@{/admin/products}" class="btn btn-primary btn-lg" role="button">Manager</a>
-        </div>
-        <div id="item">
-            <h3>User</h3>
-            <p>- The list profile of all account was registed and roles of them. You also maybe CRUD</p>
-            <a th:href="@{/admin/users}" class="btn btn-primary btn-lg" role="button">Manager</a>
-        </div>
-        <div id="item">
-            <h3>Role</h3>
-            <p>- Add a new role or change the default system role. The default is 2 roles: MEMBER, ADMIN</p>
-            <a th:href="@{/admin/roles}" class="btn btn-primary btn-lg" role="button">Manager</a>
-        </div>
-        <div id="item">
-            <h3>Cart</h3>
-            <p>- CRUD some cart of user bought. Don't tough much it will cause some proplems to client.</p>
-            <a th:href="@{/admin/carts}" class="btn btn-primary btn-lg" role="button">Manager</a>
+        <br>
+        <div class="row">
+            <div class="col-sm-12" id="menu">
+                <div id="item">
+                    <h3>Category</h3>
+                    <p>- Category classify or devide products into tag key. Admin can CRUD category type of food be.</p>
+                    <a th:href="@{/admin/categories}" class="btn btn-primary btn-lg" role="button">Manager</a>
+                </div>
+                <div id="item">
+                    <h3>Product</h3>
+                    <p>- Admin can create-read-update-delete (CRUD) products (food) avaiable in database.</p>
+                    <a th:href="@{/admin/products}" class="btn btn-primary btn-lg" role="button">Manager</a>
+                </div>
+                <div id="item">
+                    <h3>User</h3>
+                    <p>- The list profile of all account was registed and roles of them. You also maybe CRUD</p>
+                    <a th:href="@{/admin/users}" class="btn btn-primary btn-lg" role="button">Manager</a>
+                </div>
+                <div id="item">
+                    <h3>Role</h3>
+                    <p>- Add a new role or change the default system role. The default is 2 roles: MEMBER, ADMIN</p>
+                    <a th:href="@{/admin/roles}" class="btn btn-primary btn-lg" role="button">Manager</a>
+                </div>
+                <div id="item">
+                    <h3>Cart</h3>
+                    <p>- CRUD some cart of user bought. Don't tough much it will cause some proplems to client.</p>
+                    <a th:href="@{/admin/carts}" class="btn btn-primary btn-lg" role="button">Manager</a>
+                </div>
+                <div id="item">
+                    <h3>Order</h3>
+                    <p>- Some customer has ordered some products. Open to checkout it and deliver to them!</p>
+                    <a th:href="@{/admin/orders}" class="btn btn-primary btn-lg" role="button">Manager</a>
+                </div>
+            </div>
         </div>
     </div>
 </body>

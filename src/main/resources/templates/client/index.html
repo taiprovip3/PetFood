@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<!-- xmlns:sec="http://www.thymeleaf.org/extras/spring-security" -->
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,51 +10,58 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+    <link rel="stylesheet" th:href="@{/css/common.css}">
     <link rel="stylesheet" th:href="@{/css/index.css}">
 </head>
 <body>
-    <div id="header">
-        <div id="iconShop">
-            <img th:src="@{/img/logo.png}" width="10%" class="rounded-circle">
-        </div>
-        <div id="nav">
-            <div id="navsub">
-                <a th:href="@{/client/homepage}"><u>Homepage</u></a>
+    <div class="container-fluid">
+        <div class="row bg-primary">
+            <div class="col-sm-2" id="logoIcon">
+                <img th:src="@{/img/logo.png}" alt="4pet logo" class="rounded-circle">
             </div>
-            <div id="navsub">
-                <a th:href="@{/client/shop}">Shop</a>
+            <div class="col-sm-8 container-fluid p-3 bg-primary text-white text-center">
+                <h1>HOMEPAGE</h1>
+                <p>Easily make the best food for your pet!</p>
             </div>
-            <div id="navsub">
-                <a th:href="@{/client/cart}">Cart</a>
-            </div>
-            <div id="navsub">
-                <a th:href="@{/admin/homepage}">Admin</a>
-            </div>
-            <div id="navsub" th:if="${#request.userPrincipal == null}">
-                <a th:href="@{/common/login}">Login</a>
-            </div>
-            <div id="navsub" th:unless="${#request.userPrincipal == null}">
-                <i class="fas fa-user-check"></i>
-                <div class="text-center">
-                    <p><u><a th:href="@{/client/user-info}" th:utext="${#request.userPrincipal.name}"></a></u></p>
-                    <a th:href="@{/logout}"><u>Sign out</u></a>
+            <div class="col-sm-2 text-white" style="display: flex;">
+                <div th:if="${#request.userPrincipal == null}" id="login" class="text-center">
+                    <a th:href="@{/common/login}" class="text-reset">Anonymous, login</a>
+                </div>
+                <div th:unless="${#request.userPrincipal == null}" id="login" class="text-center">
+                    <i class="fas fa-user-check"></i>
+                    <ul class="nav nav-pills">
+	                    <div class="text-center">
+		                    <li class="nav-item dropdown">
+							    <a class="nav-link active dropdown-toggle" data-toggle="dropdown"><code th:utext="${#request.userPrincipal.name + ', ' + USER_BALANCE + '$'}" class="text-danger"></code></a>
+							    <div class="dropdown-menu">
+							      <a class="dropdown-item" th:href="@{/client/user-info}">User Info</a>
+							      <a class="dropdown-item" th:href="@{/client/cart}">My Cart</a>
+							      <a class="dropdown-item" th:href="@{/client/orders}">My Order</a>
+							    </div>
+							</li>
+	                        <p><a th:href="@{/logout}" class="text-reset"><u>Sign out</u></a></p>
+	                    </div>
+                    </ul>
                 </div>
             </div>
         </div>
-    </div>
-   <br>
-    <br>
-    <div id="contentBox">
-        <div id="contentPage">
-            <h1>Page content</h1>
-            <ul>
-                <li id="scr-intro">Introduction</li>
-                <li id="scr-getstarted">Choose your pet food</li>
-                <li id="scr-contact">Contact / support</li>
-            </ul>
+        <div class="row my-3">
+            <div class="col-sm-12">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active">Homepage</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/client/shop}">Food Shop</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/admin/homepage}">Admin</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-        <div id="content">
-            <div id="intro">
+        <div class="row" id="intro">
+            <div class="col-sm-12">
                 <h1>INTRODUCTION</h1>
                 <p>4Pet is one of the best service online orders in the internet for the pet food. Our price is very very cheap but quality must called "perfect". If you want to feed a pet (dogs or cats), please check out my products. You will get an order and delivery immediately in minutes.</p>
                 <img th:src="@{/img/pet-shop.png}" alt="" width="10%">
@@ -63,83 +69,61 @@
                 <img th:src="@{/img/bone.png}" alt="" width="10%">
                 <p>You are visiting our official website: <u><i><b>4pet.com</b></i></u></p>
             </div>
-            <h1 id="getStarted">GET STARTED</h1>
-            <h3>
-                Choose your pet type:
-                <select id="selectPetType" disabled>
-                    <option value="ALL" selected>Dog & Cat</option>
-                    <option value="DOG">Dog</option>
-                    <option value="CAT">Cat</option>
-                </select>
-            </h3>
-            <div id="petType">
-                <div>
-                    <form th:action="@{/client/getTypeFoods}" th:method="get">
-                    	<input type="hidden" th:name="type" th:value="DOG" />
-                        <img th:src="@{/img/dogIcon.png}" width="100%" id="chooseDogType">
-                    </form>
-                </div>
-                <div>
-                	<form th:action="@{/client/getTypeFoods}" th:method="get">
-                    <input type="hidden" th:name="type" th:value="CAT" />
-                    <img th:src="@{/img/catIcon.png}" width="100%" id="chooseCatType">
-                    </form>
+        </div>
+        <div class="row my-3" id="started">
+            <div class="col-sm-12">
+                <h1 id="getStarted">PROVIDER</h1>
+                <h6>
+                    Pet food for types:
+                    <select id="selectPetType" disabled>
+                        <option value="ALL" selected>Dog & Cat</option>
+                        <option value="DOG">Dog</option>
+                        <option value="CAT">Cat</option>
+                    </select>
+                    <span class="font-italic">, select one of them to <code>GET STARTED</code></span>
+                </h6>
+                <div id="petType">
+                    <div>
+                        <form th:action="@{/client/filterProduct}" th:method="get">
+                            <input type="hidden" th:name="selectPetType" th:value="DOG" />
+                            <input type="hidden" th:name="selectCategory" th:value="ALL" />
+                            <img th:src="@{/img/dogIcon.png}" width="100%" id="chooseDogType">
+                        </form>
+                    </div>
+                    <div>
+                        <form th:action="@{/client/filterProduct}" th:method="get">
+                            <input type="hidden" th:name="selectPetType" th:value="CAT" />
+                            <input type="hidden" th:name="selectCategory" th:value="ALL" />
+                            <img th:src="@{/img/catIcon.png}" width="100%" id="chooseCatType">
+                        </form>
+                    </div>
                 </div>
             </div>
-            <hr>
-            <p><u><i>Products recommended for new:</i></u></p>
-            <div id="resultType">
-            
-            <th:block th:each="product : ${LIST_PRODUCT}">
-            	<div id="food">
-                    <div id="foodImg" style="padding: 10px;">
-                        <img th:src="${'/product-img/' + product.image}" width="100%">
-                    </div>
-                    <div id="foodDetail">
-                        <h6>[(${product.name})]</h6>
-                        <p>[(${product.price})]$</p>
-                        <p>- [(${product.description})]</p>
-                        <a th:if="${#request.userPrincipal == null}" th:href="@{/common/login?logged=false}" role="button" class="btn btn-info">View product</a>
-                        <a th:if="${#request.userPrincipal != null}" th:href="@{/client/products/(productId=${product.productId})}" role="button" class="btn btn-primary">View product</a>
-                    </div>
-                </div>
-			</th:block>
-			
-            </div>
-            <br>
-            <div id="contact">
-                <h1>Contact us</h1>
-                <p><i>Social media:</i></p>
-                <div id="media">
-                    <div id="facebook">
-                        <img th:src="@{/img/contact-facebook.PNG}" alt="" width="100%">
-                        <a href="javascript:void(0)">Click here</a>
-                    </div>
-                    <div id="discord">
-                        <img th:src="@{/img/contact-discord.PNG}" alt="" width="100%">
-                        <a href="javascript:void(0)">Click here</a>
-                    </div>
-                    <div id="zalo">
-                        <img th:src="@{/img/contact-zalo.PNG}" alt="" width="100%">
-                        <a href="javascript:void(0)">Click here</a>
-                    </div>
-                </div>
+        </div>
+        <div class="row my-3" id="contact">
+            <div class="col-sm-12">
+                <p><i><code>Hotline / phone call:</code></i> +84 0338188506 &emsp;|&emsp;  FAX: 02838837067 &emsp;|&emsp; www.4pet.com &emsp;|&emsp; Email: taito1doraemon@gmail.com</p>
                 <hr>
-                <p><i>Hotline / phone call:</i> +84 0338188506 &emsp;|&emsp;  FAX: 02838837067  &emsp;|&emsp;  www.4pet.com</p>
-                <hr>
-                <ul style="list-style-type: none;"><b>4Pet Store at HaNoi location's</b>
-                    <li>3 Đại Cồ Việt, Phường Cầu Dền, Quận Hai Bà Trưng</li>
-                    <li>476 Minh Khai, Phường Vĩnh Tuy, Quận Hai Bà Trưng</li>
-                    <li>83 Nghi Tàm, Phường Yên Phụ, Quận Tây Hồ</li>
-                    <li>206 Kim Mã, Phường Kim Mã, Quận Ba Đình</li>
-                    <li>18 Chả Cá, Phường Hàng Đào, Quận Hoàn Kiếm</li>
-                    <li>242 Nguyễn Trãi, Phường Thanh Xuân Trung, Quận Thanh Xuân</li>
-                    <li>290 Nguyễn Văn Cừ, Phường Bồ Đề, Quận Long Biên</li>
-                    <li>Villa E10 Đỗ Đình Thiện, Phường Mỹ Đình, Quận Nam Từ Liêm</li>
+                <p class="font-weight-bold"><code>4Pet Store at HaNoi location's</code></p>
+                <ul class="list-unstyled">
+                    <li class="font-weight-lighter">3 Đại Cồ Việt, Phường Cầu Dền, Quận Hai Bà Trưng</li>
+                    <li class="font-weight-lighter">476 Minh Khai, Phường Vĩnh Tuy, Quận Hai Bà Trưng</li>
+                    <li class="font-weight-lighter">83 Nghi Tàm, Phường Yên Phụ, Quận Tây Hồ</li>
+                    <li class="font-weight-lighter">206 Kim Mã, Phường Kim Mã, Quận Ba Đình</li>
+                    <li class="font-weight-lighter">18 Chả Cá, Phường Hàng Đào, Quận Hoàn Kiếm</li>
+                    <li class="font-weight-lighter">242 Nguyễn Trãi, Phường Thanh Xuân Trung, Quận Thanh Xuân</li>
+                    <li class="font-weight-lighter">290 Nguyễn Văn Cừ, Phường Bồ Đề, Quận Long Biên</li>
+                    <li class="font-weight-lighter">Villa E10 Đỗ Đình Thiện, Phường Mỹ Đình, Quận Nam Từ Liêm</li>
                 </ul>
             </div>
         </div>
+        <div class="row">
+            <div class="col-sm-12 bg-primary p-3 text-center text-white">
+                <p>You are visiting official website: <code>www.4pet.com</code></p>
+                Copyright <i class="far fa-copyright"></i><i class="fas fa-registered"></i> 2022 by <span class="small">nhom10_www_petFood</span> reserved
+            </div>
+        </div>
     </div>
-<script th:src="@{/jQuery/index.js}"></script>
 </body>
+<script th:src="@{/jQuery/common.js}"></script>
 </html>

@@ -1,37 +1,17 @@
-/* Initialize */
-*{
-    margin: 0;
-    padding: 0;
-}
-input, button, textarea{
-    outline: none;
-}
-input{
-    text-align:center;
-}
-input::placeholder{
-    font-style: italic;
-}
-/* header css */
-    #header{
-        background: rgb(245, 245, 245);
-        display: flex;
-        padding: 30px;
-    }
-    #header > div{
-        margin: 3px;
-    }
-    #iconShop{
-        width: 90%;
-    }
-    #iconShop > img{
-    background: lightyellow;
-    }
-    #nav{
-        background: rgb(255, 255, 253);
-        text-align: right;
-        width: 10%;
-        border-radius: 15px;
-        padding-top: 8px;
-    }
 /* menu admin */
+#menu{
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: -24px;
+}
+#menu > div{
+    background: rgb(226, 225, 225);
+    border: 1px solid grey;
+    border-radius: 10px;
+    width: 31%;
+    margin: 5px;
+    padding: 15px;
+}
+#item > h3{
+    font-weight: bold;
+}

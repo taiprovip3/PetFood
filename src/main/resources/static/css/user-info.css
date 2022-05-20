@@ -1,63 +1,6 @@
-/* Initialize */
-*{
-    margin: 0;
-    padding: 0;
+.text-warning{
+    font-size: large;
+    line-height:30px;
+    background-image: repeating-linear-gradient(180deg, transparent, transparent 29px, grey 30px);
+    border-bottom:1px solid white;
 }
-input, button, textarea{
-    outline: none;
-}
-input{
-    text-align:center;
-}
-input::placeholder{
-    font-style: italic;
-}
-/* header css */
-    #header{
-        background: lightgrey;
-        display: flex;
-        padding: 30px;
-    }
-    .currentLocation{
-        padding: 5px;
-        border-radius: 10px;
-        background: darkgrey;
-    }
-    #iconShop{
-        width: 60%;
-    }
-    #nav{
-        width: 40%;
-    }
-    #nav{
-        padding: 0;
-        display: flex;
-    }
-    #navsub{
-        width: 100%;
-        position: relative;
-        text-align: center;
-    }
-    #navsub a{
-        text-decoration: none;
-        color: black;
-    }
-    #item{
-        display: none;
-        flex-wrap: wrap;
-        position: absolute;
-        width: 100%;
-    }
-    #subitem{
-        width: 100%;
-    }
-    #navsub:hover{
-        cursor: pointer;
-        text-decoration: underline;
-    }
-    #navsub:hover > #item{
-        display: flex;
-    }
-    #subitem:hover{
-        background: grey;
-    }

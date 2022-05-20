@@ -4,8 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
-import java.util.Optional;
+import java.security.Principal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,18 +18,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import springboot.petfood.dto.CartDTO;
+import springboot.petfood.dto.OrderDTO;
 import springboot.petfood.dto.ProductDTO;
 import springboot.petfood.dto.UserDTO;
 import springboot.petfood.entity.Cart;
 import springboot.petfood.entity.Category;
+import springboot.petfood.entity.Order;
 import springboot.petfood.entity.Product;
 import springboot.petfood.entity.Role;
 import springboot.petfood.entity.User;
 import springboot.petfood.service.CartDao;
 import springboot.petfood.service.CategoryDao;
+import springboot.petfood.service.OrderDao;
 import springboot.petfood.service.ProductDao;
 import springboot.petfood.service.RoleDao;
 import springboot.petfood.service.UserDao;
+import springboot.petfood.util.GetUserBalanceUtil;
 
 @Controller
 @RequestMapping("/admin")
@@ -52,9 +55,14 @@ public class AdminController {
     
     @Autowired
     CartDao cartDao;
+    
+    @Autowired
+    OrderDao orderDao;
 
     @GetMapping("/homepage")
-    public String showAdminPage(Model model) {
+    public String showAdminPage(Model model, Principal principal) {
+        double balance = GetUserBalanceUtil.getUserBalance(principal, userDao);
+		model.addAttribute("USER_BALANCE", balance);
         return "admin/index.html";
     }
 
@@ -101,7 +109,7 @@ public class AdminController {
     public String showFormProductAdd(Model model) {
         model.addAttribute("PRODUCT_DATA", new ProductDTO());
         model.addAttribute("LIST_CATEGORY", categoryDao.getAllCategory());
-        return "product-form-add";
+        return "admin/product-form-add";
     }
 
     @PostMapping("/products/add")
@@ -131,7 +139,7 @@ public class AdminController {
         return "redirect:/admin/products";
     }
 
-    @GetMapping("/product/update/{id}")
+    @GetMapping("/products/update/{id}")
     public String showFormProductUpdate(@PathVariable int id, Model model) {
         Product product = productDao.getProductById(id);
 
@@ -181,7 +189,7 @@ public class AdminController {
     }
 
     @PostMapping("/users/add")
-    public String addProduct(@ModelAttribute("USER_DATA") UserDTO userDTO) {
+    public String addUser(@ModelAttribute("USER_DATA") UserDTO userDTO) {
     	
     	User user = new User();
     	user.setUserId(userDTO.getUserId());
@@ -191,6 +199,7 @@ public class AdminController {
 	    user.setFirstName(userDTO.getFirstName());
 	    user.setLastName(userDTO.getLastName());
 	    user.setBalance(userDTO.getBalance());
+	    user.setAddress(userDTO.getAddress());
 
 	    Role role = roleDao.getRoleById(userDTO.getRoleId());
 	    
@@ -206,9 +215,9 @@ public class AdminController {
     }
 
     @GetMapping("/users/update")
-    public String showFormUserUpdate(@RequestParam("id") int id, Model model) {
+    public String showFormUserUpdate(@RequestParam("id") int userid, Model model) {
     	
-        User user = userDao.getUserById(id);
+        User user = userDao.getUserById(userid);
 
         UserDTO userDTO = new UserDTO();
         userDTO.setUserId(user.getUserId());
@@ -216,6 +225,7 @@ public class AdminController {
         userDTO.setFirstName(user.getFirstName());
         userDTO.setLastName(user.getLastName());
         userDTO.setBalance(user.getBalance());
+        userDTO.setAddress(user.getAddress());
         userDTO.setPassword(user.getPassword());
         userDTO.setEmail(user.getEmail());
         userDTO.setRoleId(user.getRole().getRoleId());
@@ -245,5 +255,77 @@ public class AdminController {
     	cartDao.updateCart(productDao.getProductById(cartDTO.getProductId()), userDao.getUserById(cartDTO.getUserId()), cartDTO.getQuantity());
     	return "redirect:/admin/carts";
     }
-
+    
+    @GetMapping("/carts/update")
+    public String showFromCartUpdate(@RequestParam("productId") int productId, @RequestParam("userId") int userId, Model model) {
+    	Product product = productDao.getProductById(productId);
+    	User user = userDao.getUserById(userId);
+    	Cart cart = cartDao.getCartByProductIdAndUserId(product, user);
+    	CartDTO cartDTO = new CartDTO();
+    	cartDTO.setProductId(productId);
+    	cartDTO.setUserId(userId);
+    	cartDTO.setQuantity(cart.getQuantity());
+    	cartDTO.setPrice(cart.getPrice());
+    	model.addAttribute("CART_DATA", cartDTO);
+    	model.addAttribute("LIST_USER", userDao.getAllUser());
+        model.addAttribute("LIST_PRODUCT", productDao.findAllProducts("ALL"));
+        return "admin/cart-form-add";
+    }
+    
+    @GetMapping("/carts/delete")
+    public String deleteCart(@RequestParam("productId") int productId, @RequestParam("userId") int userId) {
+    	cartDao.deleteCart(productId, userId);
+    	return "redirect:/admin/carts";
+    }
+    
+    //ORDER MAPPING
+    @GetMapping("/orders")
+    public String showOrderPage(Model model) {
+    	model.addAttribute("LIST_ORDER", orderDao.getAllOrder());
+    	return "admin/order";
+    }
+    @PostMapping("/orders")
+    public String updateOrder(@ModelAttribute("ORDER_DATA") OrderDTO orderDTO) {
+    	User user = userDao.getUserById(orderDTO.getUserId());
+    	user.setAddress(orderDTO.getAddress());
+    	Order order = new Order();
+    	order.setOrderId(orderDTO.getOrderId());
+    	order.setStatus(orderDTO.getStatus());
+    	order.setOrderDate(orderDTO.getOrderDate());
+    	order.setShippedDate(orderDTO.getShippedDate());
+    	order.setQuantity(orderDTO.getQuantity());
+    	order.setTotalPrice(orderDTO.getTotalPrice());
+    	order.setUser(user);
+    	order.setProduct(productDao.getProductById(orderDTO.getProductId()));
+    	orderDao.saveOrder(order);
+    	return "redirect:/admin/orders";
+    }
+    @GetMapping("/orders/commit")
+    public String commitOrder(@RequestParam("orderId") int orderId) {
+    	Order order = orderDao.getOrderById(orderId);
+    	order.setStatus("COMMITED");
+    	orderDao.saveOrder(order);
+    	return "redirect:/admin/orders";
+    }
+    @GetMapping("/orders/update")
+    public String showFormOrderUpdate(@RequestParam("orderId") int orderId, Model model) {
+    	Order order = orderDao.getOrderById(orderId);
+    	OrderDTO orderDTO = new OrderDTO();
+    	orderDTO.setOrderId(orderId);
+    	orderDTO.setStatus(order.getStatus());
+    	orderDTO.setOrderDate(order.getOrderDate());
+    	orderDTO.setShippedDate(order.getShippedDate());
+    	orderDTO.setAddress(order.getUser().getAddress());
+    	orderDTO.setQuantity(order.getQuantity());
+    	orderDTO.setTotalPrice(order.getTotalPrice());
+    	orderDTO.setUserId(order.getUser().getUserId());
+    	orderDTO.setProductId(order.getProduct().getProductId());
+    	model.addAttribute("ORDER_DATA", orderDTO);
+    	return "admin/order-form-add";
+    }
+    @GetMapping("/orders/destroy")
+    public String destroyOrder(@RequestParam("orderId") int orderId) {
+    	orderDao.destroyOrderById(orderId);
+    	return "redirect:/admin/orders";
+    }
 }

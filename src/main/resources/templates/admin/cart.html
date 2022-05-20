@@ -25,26 +25,45 @@
                 <ul class="navbar-nav mr-auto"></ul>
                 <ul class="navbar-nav">
                     <li class="nav-item active">
-                        <a class="nav-link" th:href="@{/admin/homepage}" href="#">admin-home</a>
+                        <a class="nav-link" th:href="@{/admin/homepage}" href="#">Admin-home</a>
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link" th:href="@{/logout}" href="#">logout</a>
                     </li>
-    
                 </ul>
-    
             </div>
         </div>
     </nav>
+    <nav class="navbar navbar-expand-sm bg-light justify-content-center">
+		<ul class="nav nav-pills">
+		    <li class="nav-item">
+		    	<a class="nav-link" th:href="@{/admin/categories}">Category</a>
+		    </li>
+		    <li class="nav-item">
+		    	<a class="nav-link" th:href="@{/admin/products}">Product</a>
+		    </li>
+		    <li class="nav-item">
+		    	<a class="nav-link" th:href="@{/admin/users}">User</a>
+		    </li>
+		    <li class="nav-item">
+		    	<a class="nav-link" th:href="@{/admin/roles}">Role</a>
+		    </li>
+		    <li class="nav-item">
+		    	<a class="nav-link disabled" href="#">Cart</a>
+		    </li>
+            <li class="nav-item">
+		    	<a class="nav-link" th:href="@{/admin/orders}">Order</a>
+		    </li>
+	  	</ul>
+	</nav>
     <div class="container-fluid p-3 my-3 bg-primary text-white text-center">
-        <h1>MANAGER CART</h1>
+        <h1>MANAGE CART</h1>
     </div>
     <div class="container-fluid">
         <a th:href="@{/admin/carts/formAdd}" style="margin: 20px 0" class="btn btn-primary">Add Cart</a>
         <table class="table">
             <thead class="thead-light">
             <tr>
-                <th scope="col">Cart Id</th>
                 <th scope="col">Belong to</th>
                 <th scope="col">Product name</th>
                 <th scope="col">Image</th>
@@ -57,15 +76,13 @@
 
             <tbody>
             <tr th:each="cart : ${LIST_CART}">
-                <td th:text="${cart.cartId}"></td>
                 <td th:text="${cart.user.username}"></td>
                 <td th:text="${cart.product.name}"></td>
                 <td><img th:src="${'/product-img/' + cart.product.image}" alt="image product" width="64px"></td>
                 <td th:text="${cart.quantity}"></td>
-                <td th:text="${cart.price}"></td>
-                <td><a href="" th:href="@{/admin/carts/delete(id=${cart.cartId})}" class="btn btn-danger">Delete</a></td>
-                <td><a href="" th:href="@{/admin/users/update(id=${cart.cartId})}" class="btn btn-warning">Update</a></td>
-    
+                <td th:text="${cart.price} + '$'"></td>
+                <td><a th:href="@{/admin/carts/update(productId=${cart.product.productId},userId=${cart.user.userId})}" class="btn btn-warning">Update</a></td>
+                <td><a th:href="@{/admin/carts/delete(productId=${cart.product.productId},userId=${cart.user.userId})}" class="btn btn-danger">Delete</a></td>
             </tr>
             </tbody>
         </table>

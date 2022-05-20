@@ -36,7 +36,8 @@ create table users(
 	email varchar(255),
 	first_name nvarchar(255),
 	last_name nvarchar(255),
-	balance money
+	balance money,
+	address VARCHAR(255)
 );
 create table roles(
 	role_id int IDENTITY(1,1) PRIMARY KEY,
@@ -51,6 +52,16 @@ create table carts(
 	cart_id int IDENTITY(1,1) PRIMARY KEY,
 	product_id int FOREIGN KEY REFERENCES products(product_id),
 	user_id int FOREIGN KEY REFERENCES users(user_id)
+);
+create table order(
+	order_id int IDENTITY(1,1) PRIMARY KEY,
+	status VARCHAR(255),
+	order_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	shipped_date DATETIME,
+	quantity int,
+	total_price money,
+	user_id int FOREIGN KEY REFERENCES users(user_id),
+	product_id int FOREIGN KEY REFERENCES products(product_id)
 );
 
 
@@ -88,12 +99,12 @@ insert into products (product_name,product_type,product_description,product_pric
 insert into roles (role_name) values ('MEMBER');
 insert into roles (role_name) values ('ADMIN');
 
-insert into users (user_name,crypted_password,email,first_name,last_name,balance,role_id) values
-(N'nano',N'$2a$10$TCnFcIb0ulVx0wRnjuM8E.glduflWD7fmRxXR1gieW/T4xrfoAIWe','nano@gmail.com',N'Client',N'A',0,'1');
-insert into users (user_name,crypted_password,email,first_name,last_name,balance,role_id) values
-(N'susan',N'$2a$10$TCnFcIb0ulVx0wRnjuM8E.glduflWD7fmRxXR1gieW/T4xrfoAIWe','susan@gmail.com',N'Admin',N'B',0,'2');
-insert into users (user_name,crypted_password,email,first_name,last_name,balance,role_id) values
-(N'papa',N'$2a$10$TCnFcIb0ulVx0wRnjuM8E.glduflWD7fmRxXR1gieW/T4xrfoAIWe','papa@gmail.com',N'Client',N'C',0,'1');
+insert into users (user_name,crypted_password,email,first_name,last_name,balance,address,role_id) values
+(N'nano',N'$2a$10$TCnFcIb0ulVx0wRnjuM8E.glduflWD7fmRxXR1gieW/T4xrfoAIWe','nano@gmail.com',N'Client',N'A',0,'Simple roofing, 150 COLOMBIA, STREET 15, NEWYORK USA','1');
+insert into users (user_name,crypted_password,email,first_name,last_name,balance,address,role_id) values
+(N'susan',N'$2a$10$TCnFcIb0ulVx0wRnjuM8E.glduflWD7fmRxXR1gieW/T4xrfoAIWe','susan@gmail.com',N'Admin',N'B',0,'Red boot, 151 DOMINICA, STREET 16, LOSANGELES USA','2');
+insert into users (user_name,crypted_password,email,first_name,last_name,balance,address,role_id) values
+(N'papa',N'$2a$10$TCnFcIb0ulVx0wRnjuM8E.glduflWD7fmRxXR1gieW/T4xrfoAIWe','papa@gmail.com',N'Client',N'C',0,'Free style, 152 MARTINIQUE, STREET 17, CHICAGO USA','1');
 
 insert into cart (cart_id, product_id, user_id, price, quantity) values (1,1,1,232,1);
 insert into cart (cart_id, product_id, user_id, price, quantity) values (2,2,1,503,3);
@@ -102,6 +113,12 @@ insert into user_roles (user_id,role_id) values (1,1);
 insert into user_roles (user_id,role_id) values (2,1);
 insert into user_roles (user_id,role_id) values (2,2);
 
+insert into orders (status,shipped_date,quantity,total_price,user_id,product_id) values ('IS PENDING',CURRENT_TIMESTAMP,1,200,1,1);
+insert into orders (status,shipped_date,quantity,total_price,user_id,product_id) values ('IS PENDING',CURRENT_TIMESTAMP,1,201,1,2);
+insert into orders (status,shipped_date,quantity,total_price,user_id,product_id) values ('IS PENDING',CURRENT_TIMESTAMP,1,202,1,3);
+insert into orders (status,shipped_date,quantity,total_price,user_id,product_id) values ('IS PENDING',CURRENT_TIMESTAMP,2,508,2,4);
+insert into orders (status,shipped_date,quantity,total_price,user_id,product_id) values ('IS PENDING',CURRENT_TIMESTAMP,1,302,2,5);
+insert into orders (status,shipped_date,quantity,total_price,user_id,product_id) values ('IS PENDING',CURRENT_TIMESTAMP,5,1025,2,6);
 
 
 
@@ -120,3 +137,5 @@ select * from products a1 join categories a2 on a1.category_id = a2.category_id
 select b.role_name from user_roles a join roles b on a.role_id = b.role_id where a.user_id = 2
 delete from users where user_id = 4
 delete from products where category_id = 'NULL'
+select * from cart where product_id = 1 and user_id = 1
+select * from orders

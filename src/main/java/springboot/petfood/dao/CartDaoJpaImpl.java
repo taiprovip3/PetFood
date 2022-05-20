@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import springboot.petfood.dto.CartDTO;
 import springboot.petfood.entity.Cart;
 import springboot.petfood.entity.Product;
 import springboot.petfood.entity.User;
@@ -29,6 +30,15 @@ public class CartDaoJpaImpl implements CartDao{
 	public List<Cart> getAllCart() {
 		Query query = entityManager.createQuery("from Cart");
 		return query.getResultList();
+	}
+	
+	@Override
+	@Transactional
+	public Cart getCartByProductIdAndUserId(Product p, User u) {
+		Query query = entityManager.createQuery("SELECT c FROM Cart c WHERE c.product = :PRODUCT and c.user = :USER");
+		query.setParameter("PRODUCT", p);
+		query.setParameter("USER", u);
+		return (Cart) query.getSingleResult();
 	}
 	
 	@Override

@@ -27,7 +27,7 @@
       <ul class="navbar-nav mr-auto"></ul>
       <ul class="navbar-nav">
         <li class="nav-item active">
-          <a class="nav-link" th:href="@{/admin/homepage}" href="#">admin-home</a>
+          <a class="nav-link" th:href="@{/admin/homepage}" href="#">Admin-home</a>
         </li>
         <li class="nav-item active">
           <a class="nav-link" th:href="@{/logout}" href="#">logout</a>
@@ -69,13 +69,18 @@
         </div>
         <div class="form-group">
           <label for="balance">Balance ($)</label>
-          <input type="number" step="any" class="form-control" required th:field="*{balance}" name="balance" id="balance"
+          <input type="number" step="any" min="0" onkeypress="return event.charCode != 45" class="form-control" required th:field="*{balance}" name="balance" id="balance"
                  placeholder="Enter balance ($)">
         </div>
         <div class="form-group">
           <label for="email">Email</label>
           <input type="email" class="form-control" required th:field="*{email}" name="email" id="email"
                  placeholder="Enter email">
+        </div>
+        <div class="form-group">
+          <label for="balance">Shipped Address</label>
+          <input type="text" class="form-control" required th:field="*{address}" name="address" id="address"
+                 placeholder="Enter address">
         </div>
         <div class="form-group">
           <label for="roleId">Select Role</label>
