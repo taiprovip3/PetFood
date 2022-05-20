@@ -17,7 +17,9 @@
 			text-align: center;
 		}
 		#quantity{
-			width: 21%;
+			border: none;
+			outline: none;
+			width: 30%;
 		}
 	</style>
 </head>
@@ -90,6 +92,7 @@
 						<tr th:each="cart : ${LIST_CART}">
 							<td>
 								<input type="checkbox" name="chkCheck" th:value="${cart.product.productId}">
+								<input type="hidden" th:value="${cart.product.quantity}" id="quantityInStorage">
 							</td>
 							<td>
 								<img th:src="${'/product-img/' + cart.product.image}" width="15%" style="border: 1px solid grey; border-radius: 15px;">
@@ -99,15 +102,11 @@
 							<td>
 								<form th:action="@{/client/cart/update}" th:method="post">
 									<input type="hidden" name="productId" th:value="${cart.product.productId}">
-									<input type="number" min="1" onkeypress="return event.charCode != 45" th:value="${cart.quantity}" id="quantity" name="quantity"/>
+									<input type="number" min="1" onkeypress="return event.charCode != 45" th:value="${cart.quantity}" id="quantity" name="quantity" required />
 							</td>
 							<td style="display: flex;">
 								<input type="submit" value="Update" class="btn btn-outline-warning btn-lg">
-								<a th:href="@{/client/cart/delete/(productId=${cart.product.productId})}"
-									class="btn btn-danger btn-lg"
-									onclick="if(!(confirm('Are you sure you want to delete this product?'))) return false" role="button">
-										Delete
-								</a>
+								<a th:href="@{/client/cart/delete/(productId=${cart.product.productId})}" class="btn btn-danger btn-lg" onclick="if(!(confirm('Are you sure you want to delete this product?'))) return false" role="button">Delete</a>
 								</form>
 							</td>
 						</tr>

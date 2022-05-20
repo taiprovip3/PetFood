@@ -71,7 +71,7 @@ public class UserDaoJpaImpl implements UserDao{
     }
 	
 	@Transactional
-	public void saveUser(User u, Role r) {
+	public void saveUser(User u, Role r, String oldPassword) {
 		
 		u.setRole(r);
 		String password = u.getPassword();
@@ -87,8 +87,7 @@ public class UserDaoJpaImpl implements UserDao{
 			entityManager.persist(u);
 		} else {//TH updateUser
 			if(password.isEmpty()) {//TH bỏ trống input Password
-				String oldPassworld = getUserPasswordById(u.getUserId());
-				u.setPassword(oldPassworld);
+				u.setPassword(oldPassword);
 			} else {
 				String encryptedPassword = BcryptPasswordEncoderUtil.encryptPassword(password);
 				u.setPassword(encryptedPassword);
@@ -100,16 +99,17 @@ public class UserDaoJpaImpl implements UserDao{
 		userRole.setUser(u);
 		userRole.setRole(r);
 		
-		entityManager.persist(userRole);
+		entityManager.merge(userRole);
 	}
 
 
 	@Override
 	@Transactional
 	public String getUserPasswordById(int id) {
-		Query query = entityManager.createQuery("SELECT u.password FROM User u WHERE u.userId = :USER_ID");
+		Query query = entityManager.createQuery("select user.password from User user where user.userId = :USER_ID");
 		query.setParameter("USER_ID", id);
-		return (String) query.getSingleResult();
+		String oldPassword = (String) query.getSingleResult();
+		return oldPassword;
 	}
 
 

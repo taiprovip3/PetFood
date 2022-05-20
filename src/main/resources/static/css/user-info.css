@@ -1,6 +1,12 @@
-.text-warning{
-    font-size: large;
+.editable{
+    /* font-size: large; */
     line-height:30px;
     background-image: repeating-linear-gradient(180deg, transparent, transparent 29px, grey 30px);
     border-bottom:1px solid white;
+    border: none;
+    width: 50%;
+}
+.editable:focus{
+    outline: none;
+    border: none;
 }

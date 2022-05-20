@@ -80,8 +80,8 @@
             <th scope="row" th:text="${iStat.index + 1}">1</th>
             <td th:text="${role.nameRole}">Susan</td>
             <td th:text="${role.roleId}">Larry@gmail.com</td>
-            <td><a href="" th:href="@{/admin/roles/delete/{id}(id=${role.roleId})}" class="btn btn-danger">Delete</a></td>
-            <td><a href="" th:href="@{/admin/roless/update/{id}(id=${role.roleId})}" class="btn btn-warning">Edit</a></td>
+            <td><a href="" th:href="@{/admin/roles/delete/(roleId=${role.roleId})}" class="btn btn-danger">Delete</a></td>
+            <td><a href="" th:href="@{/admin/roles/update(roleId=${role.roleId})}" class="btn btn-warning">Edit</a></td>
 
         </tr>
 

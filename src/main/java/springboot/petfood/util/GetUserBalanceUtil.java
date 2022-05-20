@@ -2,8 +2,6 @@ package springboot.petfood.util;
 
 import java.security.Principal;
 
-import org.springframework.security.core.context.SecurityContextHolder;
-
 import springboot.petfood.entity.User;
 import springboot.petfood.service.UserDao;
 

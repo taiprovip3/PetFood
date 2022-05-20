@@ -173,7 +173,32 @@ public class AdminController {
         model.addAttribute("LIST_ROLE", roleDao.getAllRole());
         return "admin/role";
     }
-
+    
+    @PostMapping("/roles")
+    public String addRole(@ModelAttribute("ROLE_DATA") Role role) {
+    	roleDao.saveRole(role);
+    	return "redirect:/admin/roles";
+    }
+    
+    @GetMapping("/roles/add")
+    public String showFormRoleAdd(Model model) {
+    	model.addAttribute("ROLE_DATA", new Role());
+    	return "admin/role-form-add";
+    }
+    
+    @GetMapping("/roles/update")
+    public String showFormRoleUpdate(@RequestParam("roleId") int roleId, Model model) {
+    	Role role = roleDao.getRoleById(roleId);
+    	model.addAttribute("ROLE_DATA", role);
+    	return "admin/role-form-add";
+    }
+    
+    @GetMapping("/roles/delete")
+    public String deleteRole(@RequestParam("roleId") int roleId) {
+    	roleDao.deleteRoleById(roleId);
+    	return "redirect:/admin/roles";
+    }
+    
     //USER MAPPING
     @GetMapping("/users")
     public String showUserPage(Model model) {
@@ -190,7 +215,11 @@ public class AdminController {
 
     @PostMapping("/users/add")
     public String addUser(@ModelAttribute("USER_DATA") UserDTO userDTO) {
-    	
+    	String oldPassword = "";
+    	if(userDTO.getUserId() != 0) {
+    		User temp = userDao.getUserById(userDTO.getUserId());
+        	oldPassword = temp.getPassword();
+    	}
     	User user = new User();
     	user.setUserId(userDTO.getUserId());
     	user.setUsername(userDTO.getUsername());
@@ -202,8 +231,7 @@ public class AdminController {
 	    user.setAddress(userDTO.getAddress());
 
 	    Role role = roleDao.getRoleById(userDTO.getRoleId());
-	    
-	    userDao.saveUser(user, role);
+	    userDao.saveUser(user, role, oldPassword);
  
         return "redirect:/admin/users";
     }

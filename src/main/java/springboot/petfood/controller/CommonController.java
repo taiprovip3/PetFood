@@ -40,7 +40,7 @@ public class CommonController {
 		Role role = new Role();
 		role.setRoleId(1);
 		role.setNameRole("MEMBER");
-		userDaoJpaImpl.saveUser(user,role);
+		userDaoJpaImpl.saveUser(user, role, "");
 		System.out.println("Register success user :: "+user);
 		return "common/login";
 	}

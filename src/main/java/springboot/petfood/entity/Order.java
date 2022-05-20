@@ -12,6 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 @Entity
 @Table(name="orders")
 public class Order {
@@ -37,10 +40,12 @@ public class Order {
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="user_id")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private User user;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="product_id")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Product product;
 
 	public int getOrderId() {

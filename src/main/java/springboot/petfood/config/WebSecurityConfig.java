@@ -60,22 +60,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter{
 				.and()
 					.exceptionHandling().accessDeniedPage("/common/403");
         http.csrf().disable();
-//        http.authorizeRequests().antMatchers("/client/homepage", "/common/login", "/login","/common/register", "/logout").permitAll(); //cho phép tất cả truy cập, ko cần login
-//        http.authorizeRequests().antMatchers("/client/showUserInfo").hasAnyAuthority("MEMBER","ADMIN");
-//        http.authorizeRequests().antMatchers("/admin/hompage").hasAnyRole("ADMIN");//truy cập index cần có role
-//        http.authorizeRequests().antMatchers("/").denyAll();
-//        http.authorizeRequests()
-//                    .anyRequest().authenticated()
-//                    .and()
-//	                    .formLogin() //Cho phép người dùng xác thực bằng form login
-//	                    	.loginPage("/common/login")
-//	                    	.loginProcessingUrl("/SPRING_BOOT_CHECK_LOGIN")//Đường dẫn gọ springboot sử lý
-//		                    .defaultSuccessUrl("/client/homepage")//Sau khi login success chuyển đến
-//		                    .failureUrl("/common/login?error=true")
-//		                    .permitAll()
-//                    .and()
-//	                    .logout().permitAll()
-//        			.and()
-//        				.exceptionHandling().accessDeniedPage("/common/403");
     }
 }

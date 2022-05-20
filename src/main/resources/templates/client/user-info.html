@@ -62,28 +62,38 @@
         </div>
         <div class="row">
             <div class="col-sm-12 text-center">
-                <img th:src="@{/img/user.png}" alt="John Doe" class="mr-3 mt-3 rounded-circle" style="width:60px;">
+                <img th:src="@{/img/user.png}" alt="John Doe" class="rounded-circle" style="width:60px;"><br>
+                <form th:action="@{/client/user-info}" th:object="${USER_DATA}" method="POST">
+                <input type="submit" class="btn btn-link btn-sm" value="Submit">
+                <input type="hidden" name="userId" th:field="*{userId}">
+                <input type="hidden" name="userId" th:field="*{email}">
+                <input type="hidden" name="userId" th:field="*{balance}">
+                <input type="hidden" name="userId" th:field="*{roleId}">
             </div>
         </div>
         <div class="row p-3">
             <div class="col-sm-12 p-3 border text-dark" style="border-radius: 15px;">
-                <label for="username">Welcome back,</label><br>
-                <p id="username" class="font-weight-bold text-warning" th:text="${#request.userPrincipal.name}"></p>
-                <br>
-                <label for="roles">Your roles:</label><br>
-                <p id="roles" class="font-weight-bold text-warning" th:text="${USER_ROLES}"></p>
-                <br>
-                <label for="fullname">Full name:</label><br>
-                <p id="fullname" class="font-weight-bold text-warning" th:text="${USER_DATA.firstName + ' ' + USER_DATA.lastName}"></p>
-                <br>
-                <label for="email">Email:</label><br>
-                <p id="email" class="font-weight-bold text-warning" th:text="${USER_DATA.email}"></p>
-                <br>
-                <label for="balance">Balance:</label><br>
-                <p id="balance" class="font-weight-bold text-warning" th:text="${USER_DATA.balance} + ' $'"></p>
-                <br>
-                <label for="balance">Address:</label><br>
-                <p id="balance" class="font-weight-bold text-warning" th:text="${USER_DATA.address} + ' $'"></p>
+                <label for="username">Welcome back,</label>
+                <p id="username" class="font-weight-bolder text-dark" th:text="${#request.userPrincipal.name}"></p>
+                <label for="roles">Your roles:</label>
+                <p id="roles" class="font-weight-bolder text-dark" th:text="${USER_ROLES}"></p>
+                <label for="fullname">Full name <i class="fas fa-pen-square"></i></label>
+                <div class="input-group mb-3">
+                    <input type="text" class="font-weight-bolder text-dark editable" placeholder="First Name" id="firstName" name="firstName" th:value="${USER_DATA.firstName}" required>
+                    <input type="text" class="font-weight-bolder text-dark editable" placeholder="Last Name" id="lastName" name="lastName" th:value="${USER_DATA.lastName}" required>
+                </div>
+                <label for="email">Email:</label>
+                <p id="email" class="font-weight-bolder text-dark" th:text="${USER_DATA.email}"></p>
+                <label for="balance">Balance:</label>
+                <p id="balance" class="font-weight-bolder text-dark" th:text="${USER_DATA.balance} + ' $'"></p>
+                <label for="address">Address <i class="fas fa-pen-square"></i></label><br>
+                <input class="font-weight-bolder text-dark editable" type="text" placeholder="Enter your address" id="address" name="address" th:value="${USER_DATA.address}">
+                <br><br>
+                <label for="password">Password <i class="fas fa-pen-square"></i> <i class="text-danger">(leave empty to keep non-change)</i>
+	          	</label>
+	          	<br>
+                <input type="password" class="font-weight-bolder text-dark editable" name="password" id="password" placeholder="Enter your password">
+                </form>
             </div>
         </div>
     </div>

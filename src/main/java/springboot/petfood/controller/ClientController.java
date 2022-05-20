@@ -16,13 +16,16 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import springboot.petfood.dto.UserDTO;
 import springboot.petfood.entity.Cart;
 import springboot.petfood.entity.Order;
 import springboot.petfood.entity.Product;
+import springboot.petfood.entity.Role;
 import springboot.petfood.entity.User;
 import springboot.petfood.service.CartDao;
 import springboot.petfood.service.OrderDao;
@@ -58,11 +61,10 @@ public class ClientController {
 		model.addAttribute("USER_BALANCE", balance);
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		String username = null;
-		if (principal instanceof UserDetails) {
+		if (principal instanceof UserDetails)
 		    username = ((UserDetails) principal).getUsername();
-		} else {
-			username = principal.toString();
-		}
+		else
+			username = principal.toString();//trả về chuỗi anonymousUser
 		if(!username.equals("anonymousUser")) {
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 			if (auth != null && auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ADMIN"))) {
@@ -102,9 +104,13 @@ public class ClientController {
 		String username = principal.getName();
 		if(username == null)
 			return "/common/login";
-		Product p = productDao.getProductById(productId);
-		User u = userDao.findUserAccount(username);
-		productDao.addProductToCart(p, u, quantity);
+		try {
+			Product p = productDao.getProductById(productId);
+			User u = userDao.findUserAccount(username);
+			productDao.addProductToCart(p, u, quantity);
+		} catch (Exception e) {
+			return "redirect:/client/products/?productId="+productId+"&error=exists";
+		}
 		return "redirect:/client/shop";
 	}
 	
@@ -118,17 +124,40 @@ public class ClientController {
 		return "client/product-detail";
 	}
 	
-	//user-info
+	//USER-INFO MAPPING
 	@GetMapping("/user-info")
 	public String showUserInfo(Model model, Principal principal) {
+		double balance = GetUserBalanceUtil.getUserBalance(principal, userDao);
+		model.addAttribute("USER_BALANCE", balance);
 		org.springframework.security.core.userdetails.User loggedUser = GetUserDetailService.getUserDetails(principal);//Lấy UserDetails của user đang logged
 		String userRoles = UserRolesBuilderUtil.toString(loggedUser);//Truyền vào đối tượng UserDetail trả về thuộc tính đã build
 		model.addAttribute("USER_ROLES", userRoles);
 		String username = loggedUser.getUsername();
-		model.addAttribute("USER_DATA", userDao.findUserAccount(username));
-		double balance = GetUserBalanceUtil.getUserBalance(principal, userDao);
-		model.addAttribute("USER_BALANCE", balance);
+		User user = userDao.findUserAccount(username);
+		UserDTO userDTO = new UserDTO();
+		userDTO.setUserId(user.getUserId());
+		userDTO.setUsername(user.getUsername());
+		userDTO.setPassword(user.getPassword());
+		userDTO.setEmail(user.getEmail());
+		userDTO.setFirstName(user.getFirstName());
+		userDTO.setLastName(user.getLastName());
+		userDTO.setBalance(user.getBalance());
+		userDTO.setAddress(user.getAddress());
+		userDTO.setRoleId(user.getRole().getRoleId());
+		model.addAttribute("USER_DATA", userDTO);
 		return "client/user-info";
+	}
+	
+	@PostMapping("/user-info")
+	public String updateUser(@ModelAttribute("USER_DATA") UserDTO userDTO) {
+		User user = userDao.getUserById(userDTO.getUserId());
+		String oldPassword = user.getPassword();
+		user.setFirstName(userDTO.getFirstName());
+		user.setLastName(userDTO.getLastName());
+		user.setAddress(userDTO.getAddress());
+		user.setPassword(userDTO.getPassword());
+		userDao.saveUser(user, user.getRole(), oldPassword);
+		return "redirect:/client/user-info";
 	}
 
 	//CART MAPPING
@@ -177,7 +206,7 @@ public class ClientController {
 				order.setProduct(product);
 				orderDao.saveOrder(order);//Thêm hoá đơn
 				
-				product.setQuantity(product.getQuantity() - 1);
+				product.setQuantity(product.getQuantity() - cart.getQuantity());
 				productDao.addProduct(product);//Cập nhật lại tồn kho
 				cartDao.deleteCart(productId, user.getUserId());//Xoá giỏ hàng user
 			}

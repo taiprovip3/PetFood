@@ -64,6 +64,7 @@
         <thead class="thead-light">
         <tr>
             <th scope="col">SN</th>
+            <th scope="col">Owner</th>
             <th scope="col">Image</th>
             <th scope="col">Name</th>
             <th scope="col">Quantity</th>
@@ -80,6 +81,7 @@
         <tbody>
         <tr th:each="order, iStat : ${LIST_ORDER}">
             <th scope="row" th:text="${iStat.index + 1}">1</th>
+            <td th:Text="${order.user.username}"></td>
             <td>
             	<img th:src="${'/product-img/' + order.product.image}" width="64px"/>
             </td>
@@ -92,7 +94,10 @@
 			<td th:text="${order.status}" class="text-success font-italic"></td>
             <td><a th:href="@{/admin/orders/destroy(orderId=${order.orderId})}" class="btn btn-outline-danger btn-sm">Destroy</a></td>
             <td><a th:href="@{/admin/orders/update(orderId=${order.orderId})}" class="btn btn-outline-primary btn-sm">Update</a>
-            <td><a th:href="@{/admin/orders/commit(orderId=${order.orderId})}" class="btn btn-outline-info btn-sm">Commit</a></td>
+            <td th:if="${order.status} != 'COMMITED'"><a th:href="@{/admin/orders/commit(orderId=${order.orderId})}" class="btn btn-outline-info btn-sm">Commit</a></td>
+            <td th:unless="${order.status} != 'COMMITED'">
+				<span class="text-muted font-italic">commited</span>
+            </td>
         </tr>
         </tbody>
     </table>

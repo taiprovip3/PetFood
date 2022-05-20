@@ -81,7 +81,7 @@
                         <p>Classify: <b><span th:text="${PRODUCT_DATA.category.nameCategory}"></span></b></p>
                        	<div id="amount">
 							<input type="hidden" name="productId" th:value="${PRODUCT_DATA.productId}">
-                           	<input type="number" min="1" onkeypress="return event.charCode != 45" name="quantity" id="quantity" value="1">
+                           	<input type="number" min="1" onkeypress="return event.charCode != 45" name="quantity" id="quantity" value="1" required>
                        	</div>
                        	<br>
                        	<input type="submit" value="Add to cart" class="btn btn-light btn-lg">
@@ -90,5 +90,9 @@
             </div>
         </div>
     </div>
+    <div class="alert alert-danger alert-dismissible" th:if="${#request.getParameter('error') == 'exists'}">
+	  	<button type="button" class="close" data-dismiss="alert">&times;</button>
+	  	<strong>Error.</strong> Duplicate product!
+	</div>
 </body>
 </html>

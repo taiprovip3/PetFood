@@ -7,6 +7,9 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 @Entity
 @IdClass(CartPK.class)
 public class Cart {
@@ -18,11 +21,13 @@ public class Cart {
 	@Id
 	@ManyToOne
 	@JoinColumn(name="product_id")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Product product;
 	
 	@Id
 	@ManyToOne
 	@JoinColumn(name="user_id")
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private User user;
 	
 	private int quantity;

@@ -112,13 +112,14 @@ insert into cart (cart_id, product_id, user_id, price, quantity) values (2,2,1,5
 insert into user_roles (user_id,role_id) values (1,1);
 insert into user_roles (user_id,role_id) values (2,1);
 insert into user_roles (user_id,role_id) values (2,2);
+insert into user_roles (user_id,role_id) values (3,1);
 
-insert into orders (status,shipped_date,quantity,total_price,user_id,product_id) values ('IS PENDING',CURRENT_TIMESTAMP,1,200,1,1);
-insert into orders (status,shipped_date,quantity,total_price,user_id,product_id) values ('IS PENDING',CURRENT_TIMESTAMP,1,201,1,2);
-insert into orders (status,shipped_date,quantity,total_price,user_id,product_id) values ('IS PENDING',CURRENT_TIMESTAMP,1,202,1,3);
-insert into orders (status,shipped_date,quantity,total_price,user_id,product_id) values ('IS PENDING',CURRENT_TIMESTAMP,2,508,2,4);
-insert into orders (status,shipped_date,quantity,total_price,user_id,product_id) values ('IS PENDING',CURRENT_TIMESTAMP,1,302,2,5);
-insert into orders (status,shipped_date,quantity,total_price,user_id,product_id) values ('IS PENDING',CURRENT_TIMESTAMP,5,1025,2,6);
+insert into orders (status,shipped_date,quantity,total_price,user_id,product_id) values ('PENDING',CURRENT_TIMESTAMP,1,200,1,1);
+insert into orders (status,shipped_date,quantity,total_price,user_id,product_id) values ('PENDING',CURRENT_TIMESTAMP,1,201,1,2);
+insert into orders (status,shipped_date,quantity,total_price,user_id,product_id) values ('PENDING',CURRENT_TIMESTAMP,1,202,1,3);
+insert into orders (status,shipped_date,quantity,total_price,user_id,product_id) values ('PENDING',CURRENT_TIMESTAMP,2,508,2,4);
+insert into orders (status,shipped_date,quantity,total_price,user_id,product_id) values ('PENDING',CURRENT_TIMESTAMP,1,302,2,5);
+insert into orders (status,shipped_date,quantity,total_price,user_id,product_id) values ('PENDING',CURRENT_TIMESTAMP,5,1025,2,6);
 
 
 

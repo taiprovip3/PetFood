@@ -36,9 +36,17 @@ public class OrderDaoJpaImpl implements OrderDao{
 	@Override
 	@Transactional
 	public void destroyOrderById(int orderId) {
-		Query theQuery = entityManager.createQuery("delete from Order where orderId = :ORDER_ID");
-		theQuery.setParameter("ORDER_ID", orderId);
-		theQuery.executeUpdate();
+		Order order = getOrderById(orderId);
+		double userBalance = order.getUser().getBalance();
+		double totalPrice = order.getTotalPrice();
+		Query theQuery1 = entityManager.createNativeQuery("update users set balance = :NEW_BALANCE where user_id = :USER_ID");
+		theQuery1.setParameter("NEW_BALANCE", userBalance + totalPrice);
+		theQuery1.setParameter("USER_ID", order.getUser().getUserId());
+		theQuery1.executeUpdate();
+		
+		Query theQuery2 = entityManager.createQuery("delete from Order where orderId = :ORDER_ID");
+		theQuery2.setParameter("ORDER_ID", orderId);
+		theQuery2.executeUpdate();
 	}
 
 	@Override
