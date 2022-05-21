@@ -6,10 +6,9 @@
 }
 #menu > div{
     background: rgb(226, 225, 225);
-    border: 1px solid grey;
     border-radius: 10px;
     width: 31%;
-    margin: 5px;
+    margin: 5px auto;
     padding: 15px;
 }
 #item > h3{

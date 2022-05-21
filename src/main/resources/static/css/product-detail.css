@@ -28,4 +28,6 @@
     #quantity{
         padding: 8px;
         border-radius: 20px;
+        border: none;
+        outline: none;
     }

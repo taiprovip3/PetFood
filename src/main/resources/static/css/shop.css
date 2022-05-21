@@ -21,7 +21,7 @@
     }
     #category{
         background: rgb(243, 243, 243);
-        padding: 7px;
+        padding-top: 10px;
     }
 /* resultType */
     #resultType{
@@ -30,8 +30,8 @@
     }
     #food{
         background: rgb(224, 221, 221);
-        margin: 3px auto;
+        margin: 3px;
         display: flex;
-        width: 32.5%;
+        width: 32.6%;
         padding: 20px;
     }
